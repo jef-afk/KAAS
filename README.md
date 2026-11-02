@@ -10,6 +10,10 @@ Publieke site met interesselijst, plus een partnerportaal op `/partner/` met dri
 
 Philippo en Jan zien geen e-mailadressen en geen klanten die enkel interesse hebben. Dat wordt op de server gecontroleerd, niet alleen in de pagina.
 
+## Versierpakketten
+
+Klanten kunnen bij het inschrijven een versierpakket kiezen: Winterzilver, Naturel, Bordeaux of Zuurstok. Philippo ziet bij elk adres welk pakket hij moet meebrengen, en in zijn planning hoeveel pakketten van elke stijl nodig zijn. De foto's staan in `public/img/`.
+
 ## Werkwijze
 
 1. Iemand schrijft zich in → status **interesse**.

@@ -4,6 +4,7 @@ import { store, json, fout, leesJson, schoon, KLANTVELDEN } from "../lib/kern.mj
 
 const GEMEENTEN = ["Kalmthout", "Essen", "Stabroek", "Kapellen", "Brasschaat", "Andere"];
 const HOOGTES = ["2 m", "3 m", "4 m", "Weet ik nog niet"];
+const PAKKETTEN = ["Geen", "Winterzilver", "Naturel", "Bordeaux", "Zuurstok"];
 
 export default async (req) => {
   if (req.method !== "POST") return fout("Gebruik POST.", 405);
@@ -22,6 +23,7 @@ export default async (req) => {
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.email)) return fout("Vul een geldig e-mailadres in.");
   if (!HOOGTES.includes(r.hoogte)) r.hoogte = "Weet ik nog niet";
+  if (!PAKKETTEN.includes(r.versierpakket)) r.versierpakket = "Geen";
   if (body.interesse !== "ja" || body.toestemming !== "ja") return fout("Vink beide vakjes onderaan aan.");
 
   const nu = new Date().toISOString();

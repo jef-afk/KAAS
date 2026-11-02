@@ -108,6 +108,8 @@ label{font-weight:700;font-size:14px;display:grid;gap:5px;min-width:0}
 .card[data-s="geannuleerd"]{border-top-color:var(--s-geannuleerd);opacity:.8}
 .card .top{display:flex;justify-content:space-between;gap:10px;align-items:start}
 .card h3{font-size:21px;overflow-wrap:anywhere}
+.pak{font-size:14px;background:#efe6d3;color:#5a4214;border-radius:7px;padding:6px 10px;justify-self:start}
+.pak b{font-weight:700}
 .h{font-family:var(--f-mono);font-size:13px;background:var(--pine-700);color:#fff;border-radius:7px;padding:4px 8px;white-space:nowrap}
 .pill{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:3px 9px;color:#fff;background:var(--s-interesse);white-space:nowrap}
 .pill[data-s="bevestigd"]{background:var(--s-bevestigd)}
@@ -213,6 +215,7 @@ label{font-weight:700;font-size:14px;display:grid;gap:5px;min-width:0}
   const HOOGTES = ['2 m','3 m','4 m','Weet ik nog niet'];
   const WEEKENDS = ['Begin advent · weekend 28–29 november','Voor Sinterklaas · weekend 5–6 december','Weekend 12–13 december','Weekend 19–20 december','Maakt me niet uit'];
   const STATUSSEN = ['interesse','bevestigd','geleverd','opgehaald','geannuleerd'];
+  const PAKKETTEN = ['Geen','Winterzilver','Naturel','Bordeaux','Zuurstok'];
 
   /* ---------------- API: echt (Netlify) of voorbeeld ---------------- */
   let token = DEMO ? null : store.get('kaas_token');
@@ -232,7 +235,7 @@ label{font-weight:700;font-size:14px;display:grid;gap:5px;min-width:0}
 
   const demo = (function(){
     const u = { philippo:{naam:'Philippo',rol:'levering'}, jan:{naam:'Jan Hassewer',rol:'ophaling'}, admin:{naam:'Beheerder',rol:'admin'} };
-    const mk = (i, g, v, a, s, n, h, lev, st, extra={}) => ({ id:'demo'+i, datum:`2026-11-0${1+(i%2)}T1${i%10}:0${i%6}:00Z`, gemeente:g, andere_gemeente:'', voornaam:v, achternaam:a, straat:s, huisnummer:n, email:`${v.toLowerCase()}@voorbeeld.be`, telefoon:'0470 00 00 '+String(10+i), hoogte:h, levering:lev, opmerking:'', status:st, leverdatum:'', notitie_levering:'', ophaaldatum:'', notitie_ophaling:'', notitie_admin:'', geschiedenis:[{t:'2026-11-01T10:00:00Z',door:'website',actie:'ingeschreven'}], ...extra });
+    const mk = (i, g, v, a, s, n, h, lev, st, extra={}) => ({ id:'demo'+i, datum:`2026-11-0${1+(i%2)}T1${i%10}:0${i%6}:00Z`, gemeente:g, andere_gemeente:'', voornaam:v, achternaam:a, straat:s, huisnummer:n, email:`${v.toLowerCase()}@voorbeeld.be`, telefoon:'0470 00 00 '+String(10+i), hoogte:h, levering:lev, versierpakket:['Geen','Naturel','Winterzilver','Bordeaux','Zuurstok'][i%5], opmerking:'', status:st, leverdatum:'', notitie_levering:'', ophaaldatum:'', notitie_ophaling:'', notitie_admin:'', geschiedenis:[{t:'2026-11-01T10:00:00Z',door:'website',actie:'ingeschreven'}], ...extra });
     let rows = [
       mk(1,'Kalmthout','Lien','Voorbeeld','Kerkstraat','12','2 m',WEEKENDS[0],'bevestigd',{opmerking:'Smalle voordeur, liefst via de garage.'}),
       mk(2,'Kalmthout','Tom','Voorbeeld','Heide','4','3 m',WEEKENDS[0],'bevestigd'),
@@ -247,9 +250,9 @@ label{font-weight:700;font-size:14px;display:grid;gap:5px;min-width:0}
     let wie = null;
     const gemeenteVan = r => r.gemeente==='Andere' ? (r.andere_gemeente||'Andere') : r.gemeente;
     const zichtbaar = (rol,r) => rol==='admin' || (rol==='levering' && ['bevestigd','geleverd'].includes(r.status)) || (rol==='ophaling' && ['geleverd','opgehaald'].includes(r.status));
-    const zicht = (rol,r) => { if (rol==='admin') return r; const b = {id:r.id,status:r.status,gemeente:gemeenteVan(r),naam:`${r.voornaam} ${r.achternaam}`,straat:r.straat,huisnummer:r.huisnummer,telefoon:r.telefoon,hoogte:r.hoogte,opmerking:r.opmerking,leverdatum:r.leverdatum,notitie_levering:r.notitie_levering}; return rol==='levering' ? {...b,levering:r.levering} : {...b,ophaaldatum:r.ophaaldatum,notitie_ophaling:r.notitie_ophaling}; };
+    const zicht = (rol,r) => { if (rol==='admin') return r; const b = {id:r.id,status:r.status,gemeente:gemeenteVan(r),naam:`${r.voornaam} ${r.achternaam}`,straat:r.straat,huisnummer:r.huisnummer,telefoon:r.telefoon,hoogte:r.hoogte,versierpakket:r.versierpakket||'Geen',opmerking:r.opmerking,leverdatum:r.leverdatum,notitie_levering:r.notitie_levering}; return rol==='levering' ? {...b,levering:r.levering} : {...b,ophaaldatum:r.ophaaldatum,notitie_ophaling:r.notitie_ophaling}; };
     const tel = (l,f) => l.reduce((m,r)=>{const k=f(r)||'–'; m[k]=(m[k]||0)+1; return m;},{});
-    const planning = rol => { if (rol==='levering'){ const o = rows.filter(r=>['interesse','bevestigd'].includes(r.status)); return {titel:'Bomen nodig (interesse + bevestigd)',totaal:o.length,perHoogte:tel(o,r=>r.hoogte),perGemeente:tel(o,gemeenteVan),perWeekend:tel(o,r=>r.levering)}; } if (rol==='ophaling'){ const o = rows.filter(r=>r.status==='geleverd'); return {titel:'Bomen die nu bij klanten staan',totaal:o.length,perHoogte:tel(o,r=>r.hoogte),perGemeente:tel(o,gemeenteVan)}; } return null; };
+    const planning = rol => { if (rol==='levering'){ const o = rows.filter(r=>['interesse','bevestigd'].includes(r.status)); return {titel:'Bomen nodig (interesse + bevestigd)',totaal:o.length,perHoogte:tel(o,r=>r.hoogte),perGemeente:tel(o,gemeenteVan),perWeekend:tel(o,r=>r.levering),perPakket:tel(o.filter(r=>r.versierpakket&&r.versierpakket!=='Geen'),r=>r.versierpakket)}; } if (rol==='ophaling'){ const o = rows.filter(r=>r.status==='geleverd'); return {titel:'Bomen die nu bij klanten staan',totaal:o.length,perHoogte:tel(o,r=>r.hoogte),perGemeente:tel(o,gemeenteVan)}; } return null; };
     const wacht = () => new Promise(r=>setTimeout(r,250));
     return {
       async login(g){ await wacht(); wie = u[g]; if (!wie) throw new Error('Onbekende gebruiker.'); return {...wie, gebruiker:g, token:'demo'}; },
@@ -326,13 +329,15 @@ label{font-weight:700;font-size:14px;display:grid;gap:5px;min-width:0}
       $('plan').innerHTML = `<div class="plan"><h2>${esc(plan.titel)}</h2>
         <div class="chips"><span class="chip big">Totaal <b>${plan.totaal}</b></span>${chips(plan.perHoogte)}</div>
         ${plan.totaal ? `<div class="chips"><span class="lbl mono">per gemeente</span>${chips(plan.perGemeente)}</div>` : ''}
-        ${plan.totaal && plan.perWeekend ? `<div class="chips"><span class="lbl mono">per weekend</span>${chips(plan.perWeekend)}</div>` : ''}</div>`;
+        ${plan.totaal && plan.perWeekend ? `<div class="chips"><span class="lbl mono">per weekend</span>${chips(plan.perWeekend)}</div>` : ''}
+        ${plan.perPakket && Object.keys(plan.perPakket).length ? `<div class="chips"><span class="lbl mono">versierpakket</span>${chips(plan.perPakket)}</div>` : ''}</div>`;
     } else $('plan').innerHTML = '';
     // admin stats
     if (me.rol==='admin'){
       const per = {}; items.forEach(r=>per[r.status]=(per[r.status]||0)+1);
       const hoog = {}; items.filter(r=>r.status!=='geannuleerd').forEach(r=>hoog[r.hoogte||'–']=(hoog[r.hoogte||'–']||0)+1);
-      $('stats').innerHTML = `<span class="chip big">Totaal <b>${items.length}</b></span>${STATUSSEN.filter(s=>per[s]).map(s=>`<span class="chip">${s} <b>${per[s]}</b></span>`).join('')}${chips(hoog)}`;
+      const pak = {}; items.filter(r=>r.status!=='geannuleerd' && r.versierpakket && r.versierpakket!=='Geen').forEach(r=>pak[r.versierpakket]=(pak[r.versierpakket]||0)+1);
+      $('stats').innerHTML = `<span class="chip big">Totaal <b>${items.length}</b></span>${STATUSSEN.filter(s=>per[s]).map(s=>`<span class="chip">${s} <b>${per[s]}</b></span>`).join('')}${chips(hoog)}${chips(pak)}`;
     } else $('stats').innerHTML = '';
     // tools
     const count = s => s==='alle' ? items.length : items.filter(r=>r.status===s).length;
@@ -396,6 +401,7 @@ label{font-weight:700;font-size:14px;display:grid;gap:5px;min-width:0}
     }
     return `<article class="card" data-s="${esc(r.status)}" id="c-${esc(r.id)}">
       <div class="top"><h3>${esc(naamVan(r))}</h3><span class="h">${esc(r.hoogte||'–')}</span></div>
+      ${r.versierpakket && r.versierpakket!=='Geen' ? `<div class="pak">Versierpakket <b>${esc(r.versierpakket)}</b></div>` : ''}
       <div class="addr"><b>${esc(adres)}</b><a href="${route}" target="_blank" rel="noopener">Route ↗</a>${me.rol==='admin'?`<span class="pill" data-s="${esc(r.status)}">${esc(r.status)}</span>`:''}</div>
       ${meta ? `<div class="meta">${meta}</div>` : ''}${notes}
       <div class="act" id="act-${esc(r.id)}">${act}</div></article>`;
@@ -442,6 +448,7 @@ label{font-weight:700;font-size:14px;display:grid;gap:5px;min-width:0}
       <div class="grid">
         <label for="e-status">Status<select id="e-status">${opt(STATUSSEN, r.status)}</select></label>
         <label for="e-hoogte">Hoogte<select id="e-hoogte">${opt(HOOGTES, r.hoogte)}</select></label>
+        <label class="full" for="e-versierpakket">Versierpakket<select id="e-versierpakket">${opt(PAKKETTEN, r.versierpakket||'Geen')}</select></label>
         <h3 class="full">Klant</h3>
         ${f('voornaam','Voornaam')}${f('achternaam','Achternaam')}
         ${f('straat','Straat')}${f('huisnummer','Huisnummer')}
@@ -465,7 +472,7 @@ label{font-weight:700;font-size:14px;display:grid;gap:5px;min-width:0}
     $('sheet').hidden = false; $('e-voornaam').focus();
     $('e-close').addEventListener('click', closeEditor);
     $('e-save').addEventListener('click', async ()=>{
-      const velden = ['status','hoogte','voornaam','achternaam','straat','huisnummer','gemeente','andere_gemeente','email','telefoon','levering','opmerking','leverdatum','ophaaldatum','notitie_levering','notitie_ophaling','notitie_admin'];
+      const velden = ['status','hoogte','versierpakket','voornaam','achternaam','straat','huisnummer','gemeente','andere_gemeente','email','telefoon','levering','opmerking','leverdatum','ophaaldatum','notitie_levering','notitie_ophaling','notitie_admin'];
       const w = {}; velden.forEach(k=>{ const v = $('e-'+k).value; if (nieuw ? v : (v !== (r[k]||''))) w[k] = v; });
       if (!Object.keys(w).length){ closeEditor(); return; }
       const btn = $('e-save'); btn.disabled = true;
@@ -485,7 +492,7 @@ label{font-weight:700;font-size:14px;display:grid;gap:5px;min-width:0}
   document.addEventListener('keydown', e=>{ if (e.key==='Escape' && !$('sheet').hidden) closeEditor(); });
 
   function copyCsv(){
-    const cols = ['datum','status','gemeente','andere_gemeente','voornaam','achternaam','straat','huisnummer','email','telefoon','hoogte','levering','opmerking','leverdatum','notitie_levering','ophaaldatum','notitie_ophaling','notitie_admin'];
+    const cols = ['datum','status','gemeente','andere_gemeente','voornaam','achternaam','straat','huisnummer','email','telefoon','hoogte','versierpakket','levering','opmerking','leverdatum','notitie_levering','ophaaldatum','notitie_ophaling','notitie_admin'];
     const csv = [cols.join(';')].concat(items.map(r=>cols.map(c=>'"'+String(r[c]??'').replace(/"/g,'""')+'"').join(';'))).join('\n');
     const fallback = ()=>{ $('panel').innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><h2 id="sheettitle">CSV</h2><button type="button" class="btn btn-quiet" id="e-close">Sluiten</button></div><p>Selecteer alles en kopieer.</p><textarea id="csvta" style="min-height:60vh;font-family:var(--f-mono);font-size:12px" readonly></textarea>`; $('csvta').value = csv; $('sheet').hidden = false; $('e-close').addEventListener('click', closeEditor); $('csvta').select(); };
     try{ navigator.clipboard.writeText(csv).then(()=>toast(`${items.length} inschrijvingen gekopieerd. Plak ze in Excel.`), fallback); }catch(_){ fallback(); }

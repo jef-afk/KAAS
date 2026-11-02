@@ -167,6 +167,26 @@ section[id]{scroll-margin-top:64px}
 .weeks p{color:var(--fir-soft);max-width:52ch;font-size:18px}
 @media (max-width:680px){.weeks{grid-template-columns:1fr;gap:24px}.cal{grid-template-columns:repeat(7,minmax(0,1fr))}}
 
+/* ---------- decoration packages ---------- */
+.styles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.style{margin:0;background:var(--ivory);border:1.5px solid var(--line);display:grid;grid-template-rows:auto 1fr;min-width:0;transition:border-color .15s ease,box-shadow .15s ease}
+.style.on{border-color:var(--fir);box-shadow:0 0 0 2px var(--fir)}
+.style .pic{aspect-ratio:3/4;overflow:hidden;background:var(--chalk-2)}
+.style .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.style .body{padding:22px;display:flex;flex-direction:column;gap:10px}
+.style h3{font-size:24px}
+.style p{color:var(--fir-soft);font-size:16.5px}
+.swatch{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.swatch i{width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,.15)}
+.swatch span{font-size:14px;color:var(--fir-soft);flex-basis:100%}
+.style button{align-self:flex-start;margin-top:auto}
+.style p{margin-bottom:8px}
+.style.on button{background:var(--needle)}
+.own{margin-top:22px;font-size:17px;color:var(--fir-soft)}
+.own button{font:inherit;color:var(--fir);font-weight:700;background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+@media (max-width:1000px){.styles{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.styles{grid-template-columns:1fr}}
+
 /* ---------- form ---------- */
 .signup .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:72px;align-items:start}
 .promise{display:grid;gap:22px;position:sticky;top:110px}
@@ -229,6 +249,7 @@ footer .partner:hover{color:var(--brass-light)}
     <nav>
       <a class="nl" href="#hoe">Zo werkt het</a>
       <a class="nl" href="#hoogte">Hoogtes</a>
+      <a class="nl" href="#versiering">Versiering</a>
       <a class="nl" href="#vragen">Vragen</a>
       <a class="btn btn-ivory" href="#inschrijven">Schrijf je in</a>
     </nav>
@@ -274,7 +295,7 @@ footer .partner:hover{color:var(--brass-light)}
       <ol class="steps">
         <li><span class="n">1</span><span class="who">Wij</span><h3>Gebracht</h3><p>Op het weekend dat jij kiest, vers en ingepakt aan je deur. Geen dakdragers, geen naalden in de auto.</p></li>
         <li><span class="n">2</span><span class="who">Wij</span><h3>Geplaatst</h3><p>Kaarsrecht in een stevige voet met waterreservoir, op de plek die jij kiest. Het net gaat er pas binnen af.</p></li>
-        <li class="you"><span class="n">3</span><span class="who">Jij</span><h3>Versierd</h3><p>Lichtjes, ballen, de piek. Met de kinderen, met muziek op de achtergrond. Het enige werk dat je doet.</p></li>
+        <li class="you"><span class="n">3</span><span class="who">Jij</span><h3>Versierd</h3><p>Met je eigen versiering of met een versierpakket dat we meebrengen. Met de kinderen, met muziek op de achtergrond.</p></li>
         <li><span class="n">4</span><span class="who">Wij</span><h3>Opgehaald</h3><p>Na de feesten halen we hem op en verhakselen hem ter plaatse. Geen naaldenspoor door de gang, geen rit naar het containerpark.</p></li>
       </ol>
     </div>
@@ -354,6 +375,55 @@ footer .partner:hover{color:var(--brass-light)}
     </div>
   </section>
 
+  <section class="band lift-light" id="versiering" style="background:var(--ivory);border-top:1px solid var(--line)">
+    <div class="wrap">
+      <div class="head">
+        <p class="label">Versierpakket · optioneel</p>
+        <h2>Liever meteen in stijl?</h2>
+        <p>Kies een versierpakket en we brengen het mee met je boom. Alles in één kleurenpalet, op elkaar afgestemd. Je eigen versiering gebruiken kan natuurlijk ook.</p>
+      </div>
+      <div class="styles" role="group" aria-label="Versierpakketten">
+        <figure class="style" data-pakket="Winterzilver">
+          <div class="pic"><img src="img/stijl-winterzilver.webp" alt="Nordmann met zilveren, ijsblauwe en glazen ballen, ijspegels en een zilveren ster" loading="lazy" width="900" height="1200"></div>
+          <div class="body">
+            <h3>Winterzilver</h3>
+            <div class="swatch" aria-hidden="true"><i style="background:#c9ced3"></i><i style="background:#8fa7bd"></i><i style="background:#eef1f3"></i><span>zilver · ijsblauw · glas</span></div>
+            <p>Koel en helder. Zilveren en ijsblauwe ballen, glazen ijspegels en een ster als piek.</p>
+            <button type="button" class="btn btn-dark" aria-pressed="false">Kies Winterzilver</button>
+          </div>
+        </figure>
+        <figure class="style" data-pakket="Naturel">
+          <div class="pic"><img src="img/stijl-naturel.webp" alt="Nordmann met ivoren en bruine ballen, papieren ornamenten, dennenappels en linnen strikken" loading="lazy" width="900" height="1200"></div>
+          <div class="body">
+            <h3>Naturel</h3>
+            <div class="swatch" aria-hidden="true"><i style="background:#efe7d8"></i><i style="background:#b9864f"></i><i style="background:#5b4030"></i><span>ivoor · karamel · chocolade</span></div>
+            <p>Warm en ingetogen. Ivoren en bruine ballen, papieren ornamenten, dennenappels en linnen strikken.</p>
+            <button type="button" class="btn btn-dark" aria-pressed="false">Kies Naturel</button>
+          </div>
+        </figure>
+        <figure class="style" data-pakket="Bordeaux">
+          <div class="pic"><img src="img/stijl-bordeaux.webp" alt="Nordmann met bordeauxrode fluwelen strikken en rode en gouden ballen" loading="lazy" width="900" height="1200"></div>
+          <div class="body">
+            <h3>Bordeaux</h3>
+            <div class="swatch" aria-hidden="true"><i style="background:#7a1626"></i><i style="background:#c9a24d"></i><i style="background:#4a1c1c"></i><span>bordeaux · goud · fluweel</span></div>
+            <p>Klassiek en feestelijk. Fluwelen strikken in bordeaux met rode en gouden ballen.</p>
+            <button type="button" class="btn btn-dark" aria-pressed="false">Kies Bordeaux</button>
+          </div>
+        </figure>
+        <figure class="style" data-pakket="Zuurstok">
+          <div class="pic"><img src="img/stijl-zuurstok.webp" alt="Nordmann met rood-wit gestreepte strikken, zuurstokken en rode en roze ballen" loading="lazy" width="900" height="1200"></div>
+          <div class="body">
+            <h3>Zuurstok</h3>
+            <div class="swatch" aria-hidden="true"><i style="background:#b3172a"></i><i style="background:#e9b9b5"></i><i style="background:#fbf7f2"></i><span>rood · roze · wit</span></div>
+            <p>Vrolijk en speels. Rood-wit gestreepte strikken, zuurstokken en rode en roze ballen.</p>
+            <button type="button" class="btn btn-dark" aria-pressed="false">Kies Zuurstok</button>
+          </div>
+        </figure>
+      </div>
+      <p class="own">Je eigen versiering gebruiken? <button type="button" id="geenpakket">Dan kies je geen pakket.</button> De prijs van de pakketten volgt samen met die van de bomen.</p>
+    </div>
+  </section>
+
   <section class="band dark signup" id="inschrijven">
     <div class="wrap">
       <div class="promise">
@@ -414,6 +484,16 @@ footer .partner:hover{color:var(--brass-light)}
           </select>
         </div>
         <div class="field">
+          <span class="lbl" id="lbl-p">Versierpakket <span class="opt">optioneel</span></span>
+          <div class="choices" role="radiogroup" aria-labelledby="lbl-p">
+            <label class="choice"><input type="radio" name="versierpakket" id="p0" value="Geen" checked><span>Geen, ik versier zelf</span></label>
+            <label class="choice"><input type="radio" name="versierpakket" id="p-Winterzilver" value="Winterzilver"><span>Winterzilver</span></label>
+            <label class="choice"><input type="radio" name="versierpakket" id="p-Naturel" value="Naturel"><span>Naturel</span></label>
+            <label class="choice"><input type="radio" name="versierpakket" id="p-Bordeaux" value="Bordeaux"><span>Bordeaux</span></label>
+            <label class="choice"><input type="radio" name="versierpakket" id="p-Zuurstok" value="Zuurstok"><span>Zuurstok</span></label>
+          </div>
+        </div>
+        <div class="field">
           <label for="opmerking">Opmerking <span class="opt">optioneel</span></label>
           <textarea id="opmerking" name="opmerking" placeholder="Trap naar de eerste verdieping, smalle deur, boom liever in de veranda…"></textarea>
         </div>
@@ -437,6 +517,7 @@ footer .partner:hover{color:var(--brass-light)}
         </div>
         <div>
           <details><summary>Hoe hou ik hem mooi?</summary><p>Zet hem weg van de verwarming en vul het waterreservoir van de voet elke dag bij. Een verse boom drinkt de eerste dagen flink. Dan houdt een Nordmann zijn naalden wekenlang.</p></details>
+          <details><summary>Wat is een versierpakket?</summary><p>Een set versiering in één stijl, Winterzilver, Naturel, Bordeaux of Zuurstok, die we samen met je boom meebrengen. Het is optioneel: je kan ook gewoon je eigen versiering gebruiken. De inhoud en de prijs maken we bekend samen met de prijs van de bomen.</p></details>
           <details><summary>Wat gebeurt er met de boom?</summary><p>We verhakselen hem ter plaatse tot houtsnippers. Je hoeft hem dus niet door je huis naar buiten te sleuren of naar het containerpark te brengen.</p></details>
           <details><summary>Wie ziet mijn gegevens?</summary><p>De organisator van KAAS, en de leverancier en de ophaler voor de adressen die ze moeten bezoeken. Op de site zelf staan nergens namen of adressen.</p></details>
         </div>
@@ -549,6 +630,16 @@ footer .partner:hover{color:var(--brass-light)}
   ['h2','h3','h4'].forEach(id=>document.getElementById(id).addEventListener('change',()=>setHeight(+id[1], true)));
   setHeight(2);
 
+  /* decoration packages: cards and form radios stay in sync */
+  const cards = document.querySelectorAll('.style');
+  function setPakket(v, fromForm){
+    cards.forEach(c=>{ const on = c.dataset.pakket === v; c.classList.toggle('on', on); const b = c.querySelector('button'); b.setAttribute('aria-pressed', String(on)); b.textContent = on ? 'Gekozen ✓' : 'Kies ' + c.dataset.pakket; });
+    if (!fromForm){ const r = document.getElementById(v==='Geen' ? 'p0' : 'p-'+v); if (r) r.checked = true; }
+  }
+  cards.forEach(c=>c.querySelector('button').addEventListener('click',()=>setPakket(c.classList.contains('on') ? 'Geen' : c.dataset.pakket)));
+  document.getElementById('geenpakket').addEventListener('click',()=>setPakket('Geen'));
+  document.querySelectorAll('input[name=versierpakket]').forEach(r=>r.addEventListener('change',()=>setPakket(r.value, true)));
+
   /* calendar 23 nov – 10 jan */
   (function(){
     let html = ['ma','di','wo','do','vr','za','zo'].map(d=>`<i class="h">${d}</i>`).join('');
@@ -588,7 +679,7 @@ footer .partner:hover{color:var(--brass-light)}
       const res = await fetch('/api/inschrijven', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(o)});
       const j = await res.json().catch(()=>({}));
       if (!res.ok) throw {message:j.fout};
-      showStatus('ok', `Dank je, ${o.voornaam}. Je staat op de interesselijst voor een boom van ${o.hoogte}. Zodra prijs en leverdata vastliggen, laten we het je weten via ${o.email}.`);
+      showStatus('ok', `Dank je, ${o.voornaam}. Je staat op de interesselijst voor een boom van ${o.hoogte}${o.versierpakket && o.versierpakket!=='Geen' ? ' met versierpakket ' + o.versierpakket : ''}. Zodra prijs en leverdata vastliggen, laten we het je weten via ${o.email}.`);
       form.querySelectorAll('input:not([type=radio]):not([type=checkbox]),textarea').forEach(el=>{ if (el.id!=='website') el.value=''; });
       submit.textContent = 'Nog iemand inschrijven';
     }catch(ex){

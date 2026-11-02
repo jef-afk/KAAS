@@ -12,7 +12,7 @@ export const GEBRUIKERS = {
 };
 
 export const STATUSSEN = ["interesse", "bevestigd", "geleverd", "opgehaald", "geannuleerd"];
-export const KLANTVELDEN = ["gemeente", "andere_gemeente", "voornaam", "achternaam", "straat", "huisnummer", "email", "telefoon", "hoogte", "levering", "opmerking"];
+export const KLANTVELDEN = ["gemeente", "andere_gemeente", "voornaam", "achternaam", "straat", "huisnummer", "email", "telefoon", "hoogte", "levering", "versierpakket", "opmerking"];
 export const WERKVELDEN = ["leverdatum", "notitie_levering", "ophaaldatum", "notitie_ophaling", "notitie_admin"];
 
 const LENGTE = { opmerking: 1000, notitie_levering: 1000, notitie_ophaling: 1000, notitie_admin: 2000 };
@@ -117,7 +117,7 @@ export function zichtVoor(rol, r) {
     id: r.id, status: r.status, gemeente: gemeenteVan(r),
     naam: `${r.voornaam || ""} ${r.achternaam || ""}`.trim(),
     straat: r.straat, huisnummer: r.huisnummer, telefoon: r.telefoon,
-    hoogte: r.hoogte, opmerking: r.opmerking,
+    hoogte: r.hoogte, versierpakket: r.versierpakket || "Geen", opmerking: r.opmerking,
     leverdatum: r.leverdatum || "", notitie_levering: r.notitie_levering || "",
   };
   if (rol === "levering") return { ...basis, levering: r.levering };
@@ -136,6 +136,7 @@ export function planningVoor(rol, records) {
       perHoogte: tel(open, (r) => r.hoogte),
       perGemeente: tel(open, gemeenteVan),
       perWeekend: tel(open, (r) => r.levering),
+      perPakket: tel(open.filter((r) => r.versierpakket && r.versierpakket !== "Geen"), (r) => r.versierpakket),
     };
   }
   if (rol === "ophaling") {

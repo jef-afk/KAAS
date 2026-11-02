@@ -433,10 +433,10 @@ footer .partner:hover{color:var(--brass-light)}
       <div class="promise">
         <p class="label">Interesselijst</p>
         <h2>Dit jaar een echte boom.</h2>
-        <p>We tellen hoeveel gezinnen per gemeente meedoen, zodat we de bomen en de leverrondes juist kunnen plannen. Zodra prijs en leverdata vastliggen, hoor je het als eerste.</p>
+        <p>We tellen hoeveel gezinnen per gemeente meedoen, zodat we de bomen en de leverrondes juist kunnen plannen. Zodra de leverdata vastliggen, hoor je het als eerste.</p>
         <ul>
           <li>Vrijblijvend, geen betaling en geen contract</li>
-          <li>We bevestigen prijs en leverdatum, pas dan beslis je</li>
+          <li>We bevestigen je leverdatum, pas dan beslis je</li>
           <li>Namen en adressen staan nergens publiek</li>
         </ul>
       </div>
@@ -475,7 +475,7 @@ footer .partner:hover{color:var(--brass-light)}
             <label class="choice"><input type="radio" name="hoogte" id="h2" value="2 m" checked><span>2 meter<small class="pr">€ 80</small></span></label>
             <label class="choice"><input type="radio" name="hoogte" id="h3" value="3 m"><span>3 meter<small class="pr">€ 150</small></span></label>
             <label class="choice"><input type="radio" name="hoogte" id="h4" value="4 m"><span>4 meter<small class="pr">€ 220</small></span></label>
-            <label class="choice"><input type="radio" name="hoogte" id="hx" value="Weet ik nog niet"><span>Weet ik nog niet<small class="pr">prijs volgt</small></span></label>
+            <label class="choice"><input type="radio" name="hoogte" id="hx" value="Weet ik nog niet"><span>Weet ik nog niet<small class="pr">kies je later</small></span></label>
           </div>
         </div>
         <div class="field">
@@ -530,7 +530,7 @@ footer .partner:hover{color:var(--brass-light)}
       <div class="head"><p class="label">Veelgestelde vragen</p><h2>Goed om te weten.</h2></div>
       <div class="faq">
         <div>
-          <details open><summary>Moet ik nu al betalen?</summary><p>Nee. Deze pagina verzamelt alleen wie interesse heeft. Er gebeurt geen betaling en je sluit geen contract. Pas als prijs en planning vastliggen, beslis je of je meedoet.</p></details>
+          <details open><summary>Moet ik nu al betalen?</summary><p>Nee. Deze pagina verzamelt alleen wie interesse heeft. Er gebeurt geen betaling en je sluit geen contract. Pas als de leverdata vastliggen, beslis je of je meedoet.</p></details>
           <details><summary>Wat kost het?</summary><p>Een boom van 1,50 m kost € 60, van 2 m € 80, van 3 m € 150 en van 4 m € 220. Brengen en plaatsen op een houten kruis kost € 30, ophalen en verhakselen na de feesten ook € 30. Versieren door ons kost € 40, de versiering weer afhalen ook € 40.</p></details>
           <details><summary>Wanneer komt hij en wanneer gaat hij weg?</summary><p>Je kiest zelf een leverweekend, vanaf de start van de advent eind november. Na de feesten, rond Driekoningen, plannen we de ophaalronde per gemeente.</p></details>
         </div>
@@ -746,7 +746,7 @@ footer .partner:hover{color:var(--brass-light)}
       const res = await fetch('/api/inschrijven', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(o)});
       const j = await res.json().catch(()=>({}));
       if (!res.ok) throw {message:j.fout};
-      showStatus('ok', `Dank je, ${o.voornaam}. Je staat op de interesselijst voor een boom van ${o.hoogte}${o.versierpakket && o.versierpakket!=='Geen' ? ' met versierpakket ' + o.versierpakket + (o.pakket_vorm==='Huren' ? ' (huur)' : ' (koop)') + (o.versieren==='ja' ? ', en wij versieren hem' : '') : ''}${o.weghalen==='ja' ? '. Na de feesten halen wij de versiering eraf' : ''}. We bevestigen je leverdatum en het totaalbedrag via ${o.email}, pas dan beslis je.`);
+      showStatus('ok', `Dank je, ${o.voornaam}. Je staat op de interesselijst voor een boom van ${o.hoogte}${o.versierpakket && o.versierpakket!=='Geen' ? ' met versierpakket ' + o.versierpakket + (o.pakket_vorm==='Huren' ? ' (huur)' : ' (koop)') + (o.versieren==='ja' ? ', en wij versieren hem' : '') : ''}${o.weghalen==='ja' ? '. Na de feesten halen wij de versiering eraf' : ''}. Zodra de leverdata vastliggen, laten we het je weten via ${o.email}. Pas dan beslis je.`);
       form.querySelectorAll('input:not([type=radio]):not([type=checkbox]),textarea').forEach(el=>{ if (el.id!=='website') el.value=''; });
       submit.textContent = 'Nog iemand inschrijven';
     }catch(ex){

@@ -10,3 +10,6 @@
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
     Referrer-Policy = "no-referrer"
+
+[images]
+  remote_images = ['https://images\.unsplash\.com/.*']

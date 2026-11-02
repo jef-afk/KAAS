@@ -12,14 +12,16 @@ export const GEBRUIKERS = {
 };
 
 export const STATUSSEN = ["interesse", "bevestigd", "geleverd", "opgehaald", "geannuleerd"];
-export const KLANTVELDEN = ["gemeente", "andere_gemeente", "voornaam", "achternaam", "straat", "huisnummer", "email", "telefoon", "hoogte", "levering", "versierpakket", "pakket_vorm", "versieren", "opmerking"];
+export const KLANTVELDEN = ["gemeente", "andere_gemeente", "voornaam", "achternaam", "straat", "huisnummer", "email", "telefoon", "hoogte", "levering", "versierpakket", "pakket_vorm", "versieren", "weghalen", "opmerking"];
 export const WERKVELDEN = ["leverdatum", "notitie_levering", "ophaaldatum", "notitie_ophaling", "notitie_admin"];
 
 /* ---------- prijzen (in eurocent) ----------
    Dezelfde tabel staat in public/index.html. */
 export const PRIJS = {
   levering: 3000,
-  versieren: 5000,
+  ophaling: 3000,
+  versieren: 4000,
+  weghalen: 4000,
   boom: { "1,50 m": 6000, "2 m": 8000, "3 m": 15000, "4 m": 22000 },
   pakket: {
     Winterzilver: { "1,50 m": 8960, "2 m": 11056, "3 m": 27729, "4 m": 41504 },
@@ -30,12 +32,13 @@ export const PRIJS = {
 };
 export const PAKKETTEN = ["Geen", ...Object.keys(PRIJS.pakket)];
 
-/* Zet pakketkeuzes recht: zonder pakket geen koop/huur, versieren enkel bij koop. */
+/* Zet pakketkeuzes recht: zonder pakket geen koop/huur en geen versieren. Afhalen kan altijd. */
 export function normaliseerPakket(r) {
   if (!PAKKETTEN.includes(r.versierpakket)) r.versierpakket = "Geen";
+  r.weghalen = r.weghalen === "ja" ? "ja" : "nee";
   if (r.versierpakket === "Geen") { r.pakket_vorm = ""; r.versieren = "nee"; return r; }
   if (r.pakket_vorm !== "Huren") r.pakket_vorm = "Kopen";
-  r.versieren = r.pakket_vorm === "Kopen" && r.versieren === "ja" ? "ja" : "nee";
+  r.versieren = r.versieren === "ja" ? "ja" : "nee";
   return r;
 }
 
@@ -43,10 +46,11 @@ export function normaliseerPakket(r) {
 export function totaalVan(r) {
   const boom = PRIJS.boom[r.hoogte];
   if (!boom) return null;
-  let t = boom + PRIJS.levering;
+  let t = boom + PRIJS.levering + PRIJS.ophaling;
   const p = PRIJS.pakket[r.versierpakket]?.[r.hoogte];
   if (p) t += r.pakket_vorm === "Huren" ? Math.round(p / 2) : p;
   if (r.versieren === "ja") t += PRIJS.versieren;
+  if (r.weghalen === "ja") t += PRIJS.weghalen;
   return t;
 }
 
@@ -152,7 +156,7 @@ export function zichtVoor(rol, r) {
     id: r.id, status: r.status, gemeente: gemeenteVan(r),
     naam: `${r.voornaam || ""} ${r.achternaam || ""}`.trim(),
     straat: r.straat, huisnummer: r.huisnummer, telefoon: r.telefoon,
-    hoogte: r.hoogte, versierpakket: r.versierpakket || "Geen", pakket_vorm: r.pakket_vorm || "", versieren: r.versieren || "nee", opmerking: r.opmerking,
+    hoogte: r.hoogte, versierpakket: r.versierpakket || "Geen", pakket_vorm: r.pakket_vorm || "", versieren: r.versieren || "nee", weghalen: r.weghalen || "nee", opmerking: r.opmerking,
     leverdatum: r.leverdatum || "", notitie_levering: r.notitie_levering || "",
   };
   if (rol === "levering") return { ...basis, levering: r.levering };
@@ -183,6 +187,7 @@ export function planningVoor(rol, records) {
       perHoogte: tel(staan, (r) => r.hoogte),
       perGemeente: tel(staan, gemeenteVan),
       huurTerug: tel(staan.filter((r) => r.pakket_vorm === "Huren"), (r) => r.versierpakket),
+      weghalen: staan.filter((r) => r.weghalen === "ja").length,
     };
   }
   return null;

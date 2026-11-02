@@ -12,7 +12,11 @@ Philippo en Jan zien geen e-mailadressen en geen klanten die enkel interesse heb
 
 ## Versierpakketten
 
-Klanten kunnen bij het inschrijven een versierpakket kiezen: Winterzilver, Naturel, Bordeaux of Zuurstok. Philippo ziet bij elk adres welk pakket hij moet meebrengen, en in zijn planning hoeveel pakketten van elke stijl nodig zijn. De foto's staan in `public/img/`.
+Klanten kunnen bij het inschrijven een versierpakket kiezen: Winterzilver, Naturel, Bordeaux of Zuurstok, te koop of te huur (halve prijs). Daarbij kunnen ze laten versieren (€ 40) en de versiering na de feesten laten afhalen (€ 40). Philippo ziet per adres het pakket, koop of huur, en of hij moet versieren. Jan ziet welke huurversiering hij moet terugnemen en waar hij de versiering eerst moet afhalen. De foto's staan in `public/img/`.
+
+## Prijzen
+
+Boom: 1,50 m € 60, 2 m € 80, 3 m € 150, 4 m € 220. Brengen en plaatsen op een houten kruis € 30, ophalen en verhakselen € 30. De prijstabel staat op twee plaatsen: `netlify/lib/kern.mjs` (de server berekent daarmee het totaal) en onderaan `public/index.html` (voor de prijzen op de site). Pas een prijs altijd op beide plaatsen aan.
 
 ## Werkwijze
 

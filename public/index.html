@@ -58,7 +58,11 @@ section[id]{scroll-margin-top:64px}
 /* ---------- bar ---------- */
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:rgba(14,21,18,.94);backdrop-filter:blur(10px);color:var(--ivory)}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
-.mark{font-family:var(--f-display);font-weight:700;font-size:24px;letter-spacing:.24em;text-decoration:none}
+.mark{display:flex;align-items:baseline;gap:12px;text-decoration:none;color:inherit}
+.mark .mk{font-family:var(--f-display);font-weight:700;font-size:26px;letter-spacing:.2em;line-height:1}
+.mark .acr{font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--mist)}
+.acr b{color:var(--brass-light);font-weight:700}
+@media (max-width:520px){.mark{flex-direction:column;gap:4px}.mark .mk{font-size:22px}.mark .acr{font-size:11.5px}}
 .top nav{display:flex;align-items:center;gap:24px;font-size:14px;font-weight:600;letter-spacing:.04em}
 .top nav a{text-decoration:none;color:var(--mist)}
 .top nav a:hover{color:var(--ivory)}
@@ -72,10 +76,14 @@ section[id]{scroll-margin-top:64px}
 .hero .ph{position:absolute;inset:0;background:var(--night)}
 .hero .ph img{object-position:50% 45%}
 .hero .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,21,18,.35) 0%,rgba(14,21,18,0) 28%,rgba(14,21,18,.25) 55%,rgba(14,21,18,.92) 100%),linear-gradient(90deg,rgba(14,21,18,.6),rgba(14,21,18,0) 65%)}
-.hero .wrap{position:relative;z-index:2;width:100%;padding-block:160px 56px;display:grid;gap:26px}
+.hero .wrap{position:relative;z-index:2;width:100%;padding-block:140px 56px;display:grid;gap:22px}
 .hero .label{color:var(--brass-light)}
-.hero h1{font-size:clamp(44px,7vw,96px);max-width:13ch}
-.hero h1 em{font-style:italic;color:var(--brass-light)}
+.brand{display:grid;gap:10px}
+.brand .big{font-family:var(--f-display);font-weight:700;font-size:clamp(72px,13vw,168px);line-height:.85;letter-spacing:.14em;color:var(--ivory);margin-left:-.04em}
+.brand .acr{font-size:clamp(17px,2.2vw,26px);font-weight:500;letter-spacing:.04em;color:#e6ebe5}
+.brand .acr b{font-size:1.15em}
+.hero .tagline{font-family:var(--f-display);font-weight:600;font-size:clamp(28px,3.8vw,48px);line-height:1.12;max-width:20ch;margin-top:8px}
+.hero .tagline em{font-style:italic;color:var(--brass-light)}
 .hero .lede{font-size:clamp(18px,1.9vw,21px);max-width:44ch;color:#f1f3ef}
 .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
 .hero .foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px 24px;border-top:1px solid rgba(245,244,239,.22);padding-top:18px;margin-top:22px}
@@ -278,6 +286,8 @@ details p{color:var(--fir-soft);margin-top:10px;max-width:58ch;font-size:17.5px}
 footer{background:var(--night);color:#d3d9d2;padding-block:64px;font-size:15.5px}
 footer .wrap{display:grid;grid-template-columns:1fr auto;gap:28px 40px;align-items:end}
 footer .mark{color:var(--ivory)}
+footer .mark .mk{font-size:40px}
+footer .mark .acr{font-size:16px}
 footer .credits{grid-column:1/-1;font-size:13px;color:#a9b3aa;border-top:1px solid var(--night-line);padding-top:20px}
 footer .partner{font-size:15px;font-weight:600;text-decoration:none;color:var(--mist)}
 footer .partner:hover{color:var(--brass-light)}
@@ -288,7 +298,7 @@ footer .partner:hover{color:var(--brass-light)}
 
 <header class="top">
   <div class="wrap">
-    <a class="mark" href="#top">KAAS</a>
+    <a class="mark" href="#top" aria-label="KAAS, Kerstboom-as-a-service"><span class="mk">KAAS</span><span class="acr"><b>K</b>erstboom-<b>a</b>s-<b>a</b>-<b>s</b>ervice</span></a>
     <nav>
       <a class="nl" href="#hoe">Zo werkt het</a>
       <a class="nl" href="#hoogte">Hoogtes</a>
@@ -303,8 +313,8 @@ footer .partner:hover{color:var(--brass-light)}
   <section class="hero">
     <div class="ph"><img data-photo="https://images.unsplash.com/photo-1603561128963-5f4d971c4959" data-w="2200" alt="Een kerstboom met warme lichtjes in een donkere, sfeervolle kamer" fetchpriority="high"></div>
     <div class="wrap">
-      <p class="label">Kerstboom-as-a-service · Kerst 2026</p>
-      <h1>Een echte boom, <em>zonder gesleur.</em></h1>
+      <h1 class="brand"><span class="big">KAAS</span><span class="acr"><b>K</b>erstboom-<b>a</b>s-<b>a</b>-<b>s</b>ervice</span></h1>
+      <p class="tagline">Een echte boom, <em>zonder gesleur.</em></p>
       <p class="lede">Een verse Nordmann in je living, met de geur van het bos. Wij brengen hem, zetten hem recht en halen hem na de feesten weer op. Versieren doe je zelf, of laat je aan ons over.</p>
       <div class="ctas">
         <a class="btn btn-ivory arrow" href="#inschrijven">Op de interesselijst</a>
@@ -432,7 +442,7 @@ footer .partner:hover{color:var(--brass-light)}
     <div class="wrap">
       <div class="promise">
         <p class="label">Interesselijst</p>
-        <h2>Dit jaar een echte boom.</h2>
+        <h2>Dit jaar een echte boom van KAAS.</h2>
         <p>We tellen hoeveel gezinnen per gemeente meedoen, zodat we de bomen en de leverrondes juist kunnen plannen. Zodra de leverdata vastliggen, hoor je het als eerste.</p>
         <ul>
           <li>Vrijblijvend, geen betaling en geen contract</li>
@@ -548,8 +558,8 @@ footer .partner:hover{color:var(--brass-light)}
 <footer>
   <div class="wrap">
     <div style="display:grid;gap:10px">
-      <a class="mark" href="#top">KAAS</a>
-      <p>Kerstboom-as-a-service. Kalmthout, Essen, Stabroek, Kapellen en Brasschaat.</p>
+      <a class="mark" href="#top" aria-label="KAAS, Kerstboom-as-a-service"><span class="mk">KAAS</span><span class="acr"><b>K</b>erstboom-<b>a</b>s-<b>a</b>-<b>s</b>ervice</span></a>
+      <p>Een echte kerstboom, gebracht, geplaatst en opgehaald. Kalmthout, Essen, Stabroek, Kapellen en Brasschaat.</p>
     </div>
     <a class="partner" id="partnerlink" href="partner/">Partnerlogin →</a>
     <p class="credits">Foto's via Unsplash: Olena Bohovyk, Brooke Balentine, Julia Ivanina, Kate Shashina, Bryan Heng en Sean Foster.</p>

@@ -143,9 +143,10 @@ section[id]{scroll-margin-top:64px}
 
 /* ---------- height ---------- */
 .heights{display:grid;grid-template-columns:1.25fr 1fr;gap:64px;align-items:center}
-.drawing{min-width:0;border:1px solid var(--line);background:var(--ivory);padding:18px}
+.drawing{min-width:0;background:radial-gradient(120% 90% at 50% 100%,#eef1ea 0%,var(--ivory) 70%);border:1px solid var(--line);padding:20px 14px 8px}
 .drawing svg{width:100%;height:auto;display:block}
 .drawing svg .t{cursor:pointer}
+.drawing svg .t:hover .tier{opacity:.85}
 .choose{display:grid;gap:22px;min-width:0}
 .hseg{display:flex;border:1px solid var(--fir)}
 .hseg button{flex:1;font:700 16px/1 var(--f-body);letter-spacing:.08em;border:0;background:transparent;color:var(--fir);padding:15px 10px;cursor:pointer}
@@ -169,6 +170,24 @@ section[id]{scroll-margin-top:64px}
 .weeks p{color:var(--fir-soft);max-width:52ch;font-size:18px}
 @media (max-width:680px){.weeks{grid-template-columns:1fr;gap:24px}.cal{grid-template-columns:repeat(7,minmax(0,1fr))}}
 
+/* ---------- step prices ---------- */
+.steps .price{margin-top:auto;font-size:14.5px;font-weight:600;color:var(--brass-ink);border-top:1px solid var(--line);padding-top:10px}
+.steps li.you .price{color:var(--brass-light);border-top-color:rgba(255,255,255,.2)}
+.steps li{display:flex;flex-direction:column}
+
+/* ---------- mood band ---------- */
+.mood{position:relative;color:var(--ivory);background:var(--night)}
+.mood .ph{position:absolute;inset:0}
+.mood .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,21,18,.94) 0%,rgba(14,21,18,.82) 55%,rgba(14,21,18,.55) 100%)}
+.mood .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center;padding-block:96px}
+.mood h2{font-size:clamp(34px,4.4vw,56px);margin-top:14px}
+.moodtext{font-size:19px;color:#e6ebe5;max-width:44ch;margin-top:18px}
+.mood .traits{border-top:1px solid rgba(255,255,255,.25)}
+.mood .trait{border-bottom:1px solid rgba(255,255,255,.18);grid-template-columns:120px 1fr}
+.mood .trait dd{color:#dde3dc}
+.mood .credit{position:absolute;right:max(22px,env(safe-area-inset-right,0px));bottom:12px;z-index:2}
+@media (max-width:860px){.mood .wrap{grid-template-columns:1fr;gap:28px;padding-block:72px}}
+
 /* ---------- prices ---------- */
 .pricewrap{overflow-x:auto;background:var(--ivory);border:1px solid var(--line)}
 .prices{width:100%;border-collapse:collapse;font-size:18px;font-variant-numeric:tabular-nums}
@@ -186,8 +205,8 @@ section[id]{scroll-margin-top:64px}
 .styles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
 .style{margin:0;background:var(--ivory);border:1.5px solid var(--line);display:grid;grid-template-rows:auto 1fr;min-width:0;transition:border-color .15s ease,box-shadow .15s ease}
 .style.on{border-color:var(--fir);box-shadow:0 0 0 2px var(--fir)}
-.style .pic{aspect-ratio:3/4;overflow:hidden;background:var(--chalk-2)}
-.style .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.style .pic{aspect-ratio:3/4;overflow:hidden;background:var(--chalk-2);position:relative}
+.style .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .style .body{padding:22px;display:flex;flex-direction:column;gap:10px}
 .style h3{font-size:24px}
 .style p{color:var(--fir-soft);font-size:16.5px}
@@ -199,10 +218,12 @@ section[id]{scroll-margin-top:64px}
 .style button{align-self:flex-start}
 .style p{margin-bottom:8px}
 .style.on button{background:var(--needle)}
+.own.swipe{display:none;margin-top:10px;font-size:14px}
+@media (max-width:560px){.own.swipe{display:block}}
 .own{margin-top:22px;font-size:17px;color:var(--fir-soft)}
 .own button{font:inherit;color:var(--fir);font-weight:700;background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 @media (max-width:1000px){.styles{grid-template-columns:1fr 1fr}}
-@media (max-width:560px){.styles{grid-template-columns:1fr}}
+@media (max-width:560px){.styles{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:calc(-1 * max(22px,env(safe-area-inset-left,0px)));padding-inline:max(22px,env(safe-area-inset-left,0px));padding-bottom:8px}.style{flex:0 0 82%;scroll-snap-align:center}}
 
 /* ---------- form ---------- */
 .signup .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:72px;align-items:start}
@@ -271,7 +292,6 @@ footer .partner:hover{color:var(--brass-light)}
     <nav>
       <a class="nl" href="#hoe">Zo werkt het</a>
       <a class="nl" href="#hoogte">Hoogtes</a>
-      <a class="nl" href="#prijzen">Prijzen</a>
       <a class="nl" href="#versiering">Versiering</a>
       <a class="nl" href="#vragen">Vragen</a>
       <a class="btn btn-ivory" href="#inschrijven">Schrijf je in</a>
@@ -285,27 +305,15 @@ footer .partner:hover{color:var(--brass-light)}
     <div class="wrap">
       <p class="label">Kerstboom-as-a-service · Kerst 2026</p>
       <h1>Een echte boom, <em>zonder gesleur.</em></h1>
-      <p class="lede">Een verse Nordmann die wekenlang in je living staat. Wij brengen hem, zetten hem recht en halen hem na de feesten weer op. Jij hoeft enkel te versieren.</p>
+      <p class="lede">Een verse Nordmann in je living, met de geur van het bos. Wij brengen hem, zetten hem recht en halen hem na de feesten weer op. Versieren doe je zelf, of laat je aan ons over.</p>
       <div class="ctas">
         <a class="btn btn-ivory arrow" href="#inschrijven">Op de interesselijst</a>
         <a class="btn btn-line" href="#hoe">Zo werkt het</a>
       </div>
       <div class="foot">
-        <p class="count"><b id="nights">–</b><span id="nightslbl">nachten tot Kerstmis</span></p>
+        <p class="count"><b id="nights">–</b><span id="nightslbl">nachten tot Kerstmis</span> · Kalmthout, Essen, Stabroek, Kapellen en Brasschaat</p>
         <p class="credit">Foto: <a href="https://unsplash.com/photos/green-christmas-tree-with-string-lights-mdzHRYPKt5s" target="_blank" rel="noopener">Olena Bohovyk / Unsplash</a></p>
       </div>
-    </div>
-  </section>
-
-  <section class="facts" aria-label="In het kort">
-    <div class="wrap">
-      <ul>
-        <li><b>Echte Nordmann</b><span>Vers, naaldvast en zacht. Prikt niet.</span></li>
-        <li><b>1,50 tot 4 meter</b><span>Boom vanaf €60.</span></li>
-        <li><b>Gebracht en geplaatst</b><span>Op een houten kruis, €30.</span></li>
-        <li><b>Opgehaald na de feesten</b><span>Ter plaatse verhakseld, € 30.</span></li>
-      </ul>
-      <p class="where">Voor Kalmthout, Essen, Stabroek, Kapellen en Brasschaat. Inschrijven is vrijblijvend.</p>
     </div>
   </section>
 
@@ -313,58 +321,32 @@ footer .partner:hover{color:var(--brass-light)}
     <div class="wrap">
       <div class="head">
         <p class="label">Zo werkt het</p>
-        <h2>Vier stappen. Drie ervan doen wij.</h2>
+        <h2>Jij kiest hoeveel je zelf doet.</h2>
       </div>
       <ol class="steps">
-        <li><span class="n">1</span><span class="who">Wij</span><h3>Gebracht</h3><p>Op het weekend dat jij kiest, vers en ingepakt aan je deur. Geen dakdragers, geen naalden in de auto.</p></li>
-        <li><span class="n">2</span><span class="who">Wij</span><h3>Geplaatst</h3><p>Gemonteerd op een stevig houten kruis en kaarsrecht gezet, op de plek die jij kiest. Het net gaat er pas binnen af.</p></li>
-        <li class="you"><span class="n">3</span><span class="who">Jij</span><h3>Versierd</h3><p>Met je eigen versiering of met een versierpakket dat we meebrengen. Met de kinderen, met muziek op de achtergrond.</p></li>
-        <li><span class="n">4</span><span class="who">Wij</span><h3>Opgehaald</h3><p>Na de feesten halen we hem op en verhakselen hem ter plaatse. Geen naaldenspoor door de gang, geen rit naar het containerpark.</p></li>
+        <li><span class="n">1</span><span class="who">Wij</span><h3>Brengen en plaatsen</h3><p>Op het weekend dat jij kiest. Gemonteerd op een houten kruis en kaarsrecht gezet waar jij wil.</p><span class="price">Boom vanaf € 60<br>Brengen en plaatsen € 30</span></li>
+        <li class="you"><span class="n">2</span><span class="who">Jij of wij</span><h3>Versieren</h3><p>Met je eigen versiering, of met een versierpakket in één van vier stijlen. Zelf ophangen, of wij doen het.</p><span class="price">Pakket vanaf € 53,99, huur vanaf € 26,99<br>Wij versieren € 40</span></li>
+        <li><span class="n">3</span><span class="who">Jij</span><h3>Genieten</h3><p>De geur van een echte spar in huis, de lichtjes, de cadeaus eronder. De feesten zoals ze horen.</p></li>
+        <li><span class="n">4</span><span class="who">Wij</span><h3>Ophalen</h3><p>Na de feesten halen we hem op en verhakselen hem ter plaatse. De versiering afhalen kan erbij.</p><span class="price">Ophalen en verhakselen € 30<br>Versiering afhalen € 40</span></li>
       </ol>
     </div>
   </section>
 
-  <section class="band dark">
+  <section class="mood">
+    <div class="ph"><img data-photo="https://images.unsplash.com/photo-1707654311849-92925a275000" data-w="2000" alt="" loading="lazy"></div>
     <div class="wrap">
-      <div class="head">
+      <div>
         <p class="label">De echte kerstsfeer</p>
         <h2>December, zoals het hoort te ruiken.</h2>
-        <p>De doos met versiering van zolder, de lichtjes ontwarren, samen de eerste bal ophangen. Dat stuk laten we graag aan jou.</p>
+        <p class="moodtext">Geen plastieken boom die elf maanden op zolder ligt te stoffen. Een verse Nordmann die je hele huis naar het bos laat ruiken, elk jaar met een eigen vorm.</p>
       </div>
-      <div class="gallery">
-        <figure class="g1 ph"><img data-photo="https://images.unsplash.com/photo-1767022352671-abe5564c99ee" data-w="1400" alt="Een kind en een volwassene hangen samen versiering in een kerstboom" loading="lazy"><figcaption><b>Samen versieren</b><span class="credit">Foto: <a href="https://unsplash.com/photos/child-and-adult-decorating-a-christmas-tree-1C36bKRQ3-M" target="_blank" rel="noopener">Brooke Balentine / Unsplash</a></span></figcaption></figure>
-        <figure class="ph"><img data-photo="https://images.unsplash.com/photo-1639610406535-0cc671a0f20a" data-w="1200" alt="Een versierde kerstboom met lichtjes en kaarsen in een woonkamer" loading="lazy"><figcaption><b>Wekenlang in je living</b><span class="credit">Foto: <a href="https://unsplash.com/photos/a-decorated-christmas-tree-in-a-living-room-_ZWWu9FFTAY" target="_blank" rel="noopener">Julia Ivanina / Unsplash</a></span></figcaption></figure>
-        <figure class="ph"><img data-photo="https://images.unsplash.com/photo-1639162147598-69d513387857" data-w="1200" alt="Een besneeuwd bospad met lichtjes tussen de sparren" loading="lazy"><figcaption><b>Uit het bos, naar binnen</b><span class="credit">Foto: <a href="https://unsplash.com/photos/a-path-through-a-snowy-forest-with-lights-strung-from-the-trees-DMZQQGkQzNQ" target="_blank" rel="noopener">Kate Shashina / Unsplash</a></span></figcaption></figure>
-      </div>
+      <dl class="traits">
+        <div class="trait"><dt>Naaldvast</dt><dd>Houdt zijn naalden langer vast dan de meeste kerstbomen.</dd></div>
+        <div class="trait"><dt>Zacht</dt><dd>Platte, stompe naalden. Prikt niet, ook niet voor kinderhanden.</dd></div>
+        <div class="trait"><dt>Stevig</dt><dd>Horizontale etages, sterk genoeg voor zware glazen ballen.</dd></div>
+      </dl>
     </div>
-  </section>
-
-  <section class="band nord">
-    <div class="wrap">
-      <figure class="ph"><img data-photo="https://images.unsplash.com/photo-1707654311849-92925a275000" data-w="1400" alt="Close-up van een dennentak met warme lichtjes op de achtergrond" loading="lazy"><span class="credit">Foto: <a href="https://unsplash.com/photos/a-close-up-of-a-pine-branch-with-lights-in-the-background-E7nGsbfm7lo" target="_blank" rel="noopener">Bryan Heng / Unsplash</a></span></figure>
-      <div>
-        <div class="head" style="margin-bottom:36px">
-          <p class="label">Waarom een Nordmann</p>
-          <h2>Blijft staan zoals hij binnenkwam.</h2>
-        </div>
-        <dl class="traits">
-          <div class="trait"><dt>Naaldvast</dt><dd>Een Nordmann houdt zijn naalden langer vast dan de meeste kerstbomen. Geen tapijt van naalden onder de boom.</dd></div>
-          <div class="trait"><dt>Zacht</dt><dd>De naalden zijn plat en stomp. Kinderhanden en ballen ophangen gaan prima samen.</dd></div>
-          <div class="trait"><dt>Diep groen</dt><dd>Glanzend donkergroen aan de bovenkant, met twee zilveren streepjes onder elke naald.</dd></div>
-          <div class="trait"><dt>Stevig</dt><dd>Horizontale etages met ruimte ertussen, sterk genoeg voor zware glazen ballen en een lange lichtsnoer.</dd></div>
-        </dl>
-      </div>
-    </div>
-  </section>
-
-  <section class="nursery">
-    <div class="ph"><img data-photo="https://images.unsplash.com/photo-1633863855352-3c93498e10f3" data-w="2200" alt="Rijen jonge naaldbomen op een kwekerij" loading="lazy"></div>
-    <div class="wrap">
-      <p class="label" style="color:var(--brass-light)">Van de kweker naar je living</p>
-      <blockquote>Elk jaar een andere boom, met zijn eigen vorm.</blockquote>
-      <p>Geen plastieken exemplaar dat elf maanden op zolder ligt te stoffen. Na de feesten wordt je boom houtsnippers, en volgend jaar staat er een nieuwe.</p>
-    </div>
-    <p class="credit">Foto: <a href="https://unsplash.com/photos/a-large-field-with-rows-of-trees-in-it-132o0Or1zpM" target="_blank" rel="noopener">Sean Foster / Unsplash</a></p>
+    <p class="credit">Foto: <a href="https://unsplash.com/photos/a-close-up-of-a-pine-branch-with-lights-in-the-background-E7nGsbfm7lo" target="_blank" rel="noopener">Bryan Heng / Unsplash</a></p>
   </section>
 
   <section class="band" id="hoogte">
@@ -372,10 +354,10 @@ footer .partner:hover{color:var(--brass-light)}
       <div class="head">
         <p class="label">Kies je hoogte</p>
         <h2>Van 1,50 tot 4 meter.</h2>
-        <p>Meet even je plafond. De hoogte is gemeten met het houten kruis erbij, dus zo komt hij ook in je kamer te staan.</p>
+        <p>Meet even je plafond. De hoogte is gemeten met het houten kruis erbij. Tik op een boom.</p>
       </div>
       <div class="heights">
-        <div class="drawing"><svg id="roomsvg" viewBox="0 0 600 330" role="img" aria-label="Schets van bomen van 1,50, 2, 3 en 4 meter naast een persoon van 1,75 meter"></svg></div>
+        <div class="drawing"><svg id="roomsvg" viewBox="0 0 640 372" role="img" aria-label="Bomen van 1,50, 2, 3 en 4 meter naast een persoon van 1,75 meter, met hun prijs"></svg></div>
         <div class="choose">
           <div class="hseg" role="group" aria-label="Boomhoogte">
             <button type="button" data-h="1.5" aria-pressed="false">1,50 m</button>
@@ -383,42 +365,12 @@ footer .partner:hover{color:var(--brass-light)}
             <button type="button" data-h="3" aria-pressed="false">3 m</button>
             <button type="button" data-h="4" aria-pressed="false">4 m</button>
           </div>
-          <div class="hval" id="hbig">2,00<small>meter</small></div>
           <p class="hfor" id="hfor"></p>
           <p class="htip" id="htip"></p>
           <p class="hprice" id="hprice"></p>
           <a class="btn btn-dark arrow" href="#inschrijven" style="justify-self:start">Deze hoogte</a>
         </div>
       </div>
-      <div class="weeks">
-        <div class="cal" aria-hidden="true" id="cal"></div>
-        <div>
-          <h3>Wekenlang echte kerst.</h3>
-          <p>Laat je boom brengen bij het begin van de advent en hij staat er bij Sinterklaas, op kerstavond, op oudejaar en op Driekoningen. Daarna komen we hem halen.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="band" id="prijzen" style="border-top:1px solid var(--line)">
-    <div class="wrap">
-      <div class="head">
-        <p class="label">Prijzen</p>
-        <h2>Eén prijs per boom, alles inbegrepen.</h2>
-        <p>Je betaalt de boom, het brengen en plaatsen op een houten kruis, en het ophalen en verhakselen na de feesten.</p>
-      </div>
-      <div class="pricewrap">
-        <table class="prices">
-          <thead><tr><th scope="col">Hoogte</th><th scope="col">Boom</th><th scope="col">Brengen en plaatsen</th><th scope="col">Ophalen en verhakselen</th><th scope="col">Samen</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">1,50 m</th><td>€ 60</td><td>€ 30</td><td>€ 30</td><td><b>€ 120</b></td></tr>
-            <tr><th scope="row">2 m</th><td>€ 80</td><td>€ 30</td><td>€ 30</td><td><b>€ 140</b></td></tr>
-            <tr><th scope="row">3 m</th><td>€ 150</td><td>€ 30</td><td>€ 30</td><td><b>€ 210</b></td></tr>
-            <tr><th scope="row">4 m</th><td>€ 220</td><td>€ 30</td><td>€ 30</td><td><b>€ 280</b></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="pricenote">Wil je dat wij versieren, of de versiering na de feesten weer afhalen? Dat kost elk € 40. De versierpakketten en hun prijzen vind je hieronder.</p>
     </div>
   </section>
 
@@ -426,8 +378,8 @@ footer .partner:hover{color:var(--brass-light)}
     <div class="wrap">
       <div class="head">
         <p class="label">Versierpakket · optioneel</p>
-        <h2>Liever meteen in stijl?</h2>
-        <p>Kies een versierpakket en we brengen het mee met je boom. Alles in één kleurenpalet, op elkaar afgestemd. Je kan het kopen of huren voor ongeveer de helft van de prijs. Wil je, dan versieren wij je boom (€ 40) en halen we de versiering na de feesten er weer af (€ 40).</p>
+        <h2>Vier stijlen, kant-en-klaar.</h2>
+        <p>We brengen het pakket mee met je boom. Kopen, of huren voor ongeveer de helft. Zelf ophangen, of wij versieren voor € 40.</p>
       </div>
       <div class="styles" role="group" aria-label="Versierpakketten">
         <figure class="style" data-pakket="Winterzilver">
@@ -471,15 +423,8 @@ footer .partner:hover{color:var(--brass-light)}
           </div>
         </figure>
       </div>
-      <p class="own">Je eigen versiering gebruiken? <button type="button" id="geenpakket">Dan kies je geen pakket.</button> De prijzen op de kaarten gelden voor een boom van <span id="ptable-h">2 m</span>. Kies je bij "Kies je hoogte" een andere hoogte, dan passen ze zich aan.</p>
-      <div class="pricewrap" style="margin-top:28px">
-        <table class="prices">
-          <caption class="sr">Prijzen versierpakketten per hoogte</caption>
-          <thead><tr><th scope="col">Pakket</th><th scope="col">1,50 m</th><th scope="col">2 m</th><th scope="col">3 m</th><th scope="col">4 m</th></tr></thead>
-          <tbody id="pakketprijzen"></tbody>
-        </table>
-      </div>
-      <p class="pricenote">Bovenaan de koopprijs, eronder de huurprijs. Gehuurde versiering nemen we na de feesten mee terug. Versieren door ons kost € 40, de versiering weer afhalen ook € 40.</p>
+      <p class="own swipe">Veeg opzij voor alle vier de stijlen.</p>
+      <p class="own">Liever je eigen versiering? <button type="button" id="geenpakket">Kies dan geen pakket.</button> De prijzen op de kaarten gelden voor een boom van <span id="ptable-h">2 m</span> en volgen de hoogte die je kiest.</p>
     </div>
   </section>
 
@@ -670,53 +615,47 @@ footer .partner:hover{color:var(--brass-light)}
     3:{for:'Voor hoge plafonds: een herenhuis, een loft of een living onder een schuin dak.', tip:'Voor plafonds vanaf 3,30 m. Reken op zo’n 1,80 m doorsnede onderaan.'},
     4:{for:'Voor een vide, een inkomhal, een praktijk of een winkel.', tip:'Vanaf 4,30 m vrije hoogte. We bekijken samen de toegang: een boom van 4 meter moet ook binnen geraken.'}
   };
-  const PX = 60, GY = 296, X0 = 52, y = m => GY - m*PX;
-  const INK = '#14211a', SOFT = '#6c776f', BR = '#8a6a2e', F = 'Hanken Grotesk, Arial, sans-serif';
-  function tree(cx, h, active){
-    const w = h*0.6*PX, top = y(h), base = y(.32), col = active ? INK : SOFT, sw = active ? 1.6 : 1;
-    let s = `<g class="t" data-h="${h}">`;
-    s += `<rect x="${cx-w/2-8}" y="${top-8}" width="${w+16}" height="${GY-top+8}" fill="transparent"/>`;
-    // silhouette in tiers
-    const tiers = 3 + h; let pts = [];
-    for (let i=0;i<tiers;i++){
-      const t0 = i/tiers, yb = base - t0*(base-top);
-      const half = (w/2)*(1-t0*0.92);
-      const yt = base - ((i+1)/tiers)*(base-top);
-      pts.push([cx-half, yb], [cx - half*0.42, yb - (yb-yt)*0.15]);
+  /* infographic: layered Nordmann silhouettes on one baseline, to scale */
+  const PX = 50, GY = 268, y = m => GY - m*PX;
+  const F = 'Hanken Grotesk, Arial, sans-serif', FD = 'Source Serif 4, Georgia, serif';
+  const C = { on1:'#2f4a3c', on2:'#22382d', off1:'#cdd6cc', off2:'#bcc8bd', wood:'#8a6a4a', woodOff:'#d6cdbf', ink:'#14211a', soft:'#6c776f', brass:'#9a7633' };
+  const POS = { 1.5:175, 2:285, 3:410, 4:552 };
+  function nordmann(cx, h, on){
+    const H = h*PX, W = h*0.62*PX, base = GY - 10, top = base - (H - 10);
+    const n = Math.max(4, Math.round(2.6 + h*1.6)), step = (base - top) / n;
+    let s = `<g class="t" data-h="${h}" role="button" aria-label="${fmt(h)} meter">`;
+    s += `<rect x="${cx-Math.max(W/2+10,40)}" y="${top-14}" width="${Math.max(W+20,80)}" height="${GY-top+86}" fill="transparent"/>`;
+    s += `<rect x="${cx-2.5}" y="${base-step*.6}" width="5" height="${GY-base+step*.6-5}" fill="${on?C.wood:C.woodOff}"/>`;
+    s += `<rect x="${cx-24}" y="${GY-6}" width="48" height="6" rx="1.5" fill="${on?C.wood:C.woodOff}"/>`;
+    for (let i=0;i<n;i++){
+      const yb = base - i*step, yt = yb - step*1.75, wi = (W/2) * (1 - (i/n)*0.88);
+      const col = i%2 ? (on?C.on2:C.off2) : (on?C.on1:C.off1);
+      s += `<path class="tier" fill="${col}" d="M${cx},${Math.max(yt,top)} Q${cx-wi*.32},${yb-(yb-yt)*.42} ${cx-wi},${yb} Q${cx-wi*.5},${yb-7} ${cx},${yb-2} Q${cx+wi*.5},${yb-7} ${cx+wi},${yb} Q${cx+wi*.32},${yb-(yb-yt)*.42} ${cx},${Math.max(yt,top)} Z"/>`;
     }
-    const left = pts.map(p=>p.join(',')).join(' ');
-    const right = pts.slice().reverse().map(([x,yy])=>[2*cx-x,yy].join(',')).join(' ');
-    s += `<polygon points="${left} ${cx},${top} ${right}" fill="${active?'rgba(47,74,60,.10)':'none'}" stroke="${col}" stroke-width="${sw}" stroke-linejoin="round"/>`;
-    s += `<line x1="${cx}" y1="${base}" x2="${cx}" y2="${y(.12)}" stroke="${col}" stroke-width="${sw}"/>`;
-    s += `<rect x="${cx-16}" y="${y(.12)}" width="32" height="${.12*PX}" fill="none" stroke="${col}" stroke-width="${sw}"/>`;
-    s += `<text x="${cx}" y="${GY+20}" text-anchor="middle" font-family="${F}" font-size="13" font-weight="600" letter-spacing="1" fill="${active?INK:SOFT}">${fmt(h)} M</text>`;
-    if (active){
-      const dx = cx + w/2 + 14;
-      s += `<line x1="${dx}" y1="${GY}" x2="${dx}" y2="${top}" stroke="${BR}" stroke-width="1"/><line x1="${dx-5}" y1="${top}" x2="${dx+5}" y2="${top}" stroke="${BR}"/><line x1="${dx-5}" y1="${GY}" x2="${dx+5}" y2="${GY}" stroke="${BR}"/>`;
+    if (on){
+      const st = top - 6, r1 = 8, r2 = 3.4; let pts = [];
+      for (let k=0;k<10;k++){ const r = k%2 ? r2 : r1, a = -Math.PI/2 + k*Math.PI/5; pts.push(`${(cx+Math.cos(a)*r).toFixed(1)},${(st+Math.sin(a)*r).toFixed(1)}`); }
+      s += `<polygon points="${pts.join(' ')}" fill="${C.brass}"/>`;
     }
+    s += `<text x="${cx}" y="${GY+38}" text-anchor="middle" font-family="${FD}" font-size="26" font-weight="${on?700:600}" fill="${on?C.ink:C.soft}">${fmt(h).replace(',00','')} m</text>`;
+    s += `<text x="${cx}" y="${GY+66}" text-anchor="middle" font-family="${F}" font-size="20" font-weight="700" fill="${on?C.brass:C.soft}">${eur(BOOM[HOOG[h].waarde])}</text>`;
+    if (on) s += `<rect x="${cx-30}" y="${GY+78}" width="60" height="3" fill="${C.brass}"/>`;
     return s + '</g>';
   }
   function draw(h){
     let s = '';
-    for (let m=0;m<=4.5;m+=.5){
-      s += `<line x1="${X0-(m%1?4:8)}" y1="${y(m)}" x2="${X0}" y2="${y(m)}" stroke="${SOFT}"/>`;
-      if (m%1===0) s += `<text x="${X0-12}" y="${y(m)+4}" text-anchor="end" font-family="${F}" font-size="12" fill="${SOFT}">${m}</text>`;
-    }
-    s += `<line x1="${X0}" y1="${GY}" x2="${X0}" y2="${y(4.6)}" stroke="${SOFT}"/>`;
-    s += `<line x1="${X0}" y1="${y(2.5)}" x2="592" y2="${y(2.5)}" stroke="${SOFT}" stroke-dasharray="3 5"/>`;
-    s += `<text x="${X0+8}" y="${y(2.5)-7}" text-anchor="start" font-family="${F}" font-size="12" font-weight="600" letter-spacing="1" fill="${SOFT}">PLAFOND 2,50 M</text>`;
-    s += `<line x1="${X0}" y1="${GY}" x2="592" y2="${GY}" stroke="${INK}" stroke-width="1.4"/>`;
-    // person 1,75 m, simple architectural figure
-    const px = 95, hh = 1.75*PX, top = GY - hh;
-    s += `<g fill="none" stroke="${SOFT}" stroke-width="1.1"><circle cx="${px}" cy="${top+9}" r="9"/><path d="M${px-13},${GY} L${px-8},${top+70} L${px-15},${top+66} L${px-11},${top+26} Q${px},${top+20} ${px+11},${top+26} L${px+15},${top+66} L${px+8},${top+70} L${px+13},${GY}"/></g>`;
-    s += `<text x="${px}" y="${GY+20}" text-anchor="middle" font-family="${F}" font-size="13" font-weight="600" letter-spacing="1" fill="${SOFT}">1,75 M</text>`;
-    s += tree(160, 1.5, h===1.5) + tree(245, 2, h===2) + tree(350, 3, h===3) + tree(490, 4, h===4);
+    s += `<line x1="16" y1="${y(2.5)}" x2="632" y2="${y(2.5)}" stroke="${C.brass}" stroke-opacity=".55" stroke-dasharray="2 5"/>`;
+    s += `<text x="16" y="${y(2.5)-8}" font-family="${F}" font-size="15" font-weight="700" letter-spacing="1.4" fill="${C.brass}">PLAFOND 2,50 M</text>`;
+    s += `<line x1="16" y1="${GY}" x2="632" y2="${GY}" stroke="${C.ink}" stroke-opacity=".5"/>`;
+    const px = 70, top = GY - 1.75*PX;
+    s += `<g fill="#b7bfb6"><circle cx="${px}" cy="${top+9}" r="9"/><path d="M${px-15},${GY} L${px-13},${top+42} Q${px-13},${top+23} ${px},${top+23} Q${px+13},${top+23} ${px+13},${top+42} L${px+15},${GY} Z"/></g>`;
+    s += `<text x="${px}" y="${GY+38}" text-anchor="middle" font-family="${F}" font-size="16" fill="${C.soft}">1,75 m</text>`;
+    s += [1.5,2,3,4].map(k=>nordmann(POS[k], k, h===k)).join('');
     svg.innerHTML = s;
     svg.querySelectorAll('.t').forEach(g=>g.addEventListener('click',()=>setHeight(+g.dataset.h)));
   }
   function setHeight(h, fromForm){
     document.querySelectorAll('.hseg button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.h==h)));
-    document.getElementById('hbig').innerHTML = `${fmt(h)}<small>meter</small>`;
     document.getElementById('hprice').innerHTML = `Boom <b>${eur(BOOM[HOOG[h].waarde])}</b> + ${eur(LEVERING)} brengen + ${eur(OPHALING)} ophalen`;
     if (typeof cardPrices === 'function') cardPrices(HOOG[h].waarde);
     document.getElementById('hfor').textContent = info[h].for;
@@ -770,17 +709,8 @@ footer .partner:hover{color:var(--brass-light)}
   document.querySelectorAll('input[name=hoogte],input[name=pakket_vorm],#weghalen').forEach(r=>r.addEventListener('change', updateSum));
   /* wie ons laat versieren, krijgt het afhalen standaard aangevinkt (uitvinken kan) */
   document.getElementById('versieren').addEventListener('change', e=>{ if (e.target.checked) document.getElementById('weghalen').checked = true; updateSum(); });
-  document.getElementById('pakketprijzen').innerHTML = Object.entries(PAKKET).map(([n,p])=>`<tr><th scope="row">${n}</th>${['1,50 m','2 m','3 m','4 m'].map(w=>`<td>${eur2(p[w])}<small>huur ${eur2(HUUR[n][w])}</small></td>`).join('')}</tr>`).join('');
   cardPrices('2 m'); setHeight(2); updateSum();
 
-  /* calendar 23 nov – 10 jan */
-  (function(){
-    let html = ['ma','di','wo','do','vr','za','zo'].map(d=>`<i class="h">${d}</i>`).join('');
-    const start = new Date(2026,10,23), from = new Date(2026,10,28), to = new Date(2027,0,9);
-    const feest = d => (d.getMonth()===11 && [6,24,25,31].includes(d.getDate())) || (d.getMonth()===0 && d.getDate()===6);
-    for (let i=0;i<49;i++){ const d = new Date(start); d.setDate(start.getDate()+i); html += `<i class="${feest(d)?'x':(d>=from&&d<=to)?'on':''}">${d.getDate()}</i>`; }
-    document.getElementById('cal').innerHTML = html;
-  })();
 
   /* form */
   const form = document.getElementById('kaasform'), status = document.getElementById('status'), submit = document.getElementById('submit'), gem = document.getElementById('gemeente');

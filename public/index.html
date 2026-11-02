@@ -240,6 +240,14 @@ section[id]{scroll-margin-top:64px}
 .promise p{color:#dde3dc}
 .promise ul{list-style:none;margin:6px 0 0;padding:0;border-top:1px solid var(--night-line)}
 .promise li{padding-block:14px;border-bottom:1px solid var(--night-line);color:#f1f3ef;font-size:17px}
+.teller{margin-top:10px;display:grid;gap:12px}
+.teller ol{list-style:none;margin:0;padding:0;border-top:1px solid var(--night-line)}
+.teller li{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;padding-block:11px;border-bottom:1px solid var(--night-line);font-size:17px;color:#f1f3ef}
+.teller li b{font-family:var(--f-display);font-weight:700;font-size:24px;line-height:1;font-variant-numeric:tabular-nums;color:var(--ivory);min-width:2ch;text-align:right}
+.teller .tree{width:18px;height:22px;color:var(--brass-light)}
+.teller li.tot{border-bottom:0;color:var(--brass-light);font-weight:600}
+.tellernote{font-size:13.5px;color:var(--mist)}
+
 form{background:var(--ivory);color:var(--fir);padding:40px;border-radius:8px;display:grid;gap:20px;min-width:0;color-scheme:light}
 form h3{font-size:28px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -449,6 +457,11 @@ footer .partner:hover{color:var(--brass-light)}
           <li>We bevestigen je leverdatum, pas dan beslis je</li>
           <li>Namen en adressen staan nergens publiek</li>
         </ul>
+        <div class="teller" id="teller" hidden>
+          <p class="label">Al ingeschreven</p>
+          <ol id="tellerlijst"></ol>
+          <p class="tellernote" id="tellernote"></p>
+        </div>
       </div>
 
       <form id="kaasform" novalidate>
@@ -736,6 +749,20 @@ footer .partner:hover{color:var(--brass-light)}
     if (!o.toestemming) return 'Vink aan dat we je mogen contacteren.';
     return null;
   }
+  /* teller: aantal inschrijvingen per gemeente (enkel aantallen) */
+  const TREE = '<svg class="tree" viewBox="0 0 20 24" aria-hidden="true"><path d="M10 1 6.2 6.8h2.3L4 12.6h2.6L1.8 19h16.4l-4.8-6.4H16l-4.5-5.8h2.3z" fill="currentColor"/><rect x="8.8" y="19" width="2.4" height="4" fill="currentColor"/></svg>';
+  function toonTeller(d, voorbeeld){
+    const rows = d.gemeenten.map(g=>`<li><span>${g.naam}</span><b>${g.aantal}</b>${TREE}</li>`).join('');
+    document.getElementById('tellerlijst').innerHTML = rows + `<li class="tot"><span>Samen</span><b>${d.totaal}</b>${TREE}</li>`;
+    document.getElementById('tellernote').textContent = voorbeeld ? 'Voorbeeldcijfers. Op de echte site staan hier de actuele aantallen.' : 'Enkel aantallen. Namen en adressen staan nergens publiek.';
+    document.getElementById('teller').hidden = false;
+  }
+  async function laadTeller(){
+    if (inArtifact){ toonTeller({totaal:47, gemeenten:[{naam:'Kalmthout',aantal:18},{naam:'Essen',aantal:9},{naam:'Stabroek',aantal:4},{naam:'Kapellen',aantal:11},{naam:'Brasschaat',aantal:5}]}, true); return; }
+    try{ const r = await fetch('/api/teller', {cache:'no-store'}); if (r.ok) toonTeller(await r.json()); }catch(_){}
+  }
+  laadTeller();
+
   form.addEventListener('submit', async e=>{
     e.preventDefault();
     if (document.getElementById('website').value) return;
@@ -759,6 +786,7 @@ footer .partner:hover{color:var(--brass-light)}
       showStatus('ok', `Dank je, ${o.voornaam}. Je staat op de interesselijst voor een boom van ${o.hoogte}${o.versierpakket && o.versierpakket!=='Geen' ? ' met versierpakket ' + o.versierpakket + (o.pakket_vorm==='Huren' ? ' (huur)' : ' (koop)') + (o.versieren==='ja' ? ', en wij versieren hem' : '') : ''}${o.weghalen==='ja' ? '. Na de feesten halen wij de versiering eraf' : ''}. Zodra de leverdata vastliggen, laten we het je weten via ${o.email}. Pas dan beslis je.`);
       form.querySelectorAll('input:not([type=radio]):not([type=checkbox]),textarea').forEach(el=>{ if (el.id!=='website') el.value=''; });
       submit.textContent = 'Nog iemand inschrijven';
+      laadTeller();
     }catch(ex){
       showStatus('err', (ex && ex.message) || 'Je inschrijving is niet doorgekomen. Controleer je internetverbinding en probeer het opnieuw.');
       submit.textContent = 'Zet mij op de interesselijst';

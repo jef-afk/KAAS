@@ -164,6 +164,7 @@ section[id]{scroll-margin-top:64px}
 .hval small{font-family:var(--f-body);font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--fir-soft);margin-left:10px;vertical-align:middle}
 .hfor{font-size:20px;font-weight:500}
 .hprice{font-size:18px}
+.hprice .opt2{font-size:16px;color:var(--fir-soft)}
 .hprice b{font-family:var(--f-display);font-weight:700;font-size:26px}
 .htip{font-size:17px;color:var(--fir-soft);border-left:3px solid var(--brass);padding-left:14px}
 @media (max-width:860px){.heights{grid-template-columns:1fr;gap:32px}}
@@ -323,7 +324,7 @@ footer .partner:hover{color:var(--brass-light)}
     <div class="wrap">
       <h1 class="brand"><span class="big">KAAS</span><span class="acr"><b>K</b>erstboom-<b>a</b>s-<b>a</b>-<b>s</b>ervice</span></h1>
       <p class="tagline">Een echte boom, <em>zonder gesleur.</em></p>
-      <p class="lede">Een verse Nordmann in je living, met de geur van het bos. Wij brengen hem, zetten hem recht en halen hem na de feesten weer op. Versieren doe je zelf, of laat je aan ons over.</p>
+      <p class="lede">Een verse Nordmann in je living, met de geur van het bos. Wij brengen hem en zetten hem recht. Versieren en na de feesten ophalen doe je zelf, of laat je aan ons over.</p>
       <div class="ctas">
         <a class="btn btn-ivory arrow" href="#inschrijven">Op de interesselijst</a>
         <a class="btn btn-line" href="#hoe">Zo werkt het</a>
@@ -345,7 +346,7 @@ footer .partner:hover{color:var(--brass-light)}
         <li><span class="n">1</span><span class="who">Wij</span><h3>Brengen en plaatsen</h3><p>Op het weekend dat jij kiest. Gemonteerd op een houten kruis en kaarsrecht gezet waar jij wil.</p><span class="price">Boom vanaf € 60<br>Brengen en plaatsen € 30</span></li>
         <li class="you"><span class="n">2</span><span class="who">Jij of wij</span><h3>Versieren</h3><p>Met je eigen versiering, of met een versierpakket in één van vier stijlen. Zelf ophangen, of wij doen het.</p><span class="price">Pakket vanaf € 53,99, huur vanaf € 26,99<br>Wij versieren € 40</span></li>
         <li><span class="n">3</span><span class="who">Jij</span><h3>Genieten</h3><p>De geur van een echte spar in huis, de lichtjes, de cadeaus eronder. De feesten zoals ze horen.</p></li>
-        <li><span class="n">4</span><span class="who">Wij</span><h3>Ophalen</h3><p>Na de feesten halen we hem op en verhakselen hem ter plaatse. De versiering afhalen kan erbij.</p><span class="price">Ophalen en verhakselen € 30<br>Versiering afhalen € 40</span></li>
+        <li><span class="n">4</span><span class="who">Wij, als je wil</span><h3>Ophalen</h3><p>Na de feesten halen we hem op en verhakselen hem ter plaatse. Je kan hem ook zelf wegdoen.</p><span class="price">Ophalen en verhakselen € 30<br>Versiering afhalen € 40</span></li>
       </ol>
     </div>
   </section>
@@ -530,7 +531,12 @@ footer .partner:hover{color:var(--brass-light)}
           <p class="fine">Huren kost ongeveer de helft. Na de feesten nemen we de versiering dan mee terug.</p>
         </div>
         <label class="check" id="versierwrap" hidden><input type="checkbox" id="versieren" name="versieren" value="ja"><span><b>Versier mijn boom voor mij</b> (+ € 40). Wij hangen het pakket op bij de levering.</span></label>
-        <label class="check" id="weghalenwrap"><input type="checkbox" id="weghalen" name="weghalen" value="ja"><span><b>Haal de versiering eraf bij de ophaling</b> (+ € 40). Wij halen alles van de boom voor we hem verhakselen. Bij huur nemen we ze meteen mee.</span></label>
+        <div class="field">
+          <span class="lbl">Na de feesten</span>
+          <label class="check" id="ophalenwrap"><input type="checkbox" id="ophalen" name="ophalen" value="ja" checked><span><b>Haal mijn boom op en verhaksel hem</b> (+ € 30). Zo hoef je hem niet zelf naar het containerpark te brengen.</span></label>
+          <p class="fine" id="ophalenhuur" hidden>Bij gehuurde versiering is ophalen inbegrepen in je keuze: we nemen de boom en de versiering in één rit mee.</p>
+          <label class="check" id="weghalenwrap"><input type="checkbox" id="weghalen" name="weghalen" value="ja"><span><b>Haal de versiering eraf bij de ophaling</b> (+ € 40). Wij halen alles van de boom voor we hem verhakselen.</span></label>
+        </div>
         <div class="field">
           <span class="lbl">Jouw prijs</span>
           <div class="sum" id="sum" aria-live="polite"></div>
@@ -539,7 +545,7 @@ footer .partner:hover{color:var(--brass-light)}
           <label for="opmerking">Opmerking <span class="opt">optioneel</span></label>
           <textarea id="opmerking" name="opmerking" placeholder="Trap naar de eerste verdieping, smalle deur, boom liever in de veranda…"></textarea>
         </div>
-        <label class="check"><input type="checkbox" id="interesse" name="interesse" value="ja" required><span>Ik heb vrijblijvend interesse in een echte kerstboom die gebracht, geplaatst en na de feesten opgehaald wordt.</span></label>
+        <label class="check"><input type="checkbox" id="interesse" name="interesse" value="ja" required><span>Ik heb vrijblijvend interesse in een echte kerstboom die gebracht en geplaatst wordt, met de opties die ik hierboven koos.</span></label>
         <label class="check"><input type="checkbox" id="toestemming" name="toestemming" value="ja" required><span>Ik geef toestemming om mij te contacteren over KAAS en mijn gegevens daarvoor te bewaren.</span></label>
         <div class="status" id="status" hidden role="status"></div>
         <button class="btn btn-dark" type="submit" id="submit">Zet mij op de interesselijst</button>
@@ -554,7 +560,7 @@ footer .partner:hover{color:var(--brass-light)}
       <div class="faq">
         <div>
           <details open><summary>Moet ik nu al betalen?</summary><p>Nee. Deze pagina verzamelt alleen wie interesse heeft. Er gebeurt geen betaling en je sluit geen contract. Pas als de leverdata vastliggen, beslis je of je meedoet.</p></details>
-          <details><summary>Wat kost het?</summary><p>Een boom van 1,50 m kost € 60, van 2 m € 80, van 3 m € 150 en van 4 m € 220. Brengen en plaatsen op een houten kruis kost € 30, ophalen en verhakselen na de feesten ook € 30. Versieren door ons kost € 40, de versiering weer afhalen ook € 40.</p></details>
+          <details><summary>Wat kost het?</summary><p>Een boom van 1,50 m kost € 60, van 2 m € 80, van 3 m € 150 en van 4 m € 220. Brengen en plaatsen op een houten kruis kost € 30. Ophalen en verhakselen na de feesten is optioneel en kost ook € 30. Versieren door ons kost € 40, de versiering weer afhalen ook € 40.</p></details>
           <details><summary>Wanneer komt hij en wanneer gaat hij weg?</summary><p>Je kiest zelf een leverweekend, vanaf de start van de advent eind november. Na de feesten, rond Driekoningen, plannen we de ophaalronde per gemeente.</p></details>
         </div>
         <div>
@@ -679,7 +685,7 @@ footer .partner:hover{color:var(--brass-light)}
   }
   function setHeight(h, fromForm){
     document.querySelectorAll('.hseg button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.h==h)));
-    document.getElementById('hprice').innerHTML = `Boom <b>${eur(BOOM[HOOG[h].waarde])}</b> + ${eur(LEVERING)} brengen + ${eur(OPHALING)} ophalen`;
+    document.getElementById('hprice').innerHTML = `Boom <b>${eur(BOOM[HOOG[h].waarde])}</b> + ${eur(LEVERING)} brengen en plaatsen<br><span class="opt2">Ophalen na de feesten: + ${eur(OPHALING)}, als je wil</span>`;
     if (typeof cardPrices === 'function') cardPrices(HOOG[h].waarde);
     document.getElementById('hfor').textContent = info[h].for;
     document.getElementById('htip').textContent = info[h].tip;
@@ -711,6 +717,13 @@ footer .partner:hover{color:var(--brass-light)}
     const kanVersieren = metPakket;
     document.getElementById('versierwrap').hidden = !kanVersieren;
     if (!kanVersieren) document.getElementById('versieren').checked = false;
+    /* ophalen: optioneel, behalve bij gehuurde versiering; afhalen kan enkel als we ophalen */
+    const oph = document.getElementById('ophalen'), huurt = metPakket && vorm === 'Huren';
+    if (huurt) oph.checked = true;
+    oph.disabled = huurt;
+    document.getElementById('ophalenhuur').hidden = !huurt;
+    document.getElementById('weghalenwrap').hidden = !oph.checked;
+    if (!oph.checked) document.getElementById('weghalen').checked = false;
     const el = document.getElementById('sum');
     if (!BOOM[w]){ document.querySelectorAll('[data-pr]').forEach(e=>{ const n = e.dataset.pr; e.textContent = `vanaf ${eur2(PAKKET[n]['1,50 m'])}`; }); el.innerHTML = '<span>Kies een hoogte om je prijs te zien.</span>'; document.getElementById('v-koop-l').textContent = 'Kopen'; document.getElementById('v-huur-l').textContent = 'Huren, de helft van de prijs'; return; }
     document.querySelectorAll('[data-pr]').forEach(e=>{ const n = e.dataset.pr; e.textContent = `kopen ${eur2(PAKKET[n][w])} · huren ${eur2(HUUR[n][w])}`; });
@@ -719,19 +732,20 @@ footer .partner:hover{color:var(--brass-light)}
       document.getElementById('v-koop-l').textContent = `Kopen · ${eur2(k)}`;
       document.getElementById('v-huur-l').textContent = `Huren · ${eur2(HUUR[pak][w])}`;
     }
-    const regels = [[`Boom van ${w}`, BOOM[w]], ['Brengen en plaatsen', LEVERING], ['Ophalen en verhakselen', OPHALING]];
+    const regels = [[`Boom van ${w}`, BOOM[w]], ['Brengen en plaatsen', LEVERING]];
+    if (document.getElementById('ophalen').checked) regels.push(['Ophalen en verhakselen', OPHALING]);
     if (metPakket) regels.push([`Versierpakket ${pak} (${vorm === 'Huren' ? 'huur' : 'koop'})`, vorm === 'Huren' ? HUUR[pak][w] : PAKKET[pak][w]]);
     if (kanVersieren && document.getElementById('versieren').checked) regels.push(['Wij versieren je boom', VERSIEREN]);
-    if (document.getElementById('weghalen').checked) regels.push(['Versiering afhalen', WEGHALEN]);
+    if (document.getElementById('ophalen').checked && document.getElementById('weghalen').checked) regels.push(['Versiering afhalen', WEGHALEN]);
     const tot = regels.reduce((a,[,c])=>a+c, 0);
     el.innerHTML = regels.map(([l,c])=>`<span>${l}</span><span>${eur(c)}</span>`).join('') + `<span class="tot">Totaal</span><span class="tot">${eur(tot)}</span>`;
   }
   cards.forEach(c=>c.querySelector('button').addEventListener('click',()=>setPakket(c.classList.contains('on') ? 'Geen' : c.dataset.pakket)));
   document.getElementById('geenpakket').addEventListener('click',()=>setPakket('Geen'));
   document.querySelectorAll('input[name=versierpakket]').forEach(r=>r.addEventListener('change',()=>setPakket(r.value, true)));
-  document.querySelectorAll('input[name=hoogte],input[name=pakket_vorm],#weghalen').forEach(r=>r.addEventListener('change', updateSum));
+  document.querySelectorAll('input[name=hoogte],input[name=pakket_vorm],#weghalen,#ophalen').forEach(r=>r.addEventListener('change', updateSum));
   /* wie ons laat versieren, krijgt het afhalen standaard aangevinkt (uitvinken kan) */
-  document.getElementById('versieren').addEventListener('change', e=>{ if (e.target.checked) document.getElementById('weghalen').checked = true; updateSum(); });
+  document.getElementById('versieren').addEventListener('change', e=>{ if (e.target.checked && document.getElementById('ophalen').checked) document.getElementById('weghalen').checked = true; updateSum(); });
   cardPrices('2 m'); setHeight(2); updateSum();
 
 
@@ -769,7 +783,8 @@ footer .partner:hover{color:var(--brass-light)}
     const o = collect(); delete o.website;
     if (!o.versierpakket || o.versierpakket === 'Geen'){ o.pakket_vorm = ''; o.versieren = 'nee'; }
     else if (o.versieren !== 'ja') o.versieren = 'nee';
-    if (o.weghalen !== 'ja') o.weghalen = 'nee';
+    o.ophalen = (o.pakket_vorm === 'Huren' || document.getElementById('ophalen').checked) ? 'ja' : 'nee';
+    if (o.weghalen !== 'ja' || o.ophalen !== 'ja') o.weghalen = 'nee';
     const err = validate(o);
     if (err){ showStatus('err', err); return; }
     submit.disabled = true; submit.textContent = 'Even geduld…';
@@ -783,7 +798,7 @@ footer .partner:hover{color:var(--brass-light)}
       const res = await fetch('/api/inschrijven', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(o)});
       const j = await res.json().catch(()=>({}));
       if (!res.ok) throw {message:j.fout};
-      showStatus('ok', `Dank je, ${o.voornaam}. Je staat op de interesselijst voor een boom van ${o.hoogte}${o.versierpakket && o.versierpakket!=='Geen' ? ' met versierpakket ' + o.versierpakket + (o.pakket_vorm==='Huren' ? ' (huur)' : ' (koop)') + (o.versieren==='ja' ? ', en wij versieren hem' : '') : ''}${o.weghalen==='ja' ? '. Na de feesten halen wij de versiering eraf' : ''}. Zodra de leverdata vastliggen, laten we het je weten via ${o.email}. Pas dan beslis je.`);
+      showStatus('ok', `Dank je, ${o.voornaam}. Je staat op de interesselijst voor een boom van ${o.hoogte}${o.versierpakket && o.versierpakket!=='Geen' ? ' met versierpakket ' + o.versierpakket + (o.pakket_vorm==='Huren' ? ' (huur)' : ' (koop)') + (o.versieren==='ja' ? ', en wij versieren hem' : '') : ''}${o.ophalen==='ja' ? '. Na de feesten halen wij hem op' + (o.weghalen==='ja' ? ' en halen we de versiering eraf' : '') : ''}. Zodra de leverdata vastliggen, laten we het je weten via ${o.email}. Pas dan beslis je.`);
       form.querySelectorAll('input:not([type=radio]):not([type=checkbox]),textarea').forEach(el=>{ if (el.id!=='website') el.value=''; });
       submit.textContent = 'Nog iemand inschrijven';
       laadTeller();

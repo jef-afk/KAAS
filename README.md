@@ -16,7 +16,7 @@ Klanten kunnen bij het inschrijven een versierpakket kiezen: Winterzilver, Natur
 
 ## Prijzen
 
-Boom: 1,50 m € 60, 2 m € 80, 3 m € 150, 4 m € 220. Brengen en plaatsen op een houten kruis € 30, ophalen en verhakselen € 30. De prijstabel staat op twee plaatsen: `netlify/lib/kern.mjs` (de server berekent daarmee het totaal) en onderaan `public/index.html` (voor de prijzen op de site). Pas een prijs altijd op beide plaatsen aan.
+Boom: 1,50 m € 60, 2 m € 80, 3 m € 150, 4 m € 220. Brengen en plaatsen op een houten kruis € 30. Ophalen en verhakselen € 30, optioneel (verplicht bij gehuurde versiering). Bomen zonder ophaling verschijnen niet op de lijst van Jan. De prijstabel staat op twee plaatsen: `netlify/lib/kern.mjs` (de server berekent daarmee het totaal) en onderaan `public/index.html` (voor de prijzen op de site). Pas een prijs altijd op beide plaatsen aan.
 
 ## Werkwijze
 

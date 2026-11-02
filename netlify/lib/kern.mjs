@@ -12,7 +12,7 @@ export const GEBRUIKERS = {
 };
 
 export const STATUSSEN = ["interesse", "bevestigd", "geleverd", "opgehaald", "geannuleerd"];
-export const KLANTVELDEN = ["gemeente", "andere_gemeente", "voornaam", "achternaam", "straat", "huisnummer", "email", "telefoon", "hoogte", "levering", "versierpakket", "pakket_vorm", "versieren", "weghalen", "opmerking"];
+export const KLANTVELDEN = ["gemeente", "andere_gemeente", "voornaam", "achternaam", "straat", "huisnummer", "email", "telefoon", "hoogte", "levering", "versierpakket", "pakket_vorm", "versieren", "ophalen", "weghalen", "opmerking"];
 export const WERKVELDEN = ["leverdatum", "notitie_levering", "ophaaldatum", "notitie_ophaling", "notitie_admin"];
 
 /* ---------- prijzen (in eurocent) ----------
@@ -39,21 +39,29 @@ export const PRIJS = {
 };
 export const PAKKETTEN = ["Geen", ...Object.keys(PRIJS.pakket)];
 
-/* Zet pakketkeuzes recht: zonder pakket geen koop/huur en geen versieren. Afhalen kan altijd. */
+/* Zet keuzes recht:
+   - zonder pakket geen koop/huur en geen versieren;
+   - ophalen is optioneel (oude inschrijvingen zonder veld: ja), maar verplicht bij gehuurde versiering;
+   - versiering afhalen kan enkel als we de boom ophalen. */
 export function normaliseerPakket(r) {
   if (!PAKKETTEN.includes(r.versierpakket)) r.versierpakket = "Geen";
-  r.weghalen = r.weghalen === "ja" ? "ja" : "nee";
-  if (r.versierpakket === "Geen") { r.pakket_vorm = ""; r.versieren = "nee"; return r; }
-  if (r.pakket_vorm !== "Huren") r.pakket_vorm = "Kopen";
-  r.versieren = r.versieren === "ja" ? "ja" : "nee";
+  if (r.versierpakket === "Geen") { r.pakket_vorm = ""; r.versieren = "nee"; }
+  else {
+    if (r.pakket_vorm !== "Huren") r.pakket_vorm = "Kopen";
+    r.versieren = r.versieren === "ja" ? "ja" : "nee";
+  }
+  r.ophalen = r.ophalen === "nee" && r.pakket_vorm !== "Huren" ? "nee" : "ja";
+  r.weghalen = r.weghalen === "ja" && r.ophalen === "ja" ? "ja" : "nee";
   return r;
 }
+export const wordtOpgehaald = (r) => r.ophalen !== "nee";
 
 /* Totaalprijs in eurocent, of null als de hoogte nog niet gekozen is. */
 export function totaalVan(r) {
   const boom = PRIJS.boom[r.hoogte];
   if (!boom) return null;
-  let t = boom + PRIJS.levering + PRIJS.ophaling;
+  let t = boom + PRIJS.levering;
+  if (r.ophalen !== "nee") t += PRIJS.ophaling;
   const p = (r.pakket_vorm === "Huren" ? PRIJS.huur : PRIJS.pakket)[r.versierpakket]?.[r.hoogte];
   if (p) t += p;
   if (r.versieren === "ja") t += PRIJS.versieren;
@@ -153,7 +161,7 @@ export function gemeenteVan(r) {
 export function zichtbaarVoor(rol, r) {
   if (rol === "admin") return true;
   if (rol === "levering") return r.status === "bevestigd" || r.status === "geleverd";
-  if (rol === "ophaling") return r.status === "geleverd" || r.status === "opgehaald";
+  if (rol === "ophaling") return (r.status === "geleverd" || r.status === "opgehaald") && wordtOpgehaald(r);
   return false;
 }
 
@@ -163,7 +171,7 @@ export function zichtVoor(rol, r) {
     id: r.id, status: r.status, gemeente: gemeenteVan(r),
     naam: `${r.voornaam || ""} ${r.achternaam || ""}`.trim(),
     straat: r.straat, huisnummer: r.huisnummer, telefoon: r.telefoon,
-    hoogte: r.hoogte, versierpakket: r.versierpakket || "Geen", pakket_vorm: r.pakket_vorm || "", versieren: r.versieren || "nee", weghalen: r.weghalen || "nee", opmerking: r.opmerking,
+    hoogte: r.hoogte, versierpakket: r.versierpakket || "Geen", pakket_vorm: r.pakket_vorm || "", versieren: r.versieren || "nee", ophalen: r.ophalen || "ja", weghalen: r.weghalen || "nee", opmerking: r.opmerking,
     leverdatum: r.leverdatum || "", notitie_levering: r.notitie_levering || "",
   };
   if (rol === "levering") return { ...basis, levering: r.levering };
@@ -184,12 +192,13 @@ export function planningVoor(rol, records) {
       perWeekend: tel(open, (r) => r.levering),
       perPakket: tel(open.filter((r) => r.versierpakket && r.versierpakket !== "Geen"), (r) => `${r.versierpakket} (${r.pakket_vorm === "Huren" ? "huur" : "koop"})`),
       versieren: open.filter((r) => r.versieren === "ja").length,
+      zonderOphaling: open.filter((r) => !wordtOpgehaald(r)).length,
     };
   }
   if (rol === "ophaling") {
-    const staan = records.filter((r) => r.status === "geleverd");
+    const staan = records.filter((r) => r.status === "geleverd" && wordtOpgehaald(r));
     return {
-      titel: "Bomen die nu bij klanten staan",
+      titel: "Op te halen bomen die nu bij klanten staan",
       totaal: staan.length,
       perHoogte: tel(staan, (r) => r.hoogte),
       perGemeente: tel(staan, gemeenteVan),
@@ -219,7 +228,7 @@ export function magWijzigen(rol, record, wijzigingen) {
     return null;
   }
   if (rol === "ophaling") {
-    if (!(record.status === "geleverd" || record.status === "opgehaald")) return "Deze boom staat niet op jouw ophaallijst.";
+    if (!(record.status === "geleverd" || record.status === "opgehaald") || !wordtOpgehaald(record)) return "Deze boom staat niet op jouw ophaallijst.";
     const ok = new Set(["status", "ophaaldatum", "notitie_ophaling"]);
     if (sleutels.some((k) => !ok.has(k))) return "Je kan enkel de ophaling bijwerken.";
     if ("status" in wijzigingen && !["geleverd", "opgehaald"].includes(wijzigingen.status)) return "Je kan een boom enkel als opgehaald markeren of dat ongedaan maken.";

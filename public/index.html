@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="nl-BE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>KAAS Kerstboom-as-a-service</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Een echte Nordmann-kerstboom, gebracht, geplaatst en na de feesten opgehaald en verhakseld. Geef vrijblijvend je interesse op.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Karla:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one deliberate winter-night look. A photo hero under a string of lights and falling snow, then pine-green rooms lit by gold and cranberry, ending at a snow-white sign-up card. */
+:root{
+  color-scheme:dark;
+  --pine-950:#081812; --pine-900:#0c2119; --pine-800:#122f24; --pine-700:#1a4233; --pine-600:#245a45;
+  --snow:#f2f5f1; --frost:#b4c8bf; --frost-dim:#88a198;
+  --gold:#e9b84f; --gold-deep:#b98a25; --cranberry:#c22a40; --cranberry-deep:#8e1a2c;
+  --ink:#13241d; --ink-muted:#4f6359; --paper:#f4f6f2; --paper-line:#d3ddd7;
+  --ok:#2f8a5b; --warn:#b8402a;
+  --f-display:"Gloock","Iowan Old Style",Georgia,serif;
+  --f-body:"Karla","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --wrap:1160px; --r:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--pine-900);color:var(--snow);font-family:var(--f-body);font-size:17px;line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--pine-950)}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;line-height:1.06;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.eyebrow{font-family:var(--f-mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;font:700 16px/1 var(--f-body);padding:16px 24px;border-radius:999px;border:0;cursor:pointer;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-red{background:var(--cranberry);color:#fff;box-shadow:0 8px 24px -10px var(--cranberry)}
+.btn-red:hover{box-shadow:0 12px 30px -10px var(--cranberry)}
+.btn-ghost{background:transparent;color:var(--snow);box-shadow:inset 0 0 0 1.5px rgba(242,245,241,.5)}
+section[id]{scroll-margin-top:70px}
+
+/* ---------- garland ---------- */
+.garland{position:absolute;left:0;right:0;top:0;height:46px;pointer-events:none;z-index:3;overflow:hidden}
+.garland svg{width:100%;height:46px;display:block}
+.bulb{animation:twinkle 2.4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ---------- top bar ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:rgba(8,24,18,.88);backdrop-filter:blur(10px);border-bottom:1px solid rgba(233,184,79,.18)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo svg{width:26px;height:30px;flex:none}
+.logo b{font-family:var(--f-display);font-weight:400;font-size:26px;letter-spacing:.03em}
+.logo span{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--frost)}
+.top .btn{padding:11px 17px;font-size:14.5px}
+@media (max-width:540px){.logo span{display:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:min(88vh,820px);display:grid;align-items:end;overflow:hidden;background:var(--pine-950)}
+.hero .photo{position:absolute;inset:0}
+.hero .photo img{width:100%;height:100%;object-fit:cover;object-position:60% 40%}
+.hero .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,24,18,.55) 0%,rgba(8,24,18,.15) 30%,rgba(8,24,18,.55) 62%,rgba(8,24,18,.96) 100%),linear-gradient(90deg,rgba(8,24,18,.75) 0%,rgba(8,24,18,0) 60%)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+.hero .wrap{position:relative;z-index:4;padding-block:120px 64px;width:100%}
+.count{display:inline-flex;align-items:baseline;gap:10px;background:rgba(8,24,18,.6);border:1px solid rgba(233,184,79,.45);border-radius:999px;padding:8px 16px 8px 12px;font-family:var(--f-mono);font-size:13px;color:var(--frost);backdrop-filter:blur(6px)}
+.count b{font-family:var(--f-display);font-weight:400;font-size:24px;color:var(--gold);line-height:1;font-variant-numeric:tabular-nums}
+.hero h1{font-size:clamp(46px,8vw,104px);letter-spacing:-.01em;margin-top:22px;max-width:11ch;text-shadow:0 2px 30px rgba(0,0,0,.35)}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero .lede{font-size:clamp(18px,2.1vw,22px);color:#e1e9e4;max-width:36ch;margin-top:22px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.credit{font-family:var(--f-mono);font-size:11px;color:rgba(242,245,241,.62)}
+.credit a{text-decoration:none}
+.credit a:hover{text-decoration:underline}
+.hero .credit{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:14px;z-index:4}
+@media (max-width:640px){.hero .wrap{padding-block:96px 40px}.hero .credit{position:relative;z-index:4;right:auto;bottom:auto;padding:0 max(20px,env(safe-area-inset-right,0px)) 16px max(20px,env(safe-area-inset-left,0px))}}
+
+/* no-photo fallback (when an image can't load) */
+.ph{position:relative;background:radial-gradient(80% 70% at 50% 80%,rgba(233,184,79,.28),transparent 60%),linear-gradient(160deg,var(--pine-700),var(--pine-950))}
+.ph.nophoto img{visibility:hidden}
+
+/* ---------- ribbon ---------- */
+.ribbon{background:var(--cranberry);color:#fff;overflow:hidden}
+.ribbon .wrap{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 26px;padding-block:14px;font-family:var(--f-mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+.ribbon span{display:inline-flex;align-items:center;gap:26px}
+.ribbon span+span::before{content:"✦";color:var(--gold)}
+
+/* ---------- sections ---------- */
+section.band{padding-block:92px}
+.head{display:grid;gap:14px;max-width:760px;margin-bottom:46px}
+.head h2{font-size:clamp(36px,5vw,60px)}
+.head p{color:var(--frost);font-size:18.5px;max-width:60ch}
+.deep{background:var(--pine-950)}
+.lift{background:var(--pine-800)}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.steps li{background:var(--pine-800);border:1px solid rgba(180,200,191,.14);border-radius:var(--r);padding:24px;display:grid;gap:10px;align-content:start;min-width:0}
+.steps li.you{background:var(--cranberry-deep);border-color:rgba(233,184,79,.5)}
+.steps .n{font-family:var(--f-mono);font-size:12.5px;color:var(--gold);letter-spacing:.06em}
+.steps h3{font-size:27px}
+.steps p{color:var(--frost);font-size:16px}
+.steps li.you p{color:#f1d9dc}
+@media (max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:1.25fr 1fr;grid-template-rows:auto auto;gap:16px}
+.gallery figure{margin:0;border-radius:var(--r);overflow:hidden;position:relative;min-width:0}
+.gallery figure img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s ease}
+.gallery figure:hover img{transform:scale(1.03)}
+.gallery .g1{grid-row:1/3;aspect-ratio:4/5}
+.gallery .g2,.gallery .g3{aspect-ratio:16/10}
+.gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:44px 18px 14px;background:linear-gradient(180deg,transparent,rgba(8,24,18,.88));display:grid;gap:2px}
+.gallery figcaption b{font-family:var(--f-display);font-weight:400;font-size:22px}
+@media (max-width:760px){.gallery{grid-template-columns:1fr}.gallery .g1{grid-row:auto;aspect-ratio:4/4.4}}
+
+/* versus */
+.versus{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+.vs{padding:30px;border-radius:var(--r);display:grid;gap:14px;align-content:start;min-width:0}
+.vs h3{font-size:28px}
+.vs ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.vs li{padding-left:28px;position:relative}
+.vs-old{border:1px dashed rgba(180,200,191,.35);color:var(--frost-dim)}
+.vs-old li::before{content:"–";position:absolute;left:6px}
+.vs-new{background:linear-gradient(160deg,var(--pine-600),var(--pine-700));border:1px solid rgba(233,184,79,.35)}
+.vs-new li::before{content:"✦";position:absolute;left:4px;color:var(--gold)}
+@media (max-width:720px){.versus{grid-template-columns:1fr}}
+
+/* nordmann */
+.nord{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center}
+.nord figure{margin:0;border-radius:22px;overflow:hidden;aspect-ratio:4/5;position:relative;min-width:0}
+.nord figure img{width:100%;height:100%;object-fit:cover;display:block}
+.nord figure .credit{position:absolute;left:14px;bottom:12px}
+.traits{display:grid;gap:24px;margin:0}
+.trait{display:grid;gap:4px;padding-left:20px;border-left:2px solid var(--gold)}
+.trait dt{font-family:var(--f-display);font-size:25px}
+.trait dd{margin:0;color:var(--frost)}
+@media (max-width:820px){.nord{grid-template-columns:1fr;gap:30px}.nord figure{aspect-ratio:16/11}}
+
+/* height picker */
+.picker{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;background:var(--pine-800);border:1px solid rgba(180,200,191,.16);border-radius:24px;padding:34px}
+.room{min-width:0}
+.room svg{width:100%;height:auto;display:block;max-width:100%}
+.hseg{display:inline-flex;background:var(--pine-950);border-radius:999px;padding:5px;gap:4px}
+.hseg button{font:500 17px/1 var(--f-mono);border:0;background:transparent;color:var(--snow);padding:12px 20px;border-radius:999px;cursor:pointer}
+.hseg button[aria-pressed="true"]{background:var(--gold);color:var(--pine-950)}
+.hinfo{display:grid;gap:16px;min-width:0}
+.hinfo .big{font-family:var(--f-display);font-size:clamp(64px,9vw,108px);line-height:.9;color:var(--gold);font-variant-numeric:tabular-nums}
+.hinfo .big small{font-size:.36em;margin-left:8px;color:var(--frost)}
+.hinfo .for{font-size:20px}
+.hinfo .tip{color:var(--frost);font-size:15.5px;border-left:2px solid var(--cranberry);padding-left:12px}
+@media (max-width:820px){.picker{grid-template-columns:1fr;padding:22px;gap:22px}}
+
+/* six weeks */
+.weeks{display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center;margin-top:24px;padding:24px 28px;border-radius:var(--r);border:1px solid rgba(233,184,79,.35);background:rgba(233,184,79,.05)}
+.weeks .cal{font-family:var(--f-mono);font-size:12px;display:grid;grid-template-columns:repeat(7,28px);gap:4px}
+.weeks .cal i{height:28px;border-radius:6px;background:rgba(180,200,191,.08);display:grid;place-items:center;font-style:normal;color:var(--frost-dim)}
+.weeks .cal i.on{background:var(--pine-600);color:var(--snow)}
+.weeks .cal i.x{background:var(--cranberry);color:#fff}
+.weeks .cal i.h{color:var(--gold);background:transparent;font-size:10.5px;letter-spacing:.04em}
+.weeks p{color:var(--frost)}
+.weeks strong{color:var(--snow);font-weight:700}
+@media (max-width:640px){.weeks{grid-template-columns:1fr;padding:20px}.weeks .cal{grid-template-columns:repeat(7,minmax(0,1fr))}}
+
+/* form */
+.signup{position:relative;background:radial-gradient(70% 60% at 15% 0%,rgba(194,42,64,.28),transparent 60%),var(--pine-950)}
+.formgrid{display:grid;grid-template-columns:.85fr 1.15fr;gap:52px;align-items:start}
+.promise{display:grid;gap:18px;position:sticky;top:96px}
+.promise ul{margin:0;padding:0;list-style:none;display:grid;gap:12px}
+.promise li{padding-left:28px;position:relative;color:var(--frost)}
+.promise li::before{content:"✦";position:absolute;left:4px;color:var(--gold)}
+form{background:var(--paper);color:var(--ink);border-radius:22px;padding:32px;display:grid;gap:18px;min-width:0;box-shadow:0 30px 80px -30px rgba(0,0,0,.6);position:relative;color-scheme:light}
+form::before{content:"";position:absolute;left:28px;right:28px;top:-7px;height:14px;border-radius:7px;background:repeating-linear-gradient(90deg,var(--cranberry) 0 18px,var(--paper) 18px 26px)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row.r3{grid-template-columns:2fr 1fr}
+.field{display:grid;gap:6px;min-width:0}
+label,.lbl{font-weight:700;font-size:15px}
+.opt{font-weight:400;color:var(--ink-muted);font-family:var(--f-mono);font-size:11.5px;margin-left:6px;text-transform:uppercase;letter-spacing:.06em}
+.req{color:var(--cranberry);font-family:var(--f-mono);font-size:11.5px;margin-left:6px;text-transform:uppercase;letter-spacing:.06em}
+input[type=text],input[type=email],input[type=tel],select,textarea{font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1.5px solid var(--paper-line);border-radius:10px;padding:12px 13px;width:100%;min-width:0}
+input:focus,select:focus,textarea:focus{border-color:var(--pine-600);outline:none;box-shadow:0 0 0 3px rgba(36,90,69,.22)}
+textarea{min-height:84px;resize:vertical}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{position:relative}
+.choice input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.choice span{display:block;padding:10px 16px;border:1.5px solid var(--paper-line);border-radius:10px;font-size:15px;background:#fff}
+.choice input:checked+span{border-color:var(--pine-700);background:var(--pine-700);color:#fff}
+.choice input:focus-visible+span{outline:3px solid var(--gold);outline-offset:2px}
+.check{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;font-weight:400;font-size:15.5px}
+.check input{width:20px;height:20px;margin:3px 0 0;accent-color:var(--pine-700)}
+.fine{font-size:13.5px;color:var(--ink-muted)}
+.status{border-radius:12px;padding:14px 16px;font-size:15.5px}
+.status.ok{background:#e3f2ea;border:1px solid var(--ok)}
+.status.err{background:#fbe9e5;border:1px solid var(--warn)}
+form .btn{width:100%;font-size:17px;padding:18px}
+form .btn[disabled]{opacity:.6;cursor:wait;transform:none}
+.hp{position:absolute;left:-9999px}
+@media (max-width:860px){.formgrid{grid-template-columns:1fr;gap:30px}.promise{position:static}}
+@media (max-width:520px){form{padding:22px}.row,.row.r3{grid-template-columns:1fr}}
+
+/* faq */
+.faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 52px}
+details{border-top:1px solid rgba(180,200,191,.2);padding-block:18px}
+summary{cursor:pointer;font-family:var(--f-display);font-size:22px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--f-mono);color:var(--gold)}
+details[open] summary::after{content:"–"}
+details p{color:var(--frost);margin-top:10px;max-width:60ch}
+@media (max-width:760px){.faq{grid-template-columns:1fr}}
+
+footer{padding-block:44px 56px;color:var(--frost);font-size:14.5px;border-top:1px solid rgba(233,184,79,.2);background:var(--pine-950)}
+footer .wrap{display:grid;gap:14px}
+footer b{font-family:var(--f-display);font-weight:400;font-size:24px;color:var(--snow)}
+footer .credits{font-family:var(--f-mono);font-size:11.5px;color:var(--frost-dim);display:flex;flex-wrap:wrap;gap:4px 14px}
+footer .partner{justify-self:start;font-family:var(--f-mono);font-size:12.5px;color:var(--frost);text-decoration:none;border:1px solid rgba(180,200,191,.3);border-radius:999px;padding:8px 14px}
+footer .partner:hover{border-color:var(--gold);color:var(--gold)}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="KAAS, naar boven">
+      <svg viewBox="0 0 26 30" aria-hidden="true"><polygon points="13,1 15.2,6 20,6.3 16.3,9.4 17.5,14 13,11.4 8.5,14 9.7,9.4 6,6.3 10.8,6" fill="#e9b84f"/><polygon points="13,9 24,27 2,27" fill="#245a45"/><rect x="11" y="27" width="4" height="3" fill="#8a5a36"/></svg>
+      <b>KAAS</b><span>Kerstboom-as-a-service</span>
+    </a>
+    <a class="btn btn-red" href="#inschrijven">Ik wil een boom</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="photo ph"><img id="heroimg" src="https://images.unsplash.com/photo-1639610406535-0cc671a0f20a?auto=format&fit=crop&w=2000&q=72" alt="Een versierde kerstboom met lichtjes en kaarsen in een warme woonkamer" fetchpriority="high"></div>
+    <canvas id="snow" aria-hidden="true"></canvas>
+    <div class="garland" aria-hidden="true"><svg id="garland" preserveAspectRatio="none"></svg></div>
+    <div class="wrap">
+      <p class="count" id="count"><b id="nights">–</b><span id="nightslbl">nachtjes slapen tot Kerstmis</span></p>
+      <h1>Een echte kerstboom. <em>Zonder gesleur.</em></h1>
+      <p class="lede">Een verse Nordmann die wekenlang in je living staat te geuren en te glanzen. Wij brengen hem, zetten hem recht en halen hem na de feesten weer op. Jij hoeft enkel te versieren.</p>
+      <div class="ctas">
+        <a class="btn btn-red" href="#inschrijven">Zet mij op de interesselijst</a>
+        <a class="btn btn-ghost" href="#hoogte">Kies je hoogte</a>
+      </div>
+    </div>
+    <p class="credit">Foto: <a href="https://unsplash.com/photos/a-decorated-christmas-tree-in-a-living-room-_ZWWu9FFTAY" target="_blank" rel="noopener">Julia Ivanina / Unsplash</a></p>
+  </section>
+
+  <div class="ribbon"><div class="wrap"><span>Gebracht</span><span>Geplaatst</span><span>Versierd door jou</span><span>Opgehaald</span><span>Verhakseld</span></div></div>
+
+  <section class="band" id="hoe">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Zo werkt het</p>
+        <h2>Vier stappen. Drie ervan doen wij.</h2>
+      </div>
+      <ol class="steps">
+        <li><span class="n">01 · WIJ</span><h3>Gebracht</h3><p>Op het weekend dat jij kiest staat je boom voor de deur, vers gekapt en netjes ingepakt. Niet sjouwen, geen dakdragers, geen naalden in de auto.</p></li>
+        <li><span class="n">02 · WIJ</span><h3>Geplaatst</h3><p>We zetten hem kaarsrecht in een stevige voet met waterreservoir, op de plek die jij kiest. Het net gaat er pas binnen af.</p></li>
+        <li class="you"><span class="n">03 · JIJ</span><h3>Versierd</h3><p>Lichtjes, ballen, de piek. Met de kinderen, met warme chocomelk en kerstmuziek op de achtergrond. Het enige werk dat je doet.</p></li>
+        <li><span class="n">04 · WIJ</span><h3>Opgehaald</h3><p>Na de feesten halen we hem op en verhakselen hem ter plaatse. Geen naaldenspoor door de gang, geen rit naar het containerpark.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band deep">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">De echte kerstsfeer</p>
+        <h2>Het moment waarop het huis naar kerst begint te ruiken.</h2>
+        <p>Een echte boom maakt van december een gebeurtenis. De doos van zolder halen, de lichtjes ontwarren, de eerste bal ophangen. Dat stuk laten we graag aan jou.</p>
+      </div>
+      <div class="gallery">
+        <figure class="g1 ph"><img src="https://images.unsplash.com/photo-1767022352671-abe5564c99ee?auto=format&fit=crop&w=1200&q=72" alt="Een kind en een volwassene hangen samen versiering in een kerstboom" loading="lazy"><figcaption><b>Samen versieren</b><span class="credit">Foto: <a href="https://unsplash.com/photos/child-and-adult-decorating-a-christmas-tree-1C36bKRQ3-M" target="_blank" rel="noopener">Brooke Balentine / Unsplash</a></span></figcaption></figure>
+        <figure class="g2 ph"><img src="https://images.unsplash.com/photo-1766619829424-1fe9be1cba5f?auto=format&fit=crop&w=1200&q=72" alt="Een versierde kerstboom met cadeaus eronder in een gezellige woonkamer" loading="lazy"><figcaption><b>Cadeaus onder een echte boom</b><span class="credit">Foto: <a href="https://unsplash.com/photos/decorated-christmas-tree-with-presents-underneath-RkFWUgI1ptg" target="_blank" rel="noopener">Zara Photo / Unsplash</a></span></figcaption></figure>
+        <figure class="g3 ph"><img src="https://images.unsplash.com/photo-1639162147598-69d513387857?auto=format&fit=crop&w=1200&q=72" alt="Een besneeuwd bospad met lichtjes tussen de sparren" loading="lazy"><figcaption><b>Van het bos naar je living</b><span class="credit">Foto: <a href="https://unsplash.com/photos/a-path-through-a-snowy-forest-with-lights-strung-from-the-trees-DMZQQGkQzNQ" target="_blank" rel="noopener">Kate Shashina / Unsplash</a></span></figcaption></figure>
+      </div>
+      <div class="versus">
+        <div class="vs vs-old">
+          <p class="eyebrow" style="color:var(--frost-dim)">Het plastieken exemplaar</p>
+          <h3>Elf maanden op zolder</h3>
+          <ul>
+            <li>Ruikt naar doos en stof</li>
+            <li>Elk jaar takken uitplooien en in elkaar steken</li>
+            <li>Een jaar later precies dezelfde boom</li>
+            <li>Plastiek dat ooit toch bij het restafval belandt</li>
+          </ul>
+        </div>
+        <div class="vs vs-new">
+          <p class="eyebrow">Een KAAS-boom</p>
+          <h3>Echt, en weg wanneer het moet</h3>
+          <ul>
+            <li>De geur van een echte spar in huis</li>
+            <li>Elk jaar een andere boom, met zijn eigen vorm</li>
+            <li>Geen opslag, geen gesleur, geen naalden in de auto</li>
+            <li>Na de feesten verhakseld tot houtsnippers</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band lift">
+    <div class="wrap nord">
+      <figure class="ph"><img src="https://images.unsplash.com/photo-1680273363825-6c26714dfcb9?auto=format&fit=crop&w=1200&q=72" alt="Close-up van besneeuwde naaldboomtakken" loading="lazy"><span class="credit">Foto: <a href="https://unsplash.com/photos/a-close-up-of-a-tree-with-snow-on-it-5-tpvcgcTMw" target="_blank" rel="noopener">Pamela Massie-Sylvain / Unsplash</a></span></figure>
+      <div>
+        <div class="head" style="margin-bottom:30px">
+          <p class="eyebrow">Waarom een Nordmann</p>
+          <h2>De boom die blijft staan zoals hij binnenkwam.</h2>
+        </div>
+        <dl class="traits">
+          <div class="trait"><dt>Houdt zijn naalden lang vast</dt><dd>Met genoeg water staat een Nordmann wekenlang vol, ook tot na Nieuwjaar. Geen tapijt van naalden onder de boom.</dd></div>
+          <div class="trait"><dt>Prikt niet</dt><dd>De naalden zijn plat, zacht en stomp. Kinderhanden en ballen ophangen gaan prima samen.</dd></div>
+          <div class="trait"><dt>Glanzend groen, zilver van onder</dt><dd>Diep donkergroen aan de bovenkant, met twee zilveren streepjes onder elke naald. In het licht van de kerstverlichting zie je dat.</dd></div>
+          <div class="trait"><dt>Stevige, gelaagde takken</dt><dd>Horizontale etages met ruimte ertussen, sterk genoeg voor zware glazen ballen en een lange lichtsnoer.</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="hoogte">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Kies je hoogte</p>
+        <h2>Twee, drie of vier meter.</h2>
+        <p>Meet even je plafond. De hoogte is gemeten met voet en al, dus zo komt hij ook in je kamer te staan.</p>
+      </div>
+      <div class="picker">
+        <div class="room"><svg id="roomsvg" viewBox="0 0 340 300" role="img" aria-label="Boom naast een persoon van 1,75 meter en een plafond van 2,50 meter"></svg></div>
+        <div class="hinfo">
+          <div class="hseg" role="group" aria-label="Boomhoogte">
+            <button type="button" data-h="2" aria-pressed="true">2 m</button>
+            <button type="button" data-h="3" aria-pressed="false">3 m</button>
+            <button type="button" data-h="4" aria-pressed="false">4 m</button>
+          </div>
+          <div class="big" id="hbig">2,00<small>meter</small></div>
+          <p class="for" id="hfor"></p>
+          <p class="tip" id="htip"></p>
+          <a class="btn btn-red" href="#inschrijven" style="justify-self:start">Deze hoogte, graag</a>
+        </div>
+      </div>
+      <div class="weeks">
+        <div class="cal" aria-hidden="true" id="cal"></div>
+        <p><strong>Wekenlang echte kerst.</strong> Laat je boom brengen bij het begin van de advent en hij staat er bij Sinterklaas, op kerstavond, op oudejaar en op Driekoningen. Daarna komen we hem halen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band signup" id="inschrijven">
+    <div class="wrap formgrid">
+      <div class="promise">
+        <p class="eyebrow">Interesselijst</p>
+        <h2 style="font-size:clamp(36px,5vw,58px)">Ja, ik wil dit jaar een echte boom.</h2>
+        <p style="color:var(--frost)">Twee minuten werk. We tellen hoeveel gezinnen per gemeente meedoen, zodat we de bomen en de leverrondes juist kunnen plannen. Zodra de prijs en de leverdata vastliggen, hoor je het als eerste.</p>
+        <ul>
+          <li>Vrijblijvend: geen betaling, geen contract</li>
+          <li>Je krijgt prijs en planning te zien vóór je beslist</li>
+          <li>Namen en adressen staan nergens publiek</li>
+        </ul>
+      </div>
+
+      <form id="kaasform" novalidate>
+        <p class="hp"><label>Niet invullen <input name="website" id="website" tabindex="-1" autocomplete="off"></label></p>
+        <div class="field">
+          <label for="gemeente">Je gemeente <span class="req">verplicht</span></label>
+          <select id="gemeente" name="gemeente" required>
+            <option value="">Kies je gemeente…</option>
+            <option>Kalmthout</option><option>Essen</option><option>Stabroek</option><option>Kapellen</option><option>Brasschaat</option>
+            <option value="Andere">Andere gemeente</option>
+          </select>
+        </div>
+        <div class="field" id="anderewrap" hidden>
+          <label for="andere">Welke gemeente?</label>
+          <input type="text" id="andere" name="andere_gemeente" autocomplete="address-level2">
+        </div>
+        <div class="row">
+          <div class="field"><label for="voornaam">Voornaam</label><input type="text" id="voornaam" name="voornaam" autocomplete="given-name" required></div>
+          <div class="field"><label for="achternaam">Achternaam</label><input type="text" id="achternaam" name="achternaam" autocomplete="family-name" required></div>
+        </div>
+        <div class="row r3">
+          <div class="field"><label for="straat">Straat</label><input type="text" id="straat" name="straat" autocomplete="address-line1" required></div>
+          <div class="field"><label for="huisnummer">Huisnummer</label><input type="text" id="huisnummer" name="huisnummer" required></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="email">E-mailadres</label><input type="email" id="email" name="email" autocomplete="email" required></div>
+          <div class="field"><label for="telefoon">Telefoon <span class="opt">optioneel</span></label><input type="tel" id="telefoon" name="telefoon" autocomplete="tel"></div>
+        </div>
+        <div class="field">
+          <span class="lbl" id="lbl-h">Welke hoogte?</span>
+          <div class="choices" role="radiogroup" aria-labelledby="lbl-h">
+            <label class="choice"><input type="radio" name="hoogte" id="h2" value="2 m" checked><span>2 meter</span></label>
+            <label class="choice"><input type="radio" name="hoogte" id="h3" value="3 m"><span>3 meter</span></label>
+            <label class="choice"><input type="radio" name="hoogte" id="h4" value="4 m"><span>4 meter</span></label>
+            <label class="choice"><input type="radio" name="hoogte" id="hx" value="Weet ik nog niet"><span>Weet ik nog niet</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="levering">Wanneer wil je hem in huis?</label>
+          <select id="levering" name="levering">
+            <option>Begin advent · weekend 28–29 november</option>
+            <option>Voor Sinterklaas · weekend 5–6 december</option>
+            <option>Weekend 12–13 december</option>
+            <option>Weekend 19–20 december</option>
+            <option>Maakt me niet uit</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="opmerking">Opmerking <span class="opt">optioneel</span></label>
+          <textarea id="opmerking" name="opmerking" placeholder="Trap naar de eerste verdieping, smalle deur, boom liever in de veranda…"></textarea>
+        </div>
+        <label class="check"><input type="checkbox" id="interesse" name="interesse" value="ja" required><span>Ik heb <strong>vrijblijvend interesse</strong> in een echte kerstboom die gebracht, geplaatst en na de feesten opgehaald wordt.</span></label>
+        <label class="check"><input type="checkbox" id="toestemming" name="toestemming" value="ja" required><span>Ik geef toestemming om mij te contacteren over KAAS en mijn gegevens daarvoor te bewaren.</span></label>
+        <div class="status" id="status" hidden role="status"></div>
+        <button class="btn btn-red" type="submit" id="submit">Zet mij op de interesselijst</button>
+        <p class="fine">Dit is een interesselijst, geen bestelling. Er gebeurt nu geen betaling en je sluit geen contract. Prijs, leverdata en voorwaarden krijg je eerst te zien. Je gegevens worden enkel voor KAAS gebruikt en op vraag geschrapt.</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="band lift" id="vragen">
+    <div class="wrap">
+      <div class="head"><p class="eyebrow">Veelgestelde vragen</p><h2>Goed om te weten</h2></div>
+      <div class="faq">
+        <div>
+          <details open><summary>Moet ik nu al betalen?</summary><p>Nee. Deze pagina verzamelt alleen wie interesse heeft. Er gebeurt geen betaling en je sluit geen contract. Pas als prijs en planning vastliggen, beslis je of je meedoet.</p></details>
+          <details><summary>Wat kost het?</summary><p>Dat maken we bekend zodra we weten hoeveel bomen we per gemeente nodig hebben. Levering, plaatsing, ophaling en verhakselen zitten er allemaal in. Wie op de lijst staat, hoort het als eerste.</p></details>
+          <details><summary>Wanneer wordt hij gebracht en opgehaald?</summary><p>Je kiest zelf een leverweekend, vanaf de start van de advent eind november. Na de feesten, rond Driekoningen, plannen we de ophaalronde per gemeente.</p></details>
+        </div>
+        <div>
+          <details><summary>Hoe hou ik hem mooi?</summary><p>Zet hem weg van de verwarming en vul het waterreservoir van de voet elke dag bij. Een verse boom drinkt de eerste dagen flink. Dan houdt een Nordmann zijn naalden wekenlang.</p></details>
+          <details><summary>Wat gebeurt er met de boom?</summary><p>We verhakselen hem ter plaatse tot houtsnippers. Je hoeft hem dus niet door je huis naar buiten te sleuren of naar het containerpark te brengen.</p></details>
+          <details><summary>Wie ziet mijn gegevens?</summary><p>De organisator van KAAS, en de leverancier en de ophaler voor de adressen die ze moeten bezoeken. Op de site zelf staan nergens namen of adressen. Laat het weten en we schrappen je uit de lijst.</p></details>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <b>KAAS</b>
+    <p>Kerstboom-as-a-service · een echte Nordmann, gebracht, geplaatst en na de feesten opgehaald. Kalmthout, Essen, Stabroek, Kapellen en Brasschaat.</p>
+    <p class="credits">Foto's via Unsplash: Julia Ivanina · Brooke Balentine · Zara Photo · Kate Shashina · Pamela Massie-Sylvain</p>
+    <a class="partner" id="partnerlink" href="partner/">Partnerlogin →</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const inArtifact = !!(window.claude && typeof window.claude.use === 'function');
+
+  /* photos: fall back to a pine-and-candlelight panel if an image can't load */
+  document.querySelectorAll('.ph img').forEach(img=>{
+    const fail = ()=>img.closest('.ph').classList.add('nophoto');
+    if (img.complete && img.naturalWidth === 0) fail(); else img.addEventListener('error', fail);
+  });
+
+  /* countdown to Christmas */
+  (function(){
+    const now = new Date(); const y = now.getFullYear();
+    const today = new Date(y, now.getMonth(), now.getDate());
+    let xmas = new Date(y, 11, 25);
+    const n = Math.round((xmas - today)/86400000);
+    const b = document.getElementById('nights'), l = document.getElementById('nightslbl');
+    if (n > 1){ b.textContent = n; l.textContent = 'nachtjes slapen tot Kerstmis'; }
+    else if (n === 1){ b.textContent = '1'; l.textContent = 'nachtje slapen tot Kerstmis'; }
+    else if (n === 0 || n === -1){ b.textContent = '✦'; l.textContent = 'Zalig kerstfeest!'; }
+    else { xmas = new Date(y+1, 11, 25); b.textContent = Math.round((xmas - today)/86400000); l.textContent = 'nachtjes tot volgende Kerstmis'; }
+  })();
+
+  /* garland of lights */
+  (function(){
+    const svg = document.getElementById('garland');
+    function draw(){
+      const w = svg.clientWidth || 1200; svg.setAttribute('viewBox', `0 0 ${w} 46`);
+      const n = Math.max(10, Math.round(w/52)), step = w/(n);
+      let path = `M0,6`; let bulbs = '';
+      const cols = ['#e9b84f','#c22a40','#f2f5f1','#3f9a6e'];
+      for (let i=0;i<n;i++){
+        const x0 = i*step, x1 = x0+step, mx = x0+step/2;
+        path += ` Q${mx},30 ${x1},6`;
+        const bx = mx, by = 18.5, c = cols[i%cols.length];
+        bulbs += `<g class="bulb" style="animation-delay:${(i%5)*0.37}s"><circle cx="${bx}" cy="${by+8}" r="9" fill="${c}" opacity=".28"/><rect x="${bx-2.5}" y="${by-1}" width="5" height="4" rx="1" fill="#2a3a32"/><ellipse cx="${bx}" cy="${by+8}" rx="4" ry="6" fill="${c}"/></g>`;
+      }
+      svg.innerHTML = `<path d="${path}" fill="none" stroke="#1b2a23" stroke-width="2"/>${bulbs}`;
+    }
+    draw(); addEventListener('resize', draw);
+  })();
+
+  /* snowfall over the hero */
+  (function(){
+    const cv = document.getElementById('snow'), ctx = cv.getContext('2d');
+    let W, H, flakes = [];
+    function size(){
+      const r = cv.getBoundingClientRect(), d = Math.min(2, devicePixelRatio||1);
+      W = cv.width = Math.round(r.width*d); H = cv.height = Math.round(r.height*d);
+      const n = Math.round(Math.min(180, r.width/7));
+      flakes = Array.from({length:n}, ()=>({x:Math.random()*W, y:Math.random()*H, r:(.8+Math.random()*2.6)*d, v:(.3+Math.random()*.9)*d, p:Math.random()*6.28, o:.35+Math.random()*.6}));
+    }
+    function tick(t){
+      ctx.clearRect(0,0,W,H);
+      for (const f of flakes){
+        if (!reduce){ f.y += f.v; f.x += Math.sin(t/1600 + f.p)*.4; if (f.y > H+5){ f.y = -5; f.x = Math.random()*W; } }
+        ctx.globalAlpha = f.o; ctx.fillStyle = '#ffffff';
+        ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (!reduce) requestAnimationFrame(tick);
+    }
+    size(); addEventListener('resize', size); requestAnimationFrame(tick);
+  })();
+
+  /* height picker */
+  const svg = document.getElementById('roomsvg');
+  const info = {
+    2:{for:'Voor de meeste woonkamers. Past onder een gewoon plafond van zo’n 2,50 m.', tip:'Hou 20 à 30 cm vrij boven de boom, anders past de piek er niet meer op.'},
+    3:{for:'Voor hoge plafonds: een herenhuis, een loft of een living onder een schuin dak.', tip:'Voor plafonds vanaf 3,30 m. Hij is ook breder: reken op zo’n 1,80 m doorsnede onderaan.'},
+    4:{for:'Voor een vide, een inkomhal, een praktijk of een winkel. Een boom die je vanaf de straat ziet staan.', tip:'Vanaf 4,30 m vrije hoogte. We bekijken samen de toegang: een boom van 4 meter moet ook binnen geraken.'}
+  };
+  const PX = 55, GY = 272, X0 = 46; const y = m => GY - m*PX;
+  const MONO = 'IBM Plex Mono, monospace';
+  function drawRoom(h){
+    let s = `<line x1="${X0}" y1="${y(0)}" x2="${X0}" y2="${y(4.6)}" stroke="#4d6a5e" stroke-width="1.5"/>`;
+    for (let m=0;m<=4.5;m+=.5){
+      const big = m%1===0;
+      s += `<line x1="${X0-(big?10:5)}" y1="${y(m)}" x2="${X0}" y2="${y(m)}" stroke="#88a198" stroke-width="1"/>`;
+      if (big) s += `<text x="${X0-14}" y="${y(m)+4}" text-anchor="end" font-family="${MONO}" font-size="11" fill="#88a198">${m} m</text>`;
+    }
+    s += `<line x1="${X0+6}" y1="${y(2.5)}" x2="330" y2="${y(2.5)}" stroke="#88a198" stroke-dasharray="4 5" stroke-width="1"/>`;
+    s += `<text x="330" y="${y(2.5)-6}" text-anchor="end" font-family="${MONO}" font-size="10.5" fill="#88a198">plafond 2,50 m</text>`;
+    s += `<line x1="${X0}" y1="${GY}" x2="330" y2="${GY}" stroke="#b4c8bf" stroke-width="2"/>`;
+    const px = 110, ph = 1.75, head = 0.13*PX;
+    s += `<g fill="#88a198"><circle cx="${px}" cy="${y(ph)+head}" r="${head}"/><rect x="${px-11}" y="${y(ph)+head*2+2}" width="22" height="${ph*.42*PX}" rx="9"/><rect x="${px-10}" y="${y(ph*.5)}" width="8" height="${ph*.5*PX}" rx="4"/><rect x="${px+2}" y="${y(ph*.5)}" width="8" height="${ph*.5*PX}" rx="4"/></g>`;
+    s += `<text x="${px}" y="${GY+16}" text-anchor="middle" font-family="${MONO}" font-size="10.5" fill="#88a198">1,75 m</text>`;
+    const tx = 230, w = h*0.62*PX;
+    s += `<rect x="${tx-30}" y="${GY-14}" width="60" height="14" rx="3" fill="#3a4d45"/><rect x="${tx-5}" y="${y(.45)}" width="10" height="${.3*PX}" fill="#8a5a36"/>`;
+    const tiers = 4 + h;
+    for (let i=0;i<tiers;i++){
+      const t0 = i/tiers, t1 = (i+1.6)/tiers;
+      const yb = y(.4 + t0*(h-.4)), yt = y(.4 + Math.min(1,t1)*(h-.4)), half = (w/2)*(1-t0)+6;
+      s += `<polygon points="${tx-half},${yb} ${tx+half},${yb} ${tx},${yt}" fill="${i%2?'#2c6b52':'#245a45'}"/>`;
+      const bx = tx + (i%2? -half*.45 : half*.4), by = yb - 6;
+      s += `<circle cx="${bx}" cy="${by}" r="3.4" fill="${i%3===0?'#c22a40':'#e9b84f'}"/>`;
+    }
+    const st = y(h) - 6;
+    s += `<polygon points="${tx},${st-8} ${tx+2.6},${st-2} ${tx+8},${st-1.5} ${tx+3.8},${st+2.4} ${tx+5},${st+8} ${tx},${st+5} ${tx-5},${st+8} ${tx-3.8},${st+2.4} ${tx-8},${st-1.5} ${tx-2.6},${st-2}" fill="#e9b84f"/>`;
+    s += `<line x1="${tx+w/2+14}" y1="${GY}" x2="${tx+w/2+14}" y2="${y(h)}" stroke="#e9b84f" stroke-width="2"/><line x1="${tx+w/2+8}" y1="${y(h)}" x2="${tx+w/2+20}" y2="${y(h)}" stroke="#e9b84f" stroke-width="2"/>`;
+    svg.innerHTML = s;
+    svg.setAttribute('aria-label', `Boom van ${h} meter naast een persoon van 1,75 meter en een plafond van 2,50 meter`);
+  }
+  function setHeight(h, fromForm){
+    document.querySelectorAll('.hseg button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.h==h)));
+    document.getElementById('hbig').innerHTML = `${h},00<small>meter</small>`;
+    document.getElementById('hfor').textContent = info[h].for;
+    document.getElementById('htip').textContent = info[h].tip;
+    drawRoom(h);
+    if (!fromForm){ const r = document.getElementById('h'+h); if (r) r.checked = true; }
+  }
+  document.querySelectorAll('.hseg button').forEach(b=>b.addEventListener('click',()=>setHeight(+b.dataset.h)));
+  ['h2','h3','h4'].forEach(id=>document.getElementById(id).addEventListener('change',()=>setHeight(+id[1], true)));
+  setHeight(2);
+
+  /* calendar: 23 nov – 10 jan, highlighted feast days */
+  (function(){
+    const cal = document.getElementById('cal'); let html = ['ma','di','wo','do','vr','za','zo'].map(d=>`<i class="h">${d}</i>`).join('');
+    const start = new Date(2026,10,23), from = new Date(2026,10,28), to = new Date(2027,0,9);
+    const feest = d => (d.getMonth()===11 && [6,24,25,31].includes(d.getDate())) || (d.getMonth()===0 && d.getDate()===6);
+    for (let i=0;i<49;i++){ const d = new Date(start); d.setDate(start.getDate()+i); html += `<i class="${feest(d)?'x':(d>=from&&d<=to)?'on':''}">${d.getDate()}</i>`; }
+    cal.innerHTML = html;
+  })();
+
+  /* form */
+  const form = document.getElementById('kaasform'), status = document.getElementById('status'), submit = document.getElementById('submit'), gem = document.getElementById('gemeente');
+  gem.addEventListener('change', ()=>{ document.getElementById('anderewrap').hidden = gem.value !== 'Andere'; });
+  const showStatus = (k,m)=>{ status.hidden = false; status.className = 'status '+k; status.textContent = m; };
+  function collect(){ const o = {}; for (const [k,v] of new FormData(form).entries()) o[k] = String(v).trim(); return o; }
+  function validate(o){
+    if (!o.gemeente) return 'Kies je gemeente.';
+    if (o.gemeente==='Andere' && !o.andere_gemeente) return 'Vul je gemeente in.';
+    for (const [k,l] of [['voornaam','je voornaam'],['achternaam','je achternaam'],['straat','je straat'],['huisnummer','je huisnummer']]) if (!o[k]) return `Vul ${l} in.`;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(o.email||'')) return 'Vul een geldig e-mailadres in.';
+    if (!o.interesse) return 'Vink aan dat je vrijblijvend interesse hebt.';
+    if (!o.toestemming) return 'Vink aan dat we je mogen contacteren.';
+    return null;
+  }
+
+  form.addEventListener('submit', async e=>{
+    e.preventDefault();
+    if (document.getElementById('website').value) return;
+    const o = collect(); delete o.website; const err = validate(o);
+    if (err){ showStatus('err', err); return; }
+    submit.disabled = true; submit.textContent = 'Even geduld…';
+    try{
+      if (inArtifact){
+        await new Promise(r=>setTimeout(r,500));
+        showStatus('ok', `Voorbeeldweergave: zo ziet de bevestiging eruit. Op de echte KAAS-site wordt ${o.voornaam} nu op de lijst gezet.`);
+        submit.textContent = 'Zet mij op de interesselijst';
+        return;
+      } else {
+        const res = await fetch('/api/inschrijven', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(o)});
+        const j = await res.json().catch(()=>({}));
+        if (!res.ok) throw {code:'server', message:j.fout};
+      }
+      showStatus('ok', `Dank je, ${o.voornaam}! Je staat op de interesselijst voor een boom van ${o.hoogte}. Zodra de prijs en de leverdata vastliggen, laten we het je weten via ${o.email}.`);
+      form.querySelectorAll('input:not([type=radio]):not([type=checkbox]),textarea').forEach(el=>{ if (el.id!=='website') el.value=''; });
+      submit.textContent = 'Nog iemand inschrijven';
+    }catch(ex){
+      if (ex && ex.message) showStatus('err', ex.message);
+      else showStatus('err', 'Je inschrijving is niet doorgekomen. Controleer je internetverbinding en probeer het opnieuw.');
+      submit.textContent = 'Zet mij op de interesselijst';
+    }finally{ submit.disabled = false; }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="nl-BE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>KAAS Partnerportaal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Karla:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a work tool for the van and the office. Pine header, snow-white address cards grouped per gemeente, one big action per card. */
+:root{
+  color-scheme:dark;
+  --pine-950:#081812; --pine-900:#0c2119; --pine-800:#122f24; --pine-700:#1a4233; --pine-600:#245a45;
+  --snow:#f2f5f1; --frost:#b4c8bf; --frost-dim:#88a198;
+  --gold:#e9b84f; --cranberry:#c22a40; --cranberry-deep:#8e1a2c;
+  --ink:#13241d; --ink-muted:#556a60; --paper:#f6f8f5; --paper-2:#eaf0ec; --paper-line:#d3ddd7;
+  --s-interesse:#6b7f76; --s-bevestigd:#b98a25; --s-geleverd:#2f7d57; --s-opgehaald:#33627f; --s-geannuleerd:#9a3a3a;
+  --f-display:"Gloock","Iowan Old Style",Georgia,serif;
+  --f-body:"Karla","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--pine-900);color:var(--snow);font-family:var(--f-body);font-size:16px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--pine-950)}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--f-mono)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45em;font-weight:700;font-size:15px;line-height:1;padding:12px 16px;border-radius:10px;border:0;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn-red{background:var(--cranberry);color:#fff}
+.btn-green{background:var(--s-geleverd);color:#fff}
+.btn-gold{background:var(--gold);color:var(--pine-950)}
+.btn-line{background:transparent;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor;opacity:.85}
+.btn-quiet{background:transparent;color:inherit;padding:8px 10px;text-decoration:underline;text-underline-offset:3px}
+.btn[disabled]{opacity:.55;cursor:wait}
+input,select,textarea{font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1.5px solid var(--paper-line);border-radius:9px;padding:10px 12px;width:100%;min-width:0;color-scheme:light}
+textarea{min-height:70px;resize:vertical}
+label{font-weight:700;font-size:14px;display:grid;gap:5px;min-width:0}
+
+/* demo banner */
+.demo{background:var(--gold);color:var(--pine-950);font-size:14px;text-align:center;padding-block:8px}
+.demo .wrap{display:block}
+
+/* login */
+.login{min-height:calc(100vh - 60px);display:grid;place-items:center;padding-block:40px}
+.login .card{width:100%;max-width:420px;background:var(--pine-800);border:1px solid rgba(233,184,79,.25);border-radius:20px;padding:30px;display:grid;gap:18px}
+.login h1{font-size:38px}
+.login p{color:var(--frost)}
+.login label{color:var(--snow)}
+.roles{display:grid;gap:8px}
+.roles button{display:grid;grid-template-columns:1fr;gap:2px 12px;text-align:left;padding:12px 14px;border-radius:12px;border:1px solid rgba(180,200,191,.25);background:var(--pine-900);color:var(--snow);cursor:pointer}
+.roles button:hover{border-color:var(--gold)}
+.roles b{font-family:var(--f-display);font-weight:400;font-size:20px}
+.roles span.r{color:var(--frost);font-size:13.5px}
+.err{background:#fbe9e5;color:#6a1f12;border-radius:10px;padding:10px 12px;font-size:14.5px}
+
+/* app header */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--pine-950);border-bottom:1px solid rgba(233,184,79,.2)}
+.bar .wrap{display:flex;align-items:center;gap:12px;padding-block:10px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;margin-right:auto}
+.logo b{font-family:var(--f-display);font-weight:400;font-size:22px}
+.logo span{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--frost)}
+.who{font-size:14px;color:var(--frost)}
+.who b{color:var(--snow)}
+.bar .btn{padding:9px 12px;font-size:14px}
+
+.intro{padding-block:26px 8px;display:grid;gap:8px}
+.intro .role{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.intro h1{font-size:clamp(30px,5vw,44px)}
+.intro p{color:var(--frost);max-width:62ch}
+
+/* planning chips */
+.plan{margin-top:14px;background:var(--pine-800);border:1px solid rgba(180,200,191,.16);border-radius:14px;padding:16px;display:grid;gap:10px}
+.plan h2{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--frost)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--f-mono);font-size:13px;border:1px solid rgba(180,200,191,.3);border-radius:999px;padding:5px 11px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.chip b{color:var(--gold);font-weight:500}
+.chip.big{border-color:var(--gold)}
+.chips .lbl{font-size:12px;color:var(--frost-dim);align-self:center;margin-right:4px;min-width:74px}
+
+/* toolbar */
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:20px}
+.tabs{display:flex;gap:4px;background:var(--pine-950);padding:4px;border-radius:12px;overflow-x:auto;max-width:100%}
+.tabs button{border:0;background:transparent;color:var(--frost);padding:9px 13px;border-radius:9px;cursor:pointer;font-weight:700;font-size:14px;white-space:nowrap}
+.tabs button[aria-pressed="true"]{background:var(--snow);color:var(--ink)}
+.tabs button .n{font-family:var(--f-mono);font-weight:400;margin-left:5px;opacity:.75}
+.tools input,.tools select{width:auto;flex:1 1 180px;padding:9px 12px}
+.tools .right{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+
+/* list */
+.groups{display:grid;gap:26px;padding-block:22px 60px}
+.group h2{font-size:24px;display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+.group h2 .n{font-family:var(--f-mono);font-size:13px;color:var(--frost)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:12px}
+.card{background:var(--paper);color:var(--ink);border-radius:14px;padding:16px;display:grid;gap:10px;align-content:start;min-width:0;border-top:5px solid var(--s-interesse)}
+.card[data-s="bevestigd"]{border-top-color:var(--s-bevestigd)}
+.card[data-s="geleverd"]{border-top-color:var(--s-geleverd)}
+.card[data-s="opgehaald"]{border-top-color:var(--s-opgehaald)}
+.card[data-s="geannuleerd"]{border-top-color:var(--s-geannuleerd);opacity:.8}
+.card .top{display:flex;justify-content:space-between;gap:10px;align-items:start}
+.card h3{font-size:21px;overflow-wrap:anywhere}
+.h{font-family:var(--f-mono);font-size:13px;background:var(--pine-700);color:#fff;border-radius:7px;padding:4px 8px;white-space:nowrap}
+.pill{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:3px 9px;color:#fff;background:var(--s-interesse);white-space:nowrap}
+.pill[data-s="bevestigd"]{background:var(--s-bevestigd)}
+.pill[data-s="geleverd"]{background:var(--s-geleverd)}
+.pill[data-s="opgehaald"]{background:var(--s-opgehaald)}
+.pill[data-s="geannuleerd"]{background:var(--s-geannuleerd)}
+.addr{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+.addr a{font-size:14px;color:var(--pine-600);font-weight:700}
+.meta{display:grid;gap:3px;font-size:14.5px;color:var(--ink-muted)}
+.meta b{color:var(--ink);font-weight:500}
+.note{background:var(--paper-2);border-radius:9px;padding:8px 10px;font-size:14.5px;overflow-wrap:anywhere}
+.note small{display:block;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted)}
+.act{display:grid;gap:8px;border-top:1px solid var(--paper-line);padding-top:10px}
+.act .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.act .done{font-weight:700;color:var(--s-geleverd)}
+.confirm{display:grid;gap:8px;background:var(--paper-2);border-radius:10px;padding:10px}
+.empty{background:var(--pine-800);border:1px dashed rgba(180,200,191,.3);border-radius:14px;padding:28px;color:var(--frost);text-align:center}
+
+/* admin table-ish stats */
+.stats{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+
+/* editor */
+.sheet{position:fixed;inset:0;z-index:30;background:rgba(4,12,9,.7);display:grid;justify-items:end;overflow:hidden}
+.sheet .panel{width:min(560px,100%);height:100%;overflow-y:auto;background:var(--paper);color:var(--ink);padding:22px max(18px,env(safe-area-inset-right,0px)) calc(28px + env(safe-area-inset-bottom,0px)) 22px;display:grid;gap:14px;align-content:start}
+.sheet h2{font-size:28px}
+.sheet .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sheet .grid .full{grid-column:1/-1}
+.sheet h3{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-top:8px}
+.hist{font-size:13.5px;color:var(--ink-muted);display:grid;gap:4px;margin:0;padding-left:18px}
+.sheet .foot{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;border-top:1px solid var(--paper-line);padding-top:14px;position:sticky;bottom:-28px;background:var(--paper);padding-bottom:6px}
+.danger{color:var(--cranberry)}
+@media (max-width:520px){.sheet .grid{grid-template-columns:1fr}}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:40;background:var(--snow);color:var(--ink);border-radius:12px;padding:12px 16px;box-shadow:0 12px 40px -10px rgba(0,0,0,.6);font-weight:700;max-width:calc(100% - 32px)}
+.toast.bad{background:#fbe9e5;color:#6a1f12}
+.loading{padding:40px 0;color:var(--frost)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="demo" id="demo" hidden><div class="wrap">Voorbeeldweergave met verzonnen klanten. Wijzigingen worden niet opgeslagen.</div></div>
+
+<section class="login wrap" id="loginview">
+  <div class="card">
+    <a class="logo" href="../" style="margin:0"><b>KAAS</b><span>Partners</span></a>
+    <h1>Aanmelden</h1>
+    <div id="demoroles" hidden class="roles">
+      <p>Kies een rol om het portaal te bekijken:</p>
+      <button type="button" data-u="philippo"><b>Philippo</b><span class="r">Levering en plaatsing</span></button>
+      <button type="button" data-u="jan"><b>Jan Hassewer</b><span class="r">Ophaling en hakselen</span></button>
+      <button type="button" data-u="admin"><b>Beheerder</b><span class="r">Alles beheren en aanpassen</span></button>
+    </div>
+    <form id="loginform" style="display:grid;gap:14px">
+      <p>Voor de leverancier, de ophaler en de beheerder van KAAS.</p>
+      <label for="gebruiker">Gebruikersnaam<input id="gebruiker" name="gebruiker" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
+      <label for="wachtwoord">Wachtwoord<input id="wachtwoord" name="wachtwoord" type="password" autocomplete="current-password" required></label>
+      <div class="err" id="loginerr" hidden role="alert"></div>
+      <button class="btn btn-red" type="submit" id="loginbtn">Aanmelden</button>
+    </form>
+  </div>
+</section>
+
+<div id="appview" hidden>
+  <header class="bar"><div class="wrap">
+    <a class="logo" href="../"><b>KAAS</b><span>Partners</span></a>
+    <span class="who">Aangemeld als <b id="whoname"></b></span>
+    <button class="btn btn-line" type="button" id="refresh">Vernieuwen</button>
+    <button class="btn btn-line" type="button" id="logout">Afmelden</button>
+  </div></header>
+  <main class="wrap">
+    <div class="intro">
+      <span class="role" id="rolelbl"></span>
+      <h1 id="roletitle"></h1>
+      <p id="roleintro"></p>
+    </div>
+    <div id="plan"></div>
+    <div class="stats" id="stats"></div>
+    <div class="tools" id="tools"></div>
+    <div id="list" class="groups"><p class="loading">Lijst laden…</p></div>
+  </main>
+</div>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheettitle"><div class="panel" id="panel"></div></div>
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script>
+(function(){
+  const DEMO = !!(window.claude && typeof window.claude.use === 'function') || location.protocol === 'file:';
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const store = { get(k){ try{ return localStorage.getItem(k); }catch(_){ return null; } }, set(k,v){ try{ v==null ? localStorage.removeItem(k) : localStorage.setItem(k,v); }catch(_){} } };
+  const vandaag = () => new Date().toLocaleDateString('sv-SE', {timeZone:'Europe/Brussels'});
+  const datum = d => { if (!d) return ''; const x = new Date(d.length===10 ? d+'T12:00:00' : d); return isNaN(x) ? d : x.toLocaleDateString('nl-BE', {weekday:'short', day:'numeric', month:'short'}); };
+
+  const ROLLEN = {
+    levering: { lbl:'Levering en plaatsing', titel:'Leveringen', intro:'Bevestigde klanten waar een boom gebracht en geplaatst moet worden, gegroepeerd per gemeente. Markeer een adres als geleverd zodra de boom recht staat.',
+      tabs:[['bevestigd','Te leveren'],['geleverd','Geleverd']] },
+    ophaling: { lbl:'Ophaling en hakselen', titel:'Ophalingen', intro:'Adressen waar een boom staat die na de feesten opgehaald en ter plaatse verhakseld moet worden. Markeer een adres als opgehaald zodra het klaar is.',
+      tabs:[['geleverd','Op te halen'],['opgehaald','Opgehaald']] },
+    admin: { lbl:'Beheer', titel:'Alle inschrijvingen', intro:'Bevestig klanten om ze op de leverlijst van Philippo te zetten. Na de levering verschijnen ze vanzelf op de ophaallijst van Jan.',
+      tabs:[['alle','Alle'],['interesse','Interesse'],['bevestigd','Bevestigd'],['geleverd','Geleverd'],['opgehaald','Opgehaald'],['geannuleerd','Geannuleerd']] }
+  };
+  const GEMEENTEN = ['Kalmthout','Essen','Stabroek','Kapellen','Brasschaat','Andere'];
+  const HOOGTES = ['2 m','3 m','4 m','Weet ik nog niet'];
+  const WEEKENDS = ['Begin advent · weekend 28–29 november','Voor Sinterklaas · weekend 5–6 december','Weekend 12–13 december','Weekend 19–20 december','Maakt me niet uit'];
+  const STATUSSEN = ['interesse','bevestigd','geleverd','opgehaald','geannuleerd'];
+
+  /* ---------------- API: echt (Netlify) of voorbeeld ---------------- */
+  let token = DEMO ? null : store.get('kaas_token');
+  const real = {
+    async call(path, body){
+      const res = await fetch('/api/'+path, { method: body ? 'POST' : 'GET', headers: { 'content-type':'application/json', ...(token ? {authorization:'Bearer '+token} : {}) }, body: body ? JSON.stringify(body) : undefined });
+      const j = await res.json().catch(()=>({fout:'Onverwacht antwoord van de server.'}));
+      if (res.status === 401 && path !== 'login'){ logout(); throw new Error('Je sessie is verlopen. Meld je opnieuw aan.'); }
+      if (!res.ok) throw new Error(j.fout || 'Er ging iets mis.');
+      return j;
+    },
+    login: (gebruiker, wachtwoord) => real.call('login', {gebruiker, wachtwoord}),
+    lijst: () => real.call('lijst'),
+    bijwerken: (id, wijzigingen) => real.call('bijwerken', {id, wijzigingen}),
+    verwijderen: id => real.call('verwijderen', {id})
+  };
+
+  const demo = (function(){
+    const u = { philippo:{naam:'Philippo',rol:'levering'}, jan:{naam:'Jan Hassewer',rol:'ophaling'}, admin:{naam:'Beheerder',rol:'admin'} };
+    const mk = (i, g, v, a, s, n, h, lev, st, extra={}) => ({ id:'demo'+i, datum:`2026-11-0${1+(i%2)}T1${i%10}:0${i%6}:00Z`, gemeente:g, andere_gemeente:'', voornaam:v, achternaam:a, straat:s, huisnummer:n, email:`${v.toLowerCase()}@voorbeeld.be`, telefoon:'0470 00 00 '+String(10+i), hoogte:h, levering:lev, opmerking:'', status:st, leverdatum:'', notitie_levering:'', ophaaldatum:'', notitie_ophaling:'', notitie_admin:'', geschiedenis:[{t:'2026-11-01T10:00:00Z',door:'website',actie:'ingeschreven'}], ...extra });
+    let rows = [
+      mk(1,'Kalmthout','Lien','Voorbeeld','Kerkstraat','12','2 m',WEEKENDS[0],'bevestigd',{opmerking:'Smalle voordeur, liefst via de garage.'}),
+      mk(2,'Kalmthout','Tom','Voorbeeld','Heide','4','3 m',WEEKENDS[0],'bevestigd'),
+      mk(3,'Essen','Sofie','Voorbeeld','Moerkantsebaan','88','2 m',WEEKENDS[1],'bevestigd'),
+      mk(4,'Kapellen','Wim','Voorbeeld','Dorpsstraat','3','4 m',WEEKENDS[1],'geleverd',{leverdatum:'2026-11-28',notitie_levering:'Staat in de vide, voet met verlengstuk.'}),
+      mk(5,'Brasschaat','Els','Voorbeeld','Bredabaan','201','2 m',WEEKENDS[0],'geleverd',{leverdatum:'2026-11-29'}),
+      mk(6,'Stabroek','Koen','Voorbeeld','Laageind','17','3 m',WEEKENDS[2],'interesse',{opmerking:'Trap naar de eerste verdieping.'}),
+      mk(7,'Essen','Hanne','Voorbeeld','Nieuwstraat','9','2 m',WEEKENDS[3],'interesse'),
+      mk(8,'Kalmthout','Bart','Voorbeeld','Kapellensteenweg','140','Weet ik nog niet',WEEKENDS[4],'interesse'),
+      mk(9,'Kapellen','Inge','Voorbeeld','Hoevensebaan','56','2 m',WEEKENDS[0],'opgehaald',{leverdatum:'2026-11-28',ophaaldatum:'2027-01-09'})
+    ];
+    let wie = null;
+    const gemeenteVan = r => r.gemeente==='Andere' ? (r.andere_gemeente||'Andere') : r.gemeente;
+    const zichtbaar = (rol,r) => rol==='admin' || (rol==='levering' && ['bevestigd','geleverd'].includes(r.status)) || (rol==='ophaling' && ['geleverd','opgehaald'].includes(r.status));
+    const zicht = (rol,r) => { if (rol==='admin') return r; const b = {id:r.id,status:r.status,gemeente:gemeenteVan(r),naam:`${r.voornaam} ${r.achternaam}`,straat:r.straat,huisnummer:r.huisnummer,telefoon:r.telefoon,hoogte:r.hoogte,opmerking:r.opmerking,leverdatum:r.leverdatum,notitie_levering:r.notitie_levering}; return rol==='levering' ? {...b,levering:r.levering} : {...b,ophaaldatum:r.ophaaldatum,notitie_ophaling:r.notitie_ophaling}; };
+    const tel = (l,f) => l.reduce((m,r)=>{const k=f(r)||'–'; m[k]=(m[k]||0)+1; return m;},{});
+    const planning = rol => { if (rol==='levering'){ const o = rows.filter(r=>['interesse','bevestigd'].includes(r.status)); return {titel:'Bomen nodig (interesse + bevestigd)',totaal:o.length,perHoogte:tel(o,r=>r.hoogte),perGemeente:tel(o,gemeenteVan),perWeekend:tel(o,r=>r.levering)}; } if (rol==='ophaling'){ const o = rows.filter(r=>r.status==='geleverd'); return {titel:'Bomen die nu bij klanten staan',totaal:o.length,perHoogte:tel(o,r=>r.hoogte),perGemeente:tel(o,gemeenteVan)}; } return null; };
+    const wacht = () => new Promise(r=>setTimeout(r,250));
+    return {
+      async login(g){ await wacht(); wie = u[g]; if (!wie) throw new Error('Onbekende gebruiker.'); return {...wie, gebruiker:g, token:'demo'}; },
+      async lijst(){ await wacht(); return {gebruiker:wie, items: rows.filter(r=>zichtbaar(wie.rol,r)).map(r=>zicht(wie.rol,r)), planning: planning(wie.rol)}; },
+      async bijwerken(id, w){ await wacht();
+        let r = id ? rows.find(x=>x.id===id) : null;
+        if (!id){ if (wie.rol!=='admin') throw new Error('Alleen de beheerder kan klanten toevoegen.'); r = {id:'demo'+Date.now(), datum:new Date().toISOString(), status:'interesse', geschiedenis:[]}; rows.push(r); }
+        if (!r) throw new Error('Deze inschrijving bestaat niet meer.');
+        if (wie.rol==='levering' && Object.keys(w).some(k=>!['status','leverdatum','notitie_levering'].includes(k))) throw new Error('Je kan enkel de levering bijwerken.');
+        if (wie.rol==='ophaling' && Object.keys(w).some(k=>!['status','ophaaldatum','notitie_ophaling'].includes(k))) throw new Error('Je kan enkel de ophaling bijwerken.');
+        Object.assign(r, w);
+        if (w.status==='geleverd' && !r.leverdatum) r.leverdatum = vandaag();
+        if (w.status==='opgehaald' && !r.ophaaldatum) r.ophaaldatum = vandaag();
+        r.geschiedenis = [...(r.geschiedenis||[]), {t:new Date().toISOString(), door:wie.naam, actie:Object.keys(w).map(k=>k==='status'?'status → '+w.status:k).join(', ')}];
+        return {ok:true, item: zicht(wie.rol, r)};
+      },
+      async verwijderen(id){ await wacht(); rows = rows.filter(r=>r.id!==id); return {ok:true}; }
+    };
+  })();
+  const api = DEMO ? demo : real;
+
+  /* ---------------- state ---------------- */
+  let me = null, items = [], plan = null, tab = null, zoek = '', gem = '';
+  let toastT;
+  function toast(msg, bad){ const t = $('toast'); t.textContent = msg; t.className = 'toast' + (bad?' bad':''); t.hidden = false; clearTimeout(toastT); toastT = setTimeout(()=>t.hidden = true, 3200); }
+
+  /* ---------------- login ---------------- */
+  if (DEMO){ $('demo').hidden = false; $('demoroles').hidden = false; $('loginform').hidden = true; }
+  document.querySelectorAll('#demoroles button').forEach(b => b.addEventListener('click', async ()=>{ const r = await demo.login(b.dataset.u); start(r); }));
+  $('loginform').addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = $('loginbtn'), err = $('loginerr'); err.hidden = true; btn.disabled = true; btn.textContent = 'Even geduld…';
+    try{
+      const r = await api.login($('gebruiker').value.trim(), $('wachtwoord').value);
+      token = r.token; store.set('kaas_token', token); store.set('kaas_wie', JSON.stringify({naam:r.naam, rol:r.rol}));
+      $('wachtwoord').value = '';
+      start(r);
+    }catch(ex){ err.textContent = ex.message; err.hidden = false; }
+    finally{ btn.disabled = false; btn.textContent = 'Aanmelden'; }
+  });
+  function logout(){
+    token = null; store.set('kaas_token', null); store.set('kaas_wie', null); me = null;
+    $('appview').hidden = true; $('loginview').hidden = false; $('sheet').hidden = true;
+  }
+  $('logout').addEventListener('click', logout);
+  $('refresh').addEventListener('click', ()=>load(true));
+
+  function start(r){
+    me = {naam:r.naam, rol:r.rol};
+    $('loginview').hidden = true; $('appview').hidden = false;
+    const R = ROLLEN[me.rol];
+    $('whoname').textContent = me.naam; $('rolelbl').textContent = R.lbl; $('roletitle').textContent = R.titel; $('roleintro').textContent = R.intro;
+    tab = R.tabs[0][0]; zoek = ''; gem = '';
+    load();
+  }
+
+  async function load(manual){
+    try{
+      const r = await api.lijst();
+      items = r.items; plan = r.planning; me = {...me, ...r.gebruiker};
+      render(); if (manual) toast('Lijst bijgewerkt');
+    }catch(ex){ $('list').innerHTML = `<p class="empty">${esc(ex.message)}</p>`; }
+  }
+
+  /* ---------------- render ---------------- */
+  const gemeenteVan = r => r.gemeente==='Andere' ? (r.andere_gemeente||'Andere') : r.gemeente;
+  const naamVan = r => r.naam || `${r.voornaam||''} ${r.achternaam||''}`.trim();
+  const chips = (obj) => Object.entries(obj||{}).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<span class="chip">${esc(k)} <b>${v}</b></span>`).join('');
+
+  function render(){
+    const R = ROLLEN[me.rol];
+    // planning
+    if (plan){
+      $('plan').innerHTML = `<div class="plan"><h2>${esc(plan.titel)}</h2>
+        <div class="chips"><span class="chip big">Totaal <b>${plan.totaal}</b></span>${chips(plan.perHoogte)}</div>
+        ${plan.totaal ? `<div class="chips"><span class="lbl mono">per gemeente</span>${chips(plan.perGemeente)}</div>` : ''}
+        ${plan.totaal && plan.perWeekend ? `<div class="chips"><span class="lbl mono">per weekend</span>${chips(plan.perWeekend)}</div>` : ''}</div>`;
+    } else $('plan').innerHTML = '';
+    // admin stats
+    if (me.rol==='admin'){
+      const per = {}; items.forEach(r=>per[r.status]=(per[r.status]||0)+1);
+      const hoog = {}; items.filter(r=>r.status!=='geannuleerd').forEach(r=>hoog[r.hoogte||'–']=(hoog[r.hoogte||'–']||0)+1);
+      $('stats').innerHTML = `<span class="chip big">Totaal <b>${items.length}</b></span>${STATUSSEN.filter(s=>per[s]).map(s=>`<span class="chip">${s} <b>${per[s]}</b></span>`).join('')}${chips(hoog)}`;
+    } else $('stats').innerHTML = '';
+    // tools
+    const count = s => s==='alle' ? items.length : items.filter(r=>r.status===s).length;
+    const gemeenten = [...new Set(items.map(gemeenteVan))].sort();
+    $('tools').innerHTML = `<div class="tabs" role="group" aria-label="Filter">${R.tabs.map(([k,l])=>`<button type="button" data-tab="${k}" aria-pressed="${tab===k}">${l}<span class="n">${count(k)}</span></button>`).join('')}</div>
+      <input type="search" id="zoek" placeholder="Zoek naam of straat" value="${esc(zoek)}" aria-label="Zoek naam of straat">
+      <select id="gemsel" aria-label="Gemeente"><option value="">Alle gemeenten</option>${gemeenten.map(g=>`<option ${g===gem?'selected':''}>${esc(g)}</option>`).join('')}</select>
+      ${me.rol==='admin' ? `<div class="right"><button type="button" class="btn btn-gold" id="nieuw">+ Nieuwe klant</button><button type="button" class="btn btn-line" id="csv">Kopieer CSV</button></div>` : ''}`;
+    document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{ tab = b.dataset.tab; render(); }));
+    $('zoek').addEventListener('input', e=>{ zoek = e.target.value; renderList(); });
+    $('gemsel').addEventListener('change', e=>{ gem = e.target.value; renderList(); });
+    if (me.rol==='admin'){ $('nieuw').addEventListener('click', ()=>openEditor(null)); $('csv').addEventListener('click', copyCsv); }
+    renderList();
+  }
+
+  function renderList(){
+    const q = zoek.trim().toLowerCase();
+    const lijst = items.filter(r => (tab==='alle' || r.status===tab) && (!gem || gemeenteVan(r)===gem) && (!q || `${naamVan(r)} ${r.straat} ${r.email||''}`.toLowerCase().includes(q)));
+    if (!lijst.length){
+      const leeg = me.rol==='levering' && tab==='bevestigd' ? 'Er staan nog geen bevestigde leveringen klaar. Zodra de beheerder klanten bevestigt, verschijnen ze hier.'
+        : me.rol==='ophaling' && tab==='geleverd' ? 'Er staan nog geen bomen bij klanten. Na elke levering verschijnt het adres hier.'
+        : (q || gem) ? 'Niets gevonden met deze zoekopdracht.' : 'Hier staat nog niets.';
+      $('list').innerHTML = `<p class="empty">${leeg}</p>`; return;
+    }
+    const groepen = {};
+    lijst.forEach(r => (groepen[gemeenteVan(r)] = groepen[gemeenteVan(r)] || []).push(r));
+    $('list').innerHTML = Object.keys(groepen).sort().map(g => {
+      const rs = groepen[g].sort((a,b)=>(a.straat||'').localeCompare(b.straat||'','nl') || (parseInt(a.huisnummer)||0)-(parseInt(b.huisnummer)||0));
+      return `<section class="group"><h2>${esc(g)}<span class="n">${rs.length} ${rs.length===1?'adres':'adressen'}</span></h2><div class="cards">${rs.map(card).join('')}</div></section>`;
+    }).join('');
+    $('list').querySelectorAll('[data-act]').forEach(b => b.addEventListener('click', onAct));
+  }
+
+  function card(r){
+    const adres = `${r.straat||''} ${r.huisnummer||''}`.trim();
+    const route = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(adres+', '+gemeenteVan(r)+', België')}`;
+    const telnr = (r.telefoon||'').trim();
+    let meta = '';
+    if (telnr) meta += `<span>Tel. <b class="mono">${esc(telnr)}</b> · <a href="tel:${esc(telnr.replace(/[^\d+]/g,''))}">bellen</a></span>`;
+    if (me.rol==='admin' && r.email) meta += `<span>${esc(r.email)}</span>`;
+    if (r.levering && me.rol!=='ophaling') meta += `<span>Wens: <b>${esc(r.levering)}</b></span>`;
+    if (r.leverdatum) meta += `<span>Geleverd: <b>${esc(datum(r.leverdatum))}</b></span>`;
+    if (r.ophaaldatum) meta += `<span>Opgehaald: <b>${esc(datum(r.ophaaldatum))}</b></span>`;
+    let notes = '';
+    if (r.opmerking) notes += `<div class="note"><small>Opmerking klant</small>${esc(r.opmerking)}</div>`;
+    if (r.notitie_levering) notes += `<div class="note"><small>Notitie levering</small>${esc(r.notitie_levering)}</div>`;
+    if (r.notitie_ophaling) notes += `<div class="note"><small>Notitie ophaling</small>${esc(r.notitie_ophaling)}</div>`;
+    if (me.rol==='admin' && r.notitie_admin) notes += `<div class="note"><small>Notitie beheer</small>${esc(r.notitie_admin)}</div>`;
+
+    let act = '';
+    if (me.rol==='levering'){
+      act = r.status==='bevestigd'
+        ? `<div class="row"><button type="button" class="btn btn-green" data-act="lever" data-id="${r.id}">✓ Geleverd en geplaatst</button></div>`
+        : `<div class="row"><span class="done">✓ Geleverd ${esc(datum(r.leverdatum))}</span><button type="button" class="btn btn-quiet" data-act="unlever" data-id="${r.id}">Ongedaan maken</button></div>`;
+    } else if (me.rol==='ophaling'){
+      act = r.status==='geleverd'
+        ? `<div class="row"><button type="button" class="btn btn-green" data-act="haal" data-id="${r.id}">✓ Opgehaald en verhakseld</button></div>`
+        : `<div class="row"><span class="done">✓ Opgehaald ${esc(datum(r.ophaaldatum))}</span><button type="button" class="btn btn-quiet" data-act="unhaal" data-id="${r.id}">Ongedaan maken</button></div>`;
+    } else {
+      act = `<div class="row">${r.status==='interesse' ? `<button type="button" class="btn btn-gold" data-act="bevestig" data-id="${r.id}">Bevestig klant</button>` : ''}<button type="button" class="btn btn-line" data-act="edit" data-id="${r.id}">Bewerken</button></div>`;
+    }
+    return `<article class="card" data-s="${esc(r.status)}" id="c-${esc(r.id)}">
+      <div class="top"><h3>${esc(naamVan(r))}</h3><span class="h">${esc(r.hoogte||'–')}</span></div>
+      <div class="addr"><b>${esc(adres)}</b><a href="${route}" target="_blank" rel="noopener">Route ↗</a>${me.rol==='admin'?`<span class="pill" data-s="${esc(r.status)}">${esc(r.status)}</span>`:''}</div>
+      ${meta ? `<div class="meta">${meta}</div>` : ''}${notes}
+      <div class="act" id="act-${esc(r.id)}">${act}</div></article>`;
+  }
+
+  function onAct(e){
+    const b = e.currentTarget, id = b.dataset.id, a = b.dataset.act, r = items.find(x=>x.id===id);
+    if (a==='edit') return openEditor(r);
+    if (a==='bevestig') return save(id, {status:'bevestigd'}, `${naamVan(r)} staat nu op de leverlijst van Philippo.`);
+    if (a==='unlever') return save(id, {status:'bevestigd', leverdatum:''}, 'Levering ongedaan gemaakt.');
+    if (a==='unhaal') return save(id, {status:'geleverd', ophaaldatum:''}, 'Ophaling ongedaan gemaakt.');
+    // lever / haal: inline bevestiging met datum en notitie
+    const isLever = a==='lever', box = $('act-'+id);
+    const nveld = isLever ? 'notitie_levering' : 'notitie_ophaling';
+    box.innerHTML = `<div class="confirm">
+      <label for="d-${id}">${isLever ? 'Geleverd op' : 'Opgehaald op'}<input type="date" id="d-${id}" value="${vandaag()}"></label>
+      <label for="n-${id}">Notitie <span style="font-weight:400;color:var(--ink-muted)">(optioneel)</span><textarea id="n-${id}" placeholder="${isLever ? 'Bv. staat in de veranda, voet met verlengstuk' : 'Bv. houtsnippers in de border achteraan gelegd'}">${esc(r[nveld]||'')}</textarea></label>
+      <div class="row"><button type="button" class="btn btn-green" id="ok-${id}">Bevestig</button><button type="button" class="btn btn-quiet" id="no-${id}">Annuleer</button></div></div>`;
+    $('no-'+id).addEventListener('click', renderList);
+    $('ok-'+id).addEventListener('click', ()=>{
+      const w = isLever ? {status:'geleverd', leverdatum:$('d-'+id).value, notitie_levering:$('n-'+id).value} : {status:'opgehaald', ophaaldatum:$('d-'+id).value, notitie_ophaling:$('n-'+id).value};
+      save(id, w, isLever ? `${naamVan(r)}: geleverd en geplaatst.` : `${naamVan(r)}: opgehaald en verhakseld.`);
+    });
+  }
+
+  async function save(id, w, msg){
+    try{
+      const r = await api.bijwerken(id, w);
+      if (id){ const i = items.findIndex(x=>x.id===id); if (i>=0) items[i] = r.item; }
+      await load(); toast(msg || 'Bewaard');
+      return true;
+    }catch(ex){ toast(ex.message, true); return false; }
+  }
+
+  /* ---------------- admin editor ---------------- */
+  function openEditor(r){
+    const nieuw = !r; r = r || {status:'interesse', gemeente:'', hoogte:'2 m', levering:WEEKENDS[4]};
+    const opt = (list, v) => list.map(x=>`<option ${x===v?'selected':''}>${esc(x)}</option>`).join('');
+    const f = (k, l, type='text', full) => `<label class="${full?'full':''}" for="e-${k}">${l}<input type="${type}" id="e-${k}" value="${esc(r[k]||'')}"></label>`;
+    const t = (k, l) => `<label class="full" for="e-${k}">${l}<textarea id="e-${k}">${esc(r[k]||'')}</textarea></label>`;
+    $('panel').innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2 id="sheettitle">${nieuw ? 'Nieuwe klant' : esc(naamVan(r))}</h2><button type="button" class="btn btn-quiet" id="e-close">Sluiten</button></div>
+      ${nieuw ? '' : `<p class="mono" style="font-size:12px;color:var(--ink-muted)">Ingeschreven ${esc(datum(r.datum))}</p>`}
+      <div class="grid">
+        <label for="e-status">Status<select id="e-status">${opt(STATUSSEN, r.status)}</select></label>
+        <label for="e-hoogte">Hoogte<select id="e-hoogte">${opt(HOOGTES, r.hoogte)}</select></label>
+        <h3 class="full">Klant</h3>
+        ${f('voornaam','Voornaam')}${f('achternaam','Achternaam')}
+        ${f('straat','Straat')}${f('huisnummer','Huisnummer')}
+        <label for="e-gemeente">Gemeente<select id="e-gemeente"><option value="">–</option>${opt(GEMEENTEN, r.gemeente)}</select></label>
+        ${f('andere_gemeente','Andere gemeente')}
+        ${f('email','E-mail','email')}${f('telefoon','Telefoon','tel')}
+        <label class="full" for="e-levering">Gewenst leverweekend<select id="e-levering">${opt(WEEKENDS, r.levering)}</select></label>
+        ${t('opmerking','Opmerking klant')}
+        <h3 class="full">Levering en ophaling</h3>
+        ${f('leverdatum','Leverdatum','date')}${f('ophaaldatum','Ophaaldatum','date')}
+        ${t('notitie_levering','Notitie levering (Philippo)')}
+        ${t('notitie_ophaling','Notitie ophaling (Jan)')}
+        ${t('notitie_admin','Notitie beheer (alleen zichtbaar voor beheer)')}
+      </div>
+      ${!nieuw && r.geschiedenis && r.geschiedenis.length ? `<h3>Geschiedenis</h3><ol class="hist">${r.geschiedenis.slice().reverse().map(h=>`<li>${esc(datum(h.t))} · ${esc(h.door)} · ${esc(h.actie)}</li>`).join('')}</ol>` : ''}
+      <div class="err" id="e-err" hidden></div>
+      <div class="foot">
+        ${nieuw ? '<span></span>' : `<span id="delwrap"><button type="button" class="btn btn-quiet danger" id="e-del">Verwijderen</button></span>`}
+        <button type="button" class="btn btn-red" id="e-save">${nieuw ? 'Klant toevoegen' : 'Wijzigingen bewaren'}</button>
+      </div>`;
+    $('sheet').hidden = false; $('e-voornaam').focus();
+    $('e-close').addEventListener('click', closeEditor);
+    $('e-save').addEventListener('click', async ()=>{
+      const velden = ['status','hoogte','voornaam','achternaam','straat','huisnummer','gemeente','andere_gemeente','email','telefoon','levering','opmerking','leverdatum','ophaaldatum','notitie_levering','notitie_ophaling','notitie_admin'];
+      const w = {}; velden.forEach(k=>{ const v = $('e-'+k).value; if (nieuw ? v : (v !== (r[k]||''))) w[k] = v; });
+      if (!Object.keys(w).length){ closeEditor(); return; }
+      const btn = $('e-save'); btn.disabled = true;
+      if (await save(nieuw ? null : r.id, w, nieuw ? 'Klant toegevoegd.' : 'Wijzigingen bewaard.')) closeEditor();
+      else btn.disabled = false;
+    });
+    if (!nieuw) $('e-del').addEventListener('click', ()=>{
+      $('delwrap').innerHTML = `<span class="danger" style="font-size:14px;font-weight:700">Definitief verwijderen?</span> <button type="button" class="btn btn-red" id="e-del2">Ja, verwijder</button> <button type="button" class="btn btn-quiet" id="e-del0">Nee</button>`;
+      $('e-del0').addEventListener('click', ()=>openEditor(r));
+      $('e-del2').addEventListener('click', async ()=>{
+        try{ await api.verwijderen(r.id); closeEditor(); await load(); toast(`${naamVan(r)} is verwijderd.`); }catch(ex){ toast(ex.message, true); }
+      });
+    });
+  }
+  function closeEditor(){ $('sheet').hidden = true; }
+  $('sheet').addEventListener('click', e=>{ if (e.target.id==='sheet') closeEditor(); });
+  document.addEventListener('keydown', e=>{ if (e.key==='Escape' && !$('sheet').hidden) closeEditor(); });
+
+  function copyCsv(){
+    const cols = ['datum','status','gemeente','andere_gemeente','voornaam','achternaam','straat','huisnummer','email','telefoon','hoogte','levering','opmerking','leverdatum','notitie_levering','ophaaldatum','notitie_ophaling','notitie_admin'];
+    const csv = [cols.join(';')].concat(items.map(r=>cols.map(c=>'"'+String(r[c]??'').replace(/"/g,'""')+'"').join(';'))).join('\n');
+    const fallback = ()=>{ $('panel').innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><h2 id="sheettitle">CSV</h2><button type="button" class="btn btn-quiet" id="e-close">Sluiten</button></div><p>Selecteer alles en kopieer.</p><textarea id="csvta" style="min-height:60vh;font-family:var(--f-mono);font-size:12px" readonly></textarea>`; $('csvta').value = csv; $('sheet').hidden = false; $('e-close').addEventListener('click', closeEditor); $('csvta').select(); };
+    try{ navigator.clipboard.writeText(csv).then(()=>toast(`${items.length} inschrijvingen gekopieerd. Plak ze in Excel.`), fallback); }catch(_){ fallback(); }
+  }
+
+  /* ---------------- opstart ---------------- */
+  if (!DEMO && token){
+    let wie = null; try{ wie = JSON.parse(store.get('kaas_wie')||'null'); }catch(_){}
+    if (wie) start(wie); else logout();
+  }
+})();
+</script>
+
+</body>
+</html>

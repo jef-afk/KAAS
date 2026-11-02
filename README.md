@@ -12,7 +12,7 @@ Philippo en Jan zien geen e-mailadressen en geen klanten die enkel interesse heb
 
 ## Versierpakketten
 
-Klanten kunnen bij het inschrijven een versierpakket kiezen: Winterzilver, Naturel, Bordeaux of Zuurstok, te koop of te huur (halve prijs). Daarbij kunnen ze laten versieren (€ 40) en de versiering na de feesten laten afhalen (€ 40). Philippo ziet per adres het pakket, koop of huur, en of hij moet versieren. Jan ziet welke huurversiering hij moet terugnemen en waar hij de versiering eerst moet afhalen. De foto's staan in `public/img/`.
+Klanten kunnen bij het inschrijven een versierpakket kiezen: Winterzilver, Naturel, Bordeaux of Zuurstok, te koop of te huur (ongeveer de helft, afgerond op ,99). Daarbij kunnen ze laten versieren (€ 40) en de versiering na de feesten laten afhalen (€ 40). Philippo ziet per adres het pakket, koop of huur, en of hij moet versieren. Jan ziet welke huurversiering hij moet terugnemen en waar hij de versiering eerst moet afhalen. De foto's staan in `public/img/`.
 
 ## Prijzen
 

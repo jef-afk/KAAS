@@ -23,11 +23,18 @@ export const PRIJS = {
   versieren: 4000,
   weghalen: 4000,
   boom: { "1,50 m": 6000, "2 m": 8000, "3 m": 15000, "4 m": 22000 },
+  // versierpakketten, afgerond naar boven op ,99
   pakket: {
-    Winterzilver: { "1,50 m": 8960, "2 m": 11056, "3 m": 27729, "4 m": 41504 },
-    Naturel: { "1,50 m": 9105, "2 m": 10370, "3 m": 24320, "4 m": 37985 },
-    Bordeaux: { "1,50 m": 9785, "2 m": 11780, "3 m": 26904, "4 m": 41925 },
-    Zuurstok: { "1,50 m": 5305, "2 m": 7600, "3 m": 16855, "4 m": 25209 },
+    Winterzilver:{"1,50 m":8999, "2 m":11099, "3 m":27799, "4 m":41599},
+    Naturel:{"1,50 m":9199, "2 m":10399, "3 m":24399, "4 m":37999},
+    Bordeaux:{"1,50 m":9799, "2 m":11799, "3 m":26999, "4 m":41999},
+    Zuurstok:{"1,50 m":5399, "2 m":7699, "3 m":16899, "4 m":25299}
+  },
+  huur: {
+    Winterzilver:{"1,50 m":4499, "2 m":5599, "3 m":13899, "4 m":20799},
+    Naturel:{"1,50 m":4599, "2 m":5199, "3 m":12199, "4 m":18999},
+    Bordeaux:{"1,50 m":4899, "2 m":5899, "3 m":13499, "4 m":20999},
+    Zuurstok:{"1,50 m":2699, "2 m":3899, "3 m":8499, "4 m":12699}
   },
 };
 export const PAKKETTEN = ["Geen", ...Object.keys(PRIJS.pakket)];
@@ -47,8 +54,8 @@ export function totaalVan(r) {
   const boom = PRIJS.boom[r.hoogte];
   if (!boom) return null;
   let t = boom + PRIJS.levering + PRIJS.ophaling;
-  const p = PRIJS.pakket[r.versierpakket]?.[r.hoogte];
-  if (p) t += r.pakket_vorm === "Huren" ? Math.round(p / 2) : p;
+  const p = (r.pakket_vorm === "Huren" ? PRIJS.huur : PRIJS.pakket)[r.versierpakket]?.[r.hoogte];
+  if (p) t += p;
   if (r.versieren === "ja") t += PRIJS.versieren;
   if (r.weghalen === "ja") t += PRIJS.weghalen;
   return t;

@@ -225,6 +225,8 @@ textarea{min-height:72px;resize:vertical}
 .choice{position:relative}
 .choice input{position:absolute;opacity:0;inset:0;cursor:pointer}
 .choice span{display:block;padding:12px 18px;border:1.5px solid #aab3a8;border-radius:6px;font-size:16px;font-weight:500}
+.choice span .pr{display:block;font-size:14px;font-weight:600;color:var(--brass-ink);margin-top:2px}
+.choice input:checked+span .pr{color:#e9d7b0}
 .choice input:checked+span{border-color:var(--fir);background:var(--fir);color:var(--ivory)}
 .choice input:focus-visible+span{outline:2px solid var(--brass);outline-offset:2px}
 .check{display:grid;grid-template-columns:22px 1fr;gap:12px;align-items:start;font-size:16px;letter-spacing:0;text-transform:none;font-weight:400;color:var(--fir)}
@@ -425,7 +427,7 @@ footer .partner:hover{color:var(--brass-light)}
       <div class="head">
         <p class="label">Versierpakket · optioneel</p>
         <h2>Liever meteen in stijl?</h2>
-        <p>Kies een versierpakket en we brengen het mee met je boom. Alles in één kleurenpalet, op elkaar afgestemd. Je kan het kopen of huren voor de helft van de prijs. Wil je, dan versieren wij je boom (€ 40) en halen we de versiering na de feesten er weer af (€ 40).</p>
+        <p>Kies een versierpakket en we brengen het mee met je boom. Alles in één kleurenpalet, op elkaar afgestemd. Je kan het kopen of huren voor ongeveer de helft van de prijs. Wil je, dan versieren wij je boom (€ 40) en halen we de versiering na de feesten er weer af (€ 40).</p>
       </div>
       <div class="styles" role="group" aria-label="Versierpakketten">
         <figure class="style" data-pakket="Winterzilver">
@@ -524,11 +526,11 @@ footer .partner:hover{color:var(--brass-light)}
         <div class="field">
           <span class="lbl" id="lbl-h">Hoogte</span>
           <div class="choices" role="radiogroup" aria-labelledby="lbl-h">
-            <label class="choice"><input type="radio" name="hoogte" id="h15" value="1,50 m"><span>1,50 meter</span></label>
-            <label class="choice"><input type="radio" name="hoogte" id="h2" value="2 m" checked><span>2 meter</span></label>
-            <label class="choice"><input type="radio" name="hoogte" id="h3" value="3 m"><span>3 meter</span></label>
-            <label class="choice"><input type="radio" name="hoogte" id="h4" value="4 m"><span>4 meter</span></label>
-            <label class="choice"><input type="radio" name="hoogte" id="hx" value="Weet ik nog niet"><span>Weet ik nog niet</span></label>
+            <label class="choice"><input type="radio" name="hoogte" id="h15" value="1,50 m"><span>1,50 meter<small class="pr">€ 60</small></span></label>
+            <label class="choice"><input type="radio" name="hoogte" id="h2" value="2 m" checked><span>2 meter<small class="pr">€ 80</small></span></label>
+            <label class="choice"><input type="radio" name="hoogte" id="h3" value="3 m"><span>3 meter<small class="pr">€ 150</small></span></label>
+            <label class="choice"><input type="radio" name="hoogte" id="h4" value="4 m"><span>4 meter<small class="pr">€ 220</small></span></label>
+            <label class="choice"><input type="radio" name="hoogte" id="hx" value="Weet ik nog niet"><span>Weet ik nog niet<small class="pr">prijs volgt</small></span></label>
           </div>
         </div>
         <div class="field">
@@ -544,11 +546,11 @@ footer .partner:hover{color:var(--brass-light)}
         <div class="field">
           <span class="lbl" id="lbl-p">Versierpakket <span class="opt">optioneel</span></span>
           <div class="choices" role="radiogroup" aria-labelledby="lbl-p">
-            <label class="choice"><input type="radio" name="versierpakket" id="p0" value="Geen" checked><span>Geen, ik versier zelf</span></label>
-            <label class="choice"><input type="radio" name="versierpakket" id="p-Winterzilver" value="Winterzilver"><span>Winterzilver</span></label>
-            <label class="choice"><input type="radio" name="versierpakket" id="p-Naturel" value="Naturel"><span>Naturel</span></label>
-            <label class="choice"><input type="radio" name="versierpakket" id="p-Bordeaux" value="Bordeaux"><span>Bordeaux</span></label>
-            <label class="choice"><input type="radio" name="versierpakket" id="p-Zuurstok" value="Zuurstok"><span>Zuurstok</span></label>
+            <label class="choice"><input type="radio" name="versierpakket" id="p0" value="Geen" checked><span>Geen<small class="pr">ik versier zelf</small></span></label>
+            <label class="choice"><input type="radio" name="versierpakket" id="p-Winterzilver" value="Winterzilver"><span>Winterzilver<small class="pr" data-pr="Winterzilver"></small></span></label>
+            <label class="choice"><input type="radio" name="versierpakket" id="p-Naturel" value="Naturel"><span>Naturel<small class="pr" data-pr="Naturel"></small></span></label>
+            <label class="choice"><input type="radio" name="versierpakket" id="p-Bordeaux" value="Bordeaux"><span>Bordeaux<small class="pr" data-pr="Bordeaux"></small></span></label>
+            <label class="choice"><input type="radio" name="versierpakket" id="p-Zuurstok" value="Zuurstok"><span>Zuurstok<small class="pr" data-pr="Zuurstok"></small></span></label>
           </div>
         </div>
         <div class="field" id="vormwrap" hidden>
@@ -557,7 +559,7 @@ footer .partner:hover{color:var(--brass-light)}
             <label class="choice"><input type="radio" name="pakket_vorm" id="v-koop" value="Kopen" checked><span id="v-koop-l">Kopen</span></label>
             <label class="choice"><input type="radio" name="pakket_vorm" id="v-huur" value="Huren"><span id="v-huur-l">Huren</span></label>
           </div>
-          <p class="fine">Huren kost de helft. Na de feesten nemen we de versiering dan mee terug.</p>
+          <p class="fine">Huren kost ongeveer de helft. Na de feesten nemen we de versiering dan mee terug.</p>
         </div>
         <label class="check" id="versierwrap" hidden><input type="checkbox" id="versieren" name="versieren" value="ja"><span><b>Versier mijn boom voor mij</b> (+ € 40). Wij hangen het pakket op bij de levering.</span></label>
         <label class="check" id="weghalenwrap"><input type="checkbox" id="weghalen" name="weghalen" value="ja"><span><b>Haal de versiering eraf bij de ophaling</b> (+ € 40). Wij halen alles van de boom voor we hem verhakselen. Bij huur nemen we ze meteen mee.</span></label>
@@ -589,7 +591,7 @@ footer .partner:hover{color:var(--brass-light)}
         </div>
         <div>
           <details><summary>Hoe hou ik hem mooi?</summary><p>Zet hem niet vlak bij de verwarming of de kachel, en laat de lichtjes niet dag en nacht branden. Een Nordmann houdt zijn naalden van nature lang vast.</p></details>
-          <details><summary>Wat is een versierpakket?</summary><p>Een set versiering in één stijl, Winterzilver, Naturel, Bordeaux of Zuurstok, die we samen met je boom meebrengen. De prijs hangt af van de hoogte van je boom. Je kan het pakket kopen of huren voor de helft van de prijs: gehuurde versiering nemen we na de feesten mee terug. Wil je, dan versieren wij je boom voor € 40, en halen we de versiering na de feesten er weer af voor € 40.</p></details>
+          <details><summary>Wat is een versierpakket?</summary><p>Een set versiering in één stijl, Winterzilver, Naturel, Bordeaux of Zuurstok, die we samen met je boom meebrengen. De prijs hangt af van de hoogte van je boom. Je kan het pakket kopen of huren voor ongeveer de helft van de prijs: gehuurde versiering nemen we na de feesten mee terug. Wil je, dan versieren wij je boom voor € 40, en halen we de versiering na de feesten er weer af voor € 40.</p></details>
           <details><summary>Wat gebeurt er met de boom?</summary><p>We verhakselen hem ter plaatse tot houtsnippers. Je hoeft hem dus niet door je huis naar buiten te sleuren of naar het containerpark te brengen.</p></details>
           <details><summary>Wie ziet mijn gegevens?</summary><p>De organisator van KAAS, en de leverancier en de ophaler voor de adressen die ze moeten bezoeken. Op de site zelf staan nergens namen of adressen.</p></details>
         </div>
@@ -645,13 +647,19 @@ footer .partner:hover{color:var(--brass-light)}
   const LEVERING = 3000, OPHALING = 3000, VERSIEREN = 4000, WEGHALEN = 4000;
   const HOOG = { 1.5:{id:'h15', waarde:'1,50 m'}, 2:{id:'h2', waarde:'2 m'}, 3:{id:'h3', waarde:'3 m'}, 4:{id:'h4', waarde:'4 m'} };
   const BOOM = {'1,50 m':6000, '2 m':8000, '3 m':15000, '4 m':22000};
+  /* versierpakketten: koop- en huurprijs, afgerond naar boven op ,99 */
   const PAKKET = {
-    Winterzilver:{'1,50 m':8960, '2 m':11056, '3 m':27729, '4 m':41504},
-    Naturel:     {'1,50 m':9105, '2 m':10370, '3 m':24320, '4 m':37985},
-    Bordeaux:    {'1,50 m':9785, '2 m':11780, '3 m':26904, '4 m':41925},
-    Zuurstok:    {'1,50 m':5305, '2 m':7600,  '3 m':16855, '4 m':25209}
+    Winterzilver:{'1,50 m':8999, '2 m':11099, '3 m':27799, '4 m':41599},
+    Naturel:{'1,50 m':9199, '2 m':10399, '3 m':24399, '4 m':37999},
+    Bordeaux:{'1,50 m':9799, '2 m':11799, '3 m':26999, '4 m':41999},
+    Zuurstok:{'1,50 m':5399, '2 m':7699, '3 m':16899, '4 m':25299}
   };
-  const huur = c => Math.round(c/2);
+  const HUUR = {
+    Winterzilver:{'1,50 m':4499, '2 m':5599, '3 m':13899, '4 m':20799},
+    Naturel:{'1,50 m':4599, '2 m':5199, '3 m':12199, '4 m':18999},
+    Bordeaux:{'1,50 m':4899, '2 m':5899, '3 m':13499, '4 m':20999},
+    Zuurstok:{'1,50 m':2699, '2 m':3899, '3 m':8499, '4 m':12699}
+  };
   const eur = c => new Intl.NumberFormat('nl-BE',{style:'currency',currency:'EUR', minimumFractionDigits: c%100 ? 2 : 0, maximumFractionDigits: 2}).format(c/100);
   const eur2 = c => new Intl.NumberFormat('nl-BE',{style:'currency',currency:'EUR', minimumFractionDigits:2}).format(c/100);
   const huidigeHoogte = () => (document.querySelector('input[name=hoogte]:checked')||{}).value;
@@ -724,8 +732,8 @@ footer .partner:hover{color:var(--brass-light)}
   const gekozen = n => (document.querySelector(`input[name=${n}]:checked`)||{}).value;
   function cardPrices(w){
     cards.forEach(c=>{
-      const k = PAKKET[c.dataset.pakket][w], el = c.querySelector('.pp');
-      el.innerHTML = `Voor een boom van ${w}:<br>kopen <b>${eur2(k)}</b> · huren <b>${eur2(huur(k))}</b>`;
+      const k = PAKKET[c.dataset.pakket][w], hu = HUUR[c.dataset.pakket][w], el = c.querySelector('.pp');
+      el.innerHTML = `Voor een boom van ${w}:<br>kopen <b>${eur2(k)}</b> · huren <b>${eur2(hu)}</b>`;
     });
     const t = document.getElementById('ptable-h'); if (t) t.textContent = w;
   }
@@ -742,14 +750,15 @@ footer .partner:hover{color:var(--brass-light)}
     document.getElementById('versierwrap').hidden = !kanVersieren;
     if (!kanVersieren) document.getElementById('versieren').checked = false;
     const el = document.getElementById('sum');
-    if (!BOOM[w]){ el.innerHTML = '<span>Kies een hoogte om je prijs te zien.</span>'; document.getElementById('v-koop-l').textContent = 'Kopen'; document.getElementById('v-huur-l').textContent = 'Huren, de helft van de prijs'; return; }
+    if (!BOOM[w]){ document.querySelectorAll('[data-pr]').forEach(e=>{ const n = e.dataset.pr; e.textContent = `vanaf ${eur2(PAKKET[n]['1,50 m'])}`; }); el.innerHTML = '<span>Kies een hoogte om je prijs te zien.</span>'; document.getElementById('v-koop-l').textContent = 'Kopen'; document.getElementById('v-huur-l').textContent = 'Huren, de helft van de prijs'; return; }
+    document.querySelectorAll('[data-pr]').forEach(e=>{ const n = e.dataset.pr; e.textContent = `kopen ${eur2(PAKKET[n][w])} · huren ${eur2(HUUR[n][w])}`; });
     if (metPakket){
       const k = PAKKET[pak][w];
       document.getElementById('v-koop-l').textContent = `Kopen · ${eur2(k)}`;
-      document.getElementById('v-huur-l').textContent = `Huren · ${eur2(huur(k))}`;
+      document.getElementById('v-huur-l').textContent = `Huren · ${eur2(HUUR[pak][w])}`;
     }
     const regels = [[`Boom van ${w}`, BOOM[w]], ['Brengen en plaatsen', LEVERING], ['Ophalen en verhakselen', OPHALING]];
-    if (metPakket) regels.push([`Versierpakket ${pak} (${vorm === 'Huren' ? 'huur' : 'koop'})`, vorm === 'Huren' ? huur(PAKKET[pak][w]) : PAKKET[pak][w]]);
+    if (metPakket) regels.push([`Versierpakket ${pak} (${vorm === 'Huren' ? 'huur' : 'koop'})`, vorm === 'Huren' ? HUUR[pak][w] : PAKKET[pak][w]]);
     if (kanVersieren && document.getElementById('versieren').checked) regels.push(['Wij versieren je boom', VERSIEREN]);
     if (document.getElementById('weghalen').checked) regels.push(['Versiering afhalen', WEGHALEN]);
     const tot = regels.reduce((a,[,c])=>a+c, 0);
@@ -761,7 +770,7 @@ footer .partner:hover{color:var(--brass-light)}
   document.querySelectorAll('input[name=hoogte],input[name=pakket_vorm],#weghalen').forEach(r=>r.addEventListener('change', updateSum));
   /* wie ons laat versieren, krijgt het afhalen standaard aangevinkt (uitvinken kan) */
   document.getElementById('versieren').addEventListener('change', e=>{ if (e.target.checked) document.getElementById('weghalen').checked = true; updateSum(); });
-  document.getElementById('pakketprijzen').innerHTML = Object.entries(PAKKET).map(([n,p])=>`<tr><th scope="row">${n}</th>${['1,50 m','2 m','3 m','4 m'].map(w=>`<td>${eur2(p[w])}<small>huur ${eur2(huur(p[w]))}</small></td>`).join('')}</tr>`).join('');
+  document.getElementById('pakketprijzen').innerHTML = Object.entries(PAKKET).map(([n,p])=>`<tr><th scope="row">${n}</th>${['1,50 m','2 m','3 m','4 m'].map(w=>`<td>${eur2(p[w])}<small>huur ${eur2(HUUR[n][w])}</small></td>`).join('')}</tr>`).join('');
   cardPrices('2 m'); setHeight(2); updateSum();
 
   /* calendar 23 nov – 10 jan */

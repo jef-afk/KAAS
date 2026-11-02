@@ -12,8 +12,43 @@ export const GEBRUIKERS = {
 };
 
 export const STATUSSEN = ["interesse", "bevestigd", "geleverd", "opgehaald", "geannuleerd"];
-export const KLANTVELDEN = ["gemeente", "andere_gemeente", "voornaam", "achternaam", "straat", "huisnummer", "email", "telefoon", "hoogte", "levering", "versierpakket", "opmerking"];
+export const KLANTVELDEN = ["gemeente", "andere_gemeente", "voornaam", "achternaam", "straat", "huisnummer", "email", "telefoon", "hoogte", "levering", "versierpakket", "pakket_vorm", "versieren", "opmerking"];
 export const WERKVELDEN = ["leverdatum", "notitie_levering", "ophaaldatum", "notitie_ophaling", "notitie_admin"];
+
+/* ---------- prijzen (in eurocent) ----------
+   Dezelfde tabel staat in public/index.html. */
+export const PRIJS = {
+  levering: 3000,
+  versieren: 5000,
+  boom: { "1,50 m": 6000, "2 m": 8000, "3 m": 15000, "4 m": 22000 },
+  pakket: {
+    Winterzilver: { "1,50 m": 8960, "2 m": 11056, "3 m": 27729, "4 m": 41504 },
+    Naturel: { "1,50 m": 9105, "2 m": 10370, "3 m": 24320, "4 m": 37985 },
+    Bordeaux: { "1,50 m": 9785, "2 m": 11780, "3 m": 26904, "4 m": 41925 },
+    Zuurstok: { "1,50 m": 5305, "2 m": 7600, "3 m": 16855, "4 m": 25209 },
+  },
+};
+export const PAKKETTEN = ["Geen", ...Object.keys(PRIJS.pakket)];
+
+/* Zet pakketkeuzes recht: zonder pakket geen koop/huur, versieren enkel bij koop. */
+export function normaliseerPakket(r) {
+  if (!PAKKETTEN.includes(r.versierpakket)) r.versierpakket = "Geen";
+  if (r.versierpakket === "Geen") { r.pakket_vorm = ""; r.versieren = "nee"; return r; }
+  if (r.pakket_vorm !== "Huren") r.pakket_vorm = "Kopen";
+  r.versieren = r.pakket_vorm === "Kopen" && r.versieren === "ja" ? "ja" : "nee";
+  return r;
+}
+
+/* Totaalprijs in eurocent, of null als de hoogte nog niet gekozen is. */
+export function totaalVan(r) {
+  const boom = PRIJS.boom[r.hoogte];
+  if (!boom) return null;
+  let t = boom + PRIJS.levering;
+  const p = PRIJS.pakket[r.versierpakket]?.[r.hoogte];
+  if (p) t += r.pakket_vorm === "Huren" ? Math.round(p / 2) : p;
+  if (r.versieren === "ja") t += PRIJS.versieren;
+  return t;
+}
 
 const LENGTE = { opmerking: 1000, notitie_levering: 1000, notitie_ophaling: 1000, notitie_admin: 2000 };
 
@@ -117,7 +152,7 @@ export function zichtVoor(rol, r) {
     id: r.id, status: r.status, gemeente: gemeenteVan(r),
     naam: `${r.voornaam || ""} ${r.achternaam || ""}`.trim(),
     straat: r.straat, huisnummer: r.huisnummer, telefoon: r.telefoon,
-    hoogte: r.hoogte, versierpakket: r.versierpakket || "Geen", opmerking: r.opmerking,
+    hoogte: r.hoogte, versierpakket: r.versierpakket || "Geen", pakket_vorm: r.pakket_vorm || "", versieren: r.versieren || "nee", opmerking: r.opmerking,
     leverdatum: r.leverdatum || "", notitie_levering: r.notitie_levering || "",
   };
   if (rol === "levering") return { ...basis, levering: r.levering };
@@ -136,7 +171,8 @@ export function planningVoor(rol, records) {
       perHoogte: tel(open, (r) => r.hoogte),
       perGemeente: tel(open, gemeenteVan),
       perWeekend: tel(open, (r) => r.levering),
-      perPakket: tel(open.filter((r) => r.versierpakket && r.versierpakket !== "Geen"), (r) => r.versierpakket),
+      perPakket: tel(open.filter((r) => r.versierpakket && r.versierpakket !== "Geen"), (r) => `${r.versierpakket} (${r.pakket_vorm === "Huren" ? "huur" : "koop"})`),
+      versieren: open.filter((r) => r.versieren === "ja").length,
     };
   }
   if (rol === "ophaling") {
@@ -146,6 +182,7 @@ export function planningVoor(rol, records) {
       totaal: staan.length,
       perHoogte: tel(staan, (r) => r.hoogte),
       perGemeente: tel(staan, gemeenteVan),
+      huurTerug: tel(staan.filter((r) => r.pakket_vorm === "Huren"), (r) => r.versierpakket),
     };
   }
   return null;
@@ -188,6 +225,7 @@ export function pasToe(record, wijzigingen, door) {
     const w = k === "status" ? v : schoon(k, v);
     if (nieuw[k] !== w) { nieuw[k] = w; veranderd.push(k === "status" ? `status → ${w}` : k); }
   }
+  if (KLANTVELDEN.some((k) => k in wijzigingen)) { normaliseerPakket(nieuw); nieuw.totaal = totaalVan(nieuw); }
   if (wijzigingen.status === "geleverd" && !nieuw.leverdatum) nieuw.leverdatum = vandaag();
   if (wijzigingen.status === "opgehaald" && !nieuw.ophaaldatum) nieuw.ophaaldatum = vandaag();
   if (veranderd.length) {

@@ -1,10 +1,9 @@
 // Publiek: nieuwe inschrijving op de interesselijst.
 import crypto from "node:crypto";
-import { store, json, fout, leesJson, schoon, KLANTVELDEN } from "../lib/kern.mjs";
+import { store, json, fout, leesJson, schoon, KLANTVELDEN, normaliseerPakket, totaalVan } from "../lib/kern.mjs";
 
 const GEMEENTEN = ["Kalmthout", "Essen", "Stabroek", "Kapellen", "Brasschaat", "Andere"];
 const HOOGTES = ["1,50 m", "2 m", "3 m", "4 m", "Weet ik nog niet"];
-const PAKKETTEN = ["Geen", "Winterzilver", "Naturel", "Bordeaux", "Zuurstok"];
 
 export default async (req) => {
   if (req.method !== "POST") return fout("Gebruik POST.", 405);
@@ -23,13 +22,13 @@ export default async (req) => {
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.email)) return fout("Vul een geldig e-mailadres in.");
   if (!HOOGTES.includes(r.hoogte)) r.hoogte = "Weet ik nog niet";
-  if (!PAKKETTEN.includes(r.versierpakket)) r.versierpakket = "Geen";
+  normaliseerPakket(r);
   if (body.interesse !== "ja" || body.toestemming !== "ja") return fout("Vink beide vakjes onderaan aan.");
 
   const nu = new Date().toISOString();
   const id = crypto.randomUUID();
   const record = {
-    ...r, id, datum: nu, status: "interesse",
+    ...r, id, datum: nu, status: "interesse", totaal: totaalVan(r),
     leverdatum: "", notitie_levering: "", ophaaldatum: "", notitie_ophaling: "", notitie_admin: "",
     geschiedenis: [{ t: nu, door: "website", actie: "ingeschreven" }],
   };

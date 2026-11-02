@@ -3,7 +3,7 @@ import crypto from "node:crypto";
 import { store, json, fout, leesJson, schoon, KLANTVELDEN } from "../lib/kern.mjs";
 
 const GEMEENTEN = ["Kalmthout", "Essen", "Stabroek", "Kapellen", "Brasschaat", "Andere"];
-const HOOGTES = ["2 m", "3 m", "4 m", "Weet ik nog niet"];
+const HOOGTES = ["1,50 m", "2 m", "3 m", "4 m", "Weet ik nog niet"];
 const PAKKETTEN = ["Geen", "Winterzilver", "Naturel", "Bordeaux", "Zuurstok"];
 
 export default async (req) => {

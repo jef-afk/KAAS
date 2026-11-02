@@ -154,6 +154,8 @@ section[id]{scroll-margin-top:64px}
 .hval{font-family:var(--f-display);font-weight:600;font-size:clamp(68px,9vw,112px);line-height:.9;font-variant-numeric:lining-nums}
 .hval small{font-family:var(--f-body);font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--fir-soft);margin-left:10px;vertical-align:middle}
 .hfor{font-size:20px;font-weight:500}
+.hprice{font-size:18px}
+.hprice b{font-family:var(--f-display);font-weight:700;font-size:26px}
 .htip{font-size:17px;color:var(--fir-soft);border-left:3px solid var(--brass);padding-left:14px}
 @media (max-width:860px){.heights{grid-template-columns:1fr;gap:32px}}
 
@@ -166,6 +168,17 @@ section[id]{scroll-margin-top:64px}
 .weeks h3{font-size:28px;margin-bottom:10px}
 .weeks p{color:var(--fir-soft);max-width:52ch;font-size:18px}
 @media (max-width:680px){.weeks{grid-template-columns:1fr;gap:24px}.cal{grid-template-columns:repeat(7,minmax(0,1fr))}}
+
+/* ---------- prices ---------- */
+.pricewrap{overflow-x:auto;background:var(--ivory);border:1px solid var(--line)}
+.prices{width:100%;border-collapse:collapse;font-size:18px;font-variant-numeric:tabular-nums}
+.prices th,.prices td{padding:18px 22px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+.prices thead th{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fir-soft);background:var(--chalk-2)}
+.prices tbody th{font-family:var(--f-display);font-weight:700;font-size:22px}
+.prices td b{font-family:var(--f-display);font-weight:700;font-size:22px}
+.prices tbody tr:last-child th,.prices tbody tr:last-child td{border-bottom:0}
+.pricenote{margin-top:16px;color:var(--fir-soft);font-size:16.5px;max-width:70ch}
+@media (max-width:560px){.prices th,.prices td{padding:14px 12px;font-size:16px}.prices tbody th,.prices td b{font-size:18px}.prices thead th{font-size:11px;white-space:normal}}
 
 /* ---------- decoration packages ---------- */
 .styles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
@@ -213,6 +226,8 @@ textarea{min-height:72px;resize:vertical}
 .check{display:grid;grid-template-columns:22px 1fr;gap:12px;align-items:start;font-size:16px;letter-spacing:0;text-transform:none;font-weight:400;color:var(--fir)}
 .check input{width:18px;height:18px;margin:3px 0 0;accent-color:var(--fir)}
 .fine{font-size:14.5px;color:var(--fir-soft)}
+.sum{background:var(--chalk);border-left:3px solid var(--brass);padding:12px 14px;font-size:16px}
+.sum b{font-weight:700}
 .status{padding:14px 16px;font-size:16px}
 .status.ok{background:#e1ebe3;border-left:2px solid var(--ok)}
 .status.err{background:#f4e4dd;border-left:2px solid var(--warn)}
@@ -249,6 +264,7 @@ footer .partner:hover{color:var(--brass-light)}
     <nav>
       <a class="nl" href="#hoe">Zo werkt het</a>
       <a class="nl" href="#hoogte">Hoogtes</a>
+      <a class="nl" href="#prijzen">Prijzen</a>
       <a class="nl" href="#versiering">Versiering</a>
       <a class="nl" href="#vragen">Vragen</a>
       <a class="btn btn-ivory" href="#inschrijven">Schrijf je in</a>
@@ -278,8 +294,8 @@ footer .partner:hover{color:var(--brass-light)}
     <div class="wrap">
       <ul>
         <li><b>Echte Nordmann</b><span>Vers, naaldvast en zacht. Prikt niet.</span></li>
-        <li><b>2, 3 of 4 meter</b><span>Gemeten met voet en al.</span></li>
-        <li><b>Gebracht en geplaatst</b><span>Op het weekend dat jij kiest.</span></li>
+        <li><b>1,50 tot 4 meter</b><span>Boom vanaf €60.</span></li>
+        <li><b>Gebracht en geplaatst</b><span>Op een houten kruis, €30.</span></li>
         <li><b>Opgehaald na de feesten</b><span>Ter plaatse verhakseld.</span></li>
       </ul>
       <p class="where">Voor Kalmthout, Essen, Stabroek, Kapellen en Brasschaat. Inschrijven is vrijblijvend.</p>
@@ -294,7 +310,7 @@ footer .partner:hover{color:var(--brass-light)}
       </div>
       <ol class="steps">
         <li><span class="n">1</span><span class="who">Wij</span><h3>Gebracht</h3><p>Op het weekend dat jij kiest, vers en ingepakt aan je deur. Geen dakdragers, geen naalden in de auto.</p></li>
-        <li><span class="n">2</span><span class="who">Wij</span><h3>Geplaatst</h3><p>Kaarsrecht in een stevige voet met waterreservoir, op de plek die jij kiest. Het net gaat er pas binnen af.</p></li>
+        <li><span class="n">2</span><span class="who">Wij</span><h3>Geplaatst</h3><p>Gemonteerd op een stevig houten kruis en kaarsrecht gezet, op de plek die jij kiest. Het net gaat er pas binnen af.</p></li>
         <li class="you"><span class="n">3</span><span class="who">Jij</span><h3>Versierd</h3><p>Met je eigen versiering of met een versierpakket dat we meebrengen. Met de kinderen, met muziek op de achtergrond.</p></li>
         <li><span class="n">4</span><span class="who">Wij</span><h3>Opgehaald</h3><p>Na de feesten halen we hem op en verhakselen hem ter plaatse. Geen naaldenspoor door de gang, geen rit naar het containerpark.</p></li>
       </ol>
@@ -325,7 +341,7 @@ footer .partner:hover{color:var(--brass-light)}
           <h2>Blijft staan zoals hij binnenkwam.</h2>
         </div>
         <dl class="traits">
-          <div class="trait"><dt>Naaldvast</dt><dd>Met genoeg water staat een Nordmann wekenlang vol, ook tot na Nieuwjaar. Geen tapijt van naalden onder de boom.</dd></div>
+          <div class="trait"><dt>Naaldvast</dt><dd>Een Nordmann houdt zijn naalden langer vast dan de meeste kerstbomen. Geen tapijt van naalden onder de boom.</dd></div>
           <div class="trait"><dt>Zacht</dt><dd>De naalden zijn plat en stomp. Kinderhanden en ballen ophangen gaan prima samen.</dd></div>
           <div class="trait"><dt>Diep groen</dt><dd>Glanzend donkergroen aan de bovenkant, met twee zilveren streepjes onder elke naald.</dd></div>
           <div class="trait"><dt>Stevig</dt><dd>Horizontale etages met ruimte ertussen, sterk genoeg voor zware glazen ballen en een lange lichtsnoer.</dd></div>
@@ -348,20 +364,22 @@ footer .partner:hover{color:var(--brass-light)}
     <div class="wrap">
       <div class="head">
         <p class="label">Kies je hoogte</p>
-        <h2>Twee, drie of vier meter.</h2>
-        <p>Meet even je plafond. De hoogte is gemeten met voet en al, dus zo komt hij ook in je kamer te staan.</p>
+        <h2>Van 1,50 tot 4 meter.</h2>
+        <p>Meet even je plafond. De hoogte is gemeten met het houten kruis erbij, dus zo komt hij ook in je kamer te staan.</p>
       </div>
       <div class="heights">
-        <div class="drawing"><svg id="roomsvg" viewBox="0 0 520 330" role="img" aria-label="Schets van bomen van 2, 3 en 4 meter naast een persoon van 1,75 meter"></svg></div>
+        <div class="drawing"><svg id="roomsvg" viewBox="0 0 600 330" role="img" aria-label="Schets van bomen van 1,50, 2, 3 en 4 meter naast een persoon van 1,75 meter"></svg></div>
         <div class="choose">
           <div class="hseg" role="group" aria-label="Boomhoogte">
-            <button type="button" data-h="2" aria-pressed="true">2 meter</button>
-            <button type="button" data-h="3" aria-pressed="false">3 meter</button>
-            <button type="button" data-h="4" aria-pressed="false">4 meter</button>
+            <button type="button" data-h="1.5" aria-pressed="false">1,50 m</button>
+            <button type="button" data-h="2" aria-pressed="true">2 m</button>
+            <button type="button" data-h="3" aria-pressed="false">3 m</button>
+            <button type="button" data-h="4" aria-pressed="false">4 m</button>
           </div>
           <div class="hval" id="hbig">2,00<small>meter</small></div>
           <p class="hfor" id="hfor"></p>
           <p class="htip" id="htip"></p>
+          <p class="hprice" id="hprice"></p>
           <a class="btn btn-dark arrow" href="#inschrijven" style="justify-self:start">Deze hoogte</a>
         </div>
       </div>
@@ -372,6 +390,28 @@ footer .partner:hover{color:var(--brass-light)}
           <p>Laat je boom brengen bij het begin van de advent en hij staat er bij Sinterklaas, op kerstavond, op oudejaar en op Driekoningen. Daarna komen we hem halen.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="band" id="prijzen" style="border-top:1px solid var(--line)">
+    <div class="wrap">
+      <div class="head">
+        <p class="label">Prijzen</p>
+        <h2>Eén prijs per boom, plus de levering.</h2>
+        <p>Je betaalt de boom en een vast bedrag om hem te brengen en te plaatsen op een houten kruis.</p>
+      </div>
+      <div class="pricewrap">
+        <table class="prices">
+          <thead><tr><th scope="col">Hoogte</th><th scope="col">Boom</th><th scope="col">Levering en plaatsing</th><th scope="col">Samen</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">1,50 m</th><td>€ 60</td><td>€ 30</td><td><b>€ 90</b></td></tr>
+            <tr><th scope="row">2 m</th><td>€ 80</td><td>€ 30</td><td><b>€ 110</b></td></tr>
+            <tr><th scope="row">3 m</th><td>€ 150</td><td>€ 30</td><td><b>€ 180</b></td></tr>
+            <tr><th scope="row">4 m</th><td>€ 220</td><td>€ 30</td><td><b>€ 250</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="pricenote">De prijs voor het ophalen en verhakselen na de feesten en die van de versierpakketten maken we nog bekend.</p>
     </div>
   </section>
 
@@ -432,7 +472,7 @@ footer .partner:hover{color:var(--brass-light)}
         <p>We tellen hoeveel gezinnen per gemeente meedoen, zodat we de bomen en de leverrondes juist kunnen plannen. Zodra prijs en leverdata vastliggen, hoor je het als eerste.</p>
         <ul>
           <li>Vrijblijvend, geen betaling en geen contract</li>
-          <li>Je ziet prijs en planning vóór je beslist</li>
+          <li>We bevestigen prijs en leverdatum, pas dan beslis je</li>
           <li>Namen en adressen staan nergens publiek</li>
         </ul>
       </div>
@@ -467,11 +507,13 @@ footer .partner:hover{color:var(--brass-light)}
         <div class="field">
           <span class="lbl" id="lbl-h">Hoogte</span>
           <div class="choices" role="radiogroup" aria-labelledby="lbl-h">
+            <label class="choice"><input type="radio" name="hoogte" id="h15" value="1,50 m"><span>1,50 meter</span></label>
             <label class="choice"><input type="radio" name="hoogte" id="h2" value="2 m" checked><span>2 meter</span></label>
             <label class="choice"><input type="radio" name="hoogte" id="h3" value="3 m"><span>3 meter</span></label>
             <label class="choice"><input type="radio" name="hoogte" id="h4" value="4 m"><span>4 meter</span></label>
             <label class="choice"><input type="radio" name="hoogte" id="hx" value="Weet ik nog niet"><span>Weet ik nog niet</span></label>
           </div>
+          <p class="sum" id="sum" aria-live="polite"></p>
         </div>
         <div class="field">
           <label for="levering">Leverweekend</label>
@@ -512,11 +554,11 @@ footer .partner:hover{color:var(--brass-light)}
       <div class="faq">
         <div>
           <details open><summary>Moet ik nu al betalen?</summary><p>Nee. Deze pagina verzamelt alleen wie interesse heeft. Er gebeurt geen betaling en je sluit geen contract. Pas als prijs en planning vastliggen, beslis je of je meedoet.</p></details>
-          <details><summary>Wat kost het?</summary><p>Dat maken we bekend zodra we weten hoeveel bomen we per gemeente nodig hebben. Levering, plaatsing, ophaling en verhakselen zitten er allemaal in. Wie op de lijst staat, hoort het als eerste.</p></details>
+          <details><summary>Wat kost het?</summary><p>Een boom van 1,50 m kost € 60, van 2 m € 80, van 3 m € 150 en van 4 m € 220. Brengen en plaatsen op een houten kruis kost € 30. De prijs voor het ophalen en verhakselen maken we nog bekend.</p></details>
           <details><summary>Wanneer komt hij en wanneer gaat hij weg?</summary><p>Je kiest zelf een leverweekend, vanaf de start van de advent eind november. Na de feesten, rond Driekoningen, plannen we de ophaalronde per gemeente.</p></details>
         </div>
         <div>
-          <details><summary>Hoe hou ik hem mooi?</summary><p>Zet hem weg van de verwarming en vul het waterreservoir van de voet elke dag bij. Een verse boom drinkt de eerste dagen flink. Dan houdt een Nordmann zijn naalden wekenlang.</p></details>
+          <details><summary>Hoe hou ik hem mooi?</summary><p>Zet hem niet vlak bij de verwarming of de kachel, en laat de lichtjes niet dag en nacht branden. Een Nordmann houdt zijn naalden van nature lang vast.</p></details>
           <details><summary>Wat is een versierpakket?</summary><p>Een set versiering in één stijl, Winterzilver, Naturel, Bordeaux of Zuurstok, die we samen met je boom meebrengen. Het is optioneel: je kan ook gewoon je eigen versiering gebruiken. De inhoud en de prijs maken we bekend samen met de prijs van de bomen.</p></details>
           <details><summary>Wat gebeurt er met de boom?</summary><p>We verhakselen hem ter plaatse tot houtsnippers. Je hoeft hem dus niet door je huis naar buiten te sleuren of naar het containerpark te brengen.</p></details>
           <details><summary>Wie ziet mijn gegevens?</summary><p>De organisator van KAAS, en de leverancier en de ophaler voor de adressen die ze moeten bezoeken. Op de site zelf staan nergens namen of adressen.</p></details>
@@ -567,9 +609,14 @@ footer .partner:hover{color:var(--brass-light)}
     else { b.textContent = Math.round((new Date(y+1,11,25) - today)/86400000); l.textContent = 'nachten tot volgende Kerstmis'; }
   })();
 
-  /* height drawing: an architect's sketch, three trees to scale */
+  /* height drawing: an architect's sketch, four trees to scale */
   const svg = document.getElementById('roomsvg');
+  const LEVERING = 30;
+  const HOOG = { 1.5:{id:'h15', prijs:60}, 2:{id:'h2', prijs:80}, 3:{id:'h3', prijs:150}, 4:{id:'h4', prijs:220} };
+  const PRIJS_PER_WAARDE = {'1,50 m':60, '2 m':80, '3 m':150, '4 m':220};
+  const fmt = h => h.toFixed(2).replace('.', ',');
   const info = {
+    1.5:{for:'Voor een appartement, een kleinere living of een hoekje bij het raam.', tip:'Past onder elk plafond en neemt weinig plaats in. Ideaal als tweede boom of voor een kinderkamer.'},
     2:{for:'Voor de meeste woonkamers. Past onder een gewoon plafond van zo’n 2,50 m.', tip:'Hou 20 à 30 cm vrij boven de boom, anders past de piek er niet meer op.'},
     3:{for:'Voor hoge plafonds: een herenhuis, een loft of een living onder een schuin dak.', tip:'Voor plafonds vanaf 3,30 m. Reken op zo’n 1,80 m doorsnede onderaan.'},
     4:{for:'Voor een vide, een inkomhal, een praktijk of een winkel.', tip:'Vanaf 4,30 m vrije hoogte. We bekijken samen de toegang: een boom van 4 meter moet ook binnen geraken.'}
@@ -593,7 +640,7 @@ footer .partner:hover{color:var(--brass-light)}
     s += `<polygon points="${left} ${cx},${top} ${right}" fill="${active?'rgba(47,74,60,.10)':'none'}" stroke="${col}" stroke-width="${sw}" stroke-linejoin="round"/>`;
     s += `<line x1="${cx}" y1="${base}" x2="${cx}" y2="${y(.12)}" stroke="${col}" stroke-width="${sw}"/>`;
     s += `<rect x="${cx-16}" y="${y(.12)}" width="32" height="${.12*PX}" fill="none" stroke="${col}" stroke-width="${sw}"/>`;
-    s += `<text x="${cx}" y="${GY+20}" text-anchor="middle" font-family="${F}" font-size="13" font-weight="600" letter-spacing="1" fill="${active?INK:SOFT}">${h},00 M</text>`;
+    s += `<text x="${cx}" y="${GY+20}" text-anchor="middle" font-family="${F}" font-size="13" font-weight="600" letter-spacing="1" fill="${active?INK:SOFT}">${fmt(h)} M</text>`;
     if (active){
       const dx = cx + w/2 + 14;
       s += `<line x1="${dx}" y1="${GY}" x2="${dx}" y2="${top}" stroke="${BR}" stroke-width="1"/><line x1="${dx-5}" y1="${top}" x2="${dx+5}" y2="${top}" stroke="${BR}"/><line x1="${dx-5}" y1="${GY}" x2="${dx+5}" y2="${GY}" stroke="${BR}"/>`;
@@ -607,28 +654,34 @@ footer .partner:hover{color:var(--brass-light)}
       if (m%1===0) s += `<text x="${X0-12}" y="${y(m)+4}" text-anchor="end" font-family="${F}" font-size="12" fill="${SOFT}">${m}</text>`;
     }
     s += `<line x1="${X0}" y1="${GY}" x2="${X0}" y2="${y(4.6)}" stroke="${SOFT}"/>`;
-    s += `<line x1="${X0}" y1="${y(2.5)}" x2="512" y2="${y(2.5)}" stroke="${SOFT}" stroke-dasharray="3 5"/>`;
-    s += `<text x="512" y="${y(2.5)-7}" text-anchor="end" font-family="${F}" font-size="12" font-weight="600" letter-spacing="1" fill="${SOFT}">PLAFOND 2,50 M</text>`;
-    s += `<line x1="${X0}" y1="${GY}" x2="512" y2="${GY}" stroke="${INK}" stroke-width="1.4"/>`;
+    s += `<line x1="${X0}" y1="${y(2.5)}" x2="592" y2="${y(2.5)}" stroke="${SOFT}" stroke-dasharray="3 5"/>`;
+    s += `<text x="${X0+8}" y="${y(2.5)-7}" text-anchor="start" font-family="${F}" font-size="12" font-weight="600" letter-spacing="1" fill="${SOFT}">PLAFOND 2,50 M</text>`;
+    s += `<line x1="${X0}" y1="${GY}" x2="592" y2="${GY}" stroke="${INK}" stroke-width="1.4"/>`;
     // person 1,75 m, simple architectural figure
-    const px = 100, hh = 1.75*PX, top = GY - hh;
+    const px = 95, hh = 1.75*PX, top = GY - hh;
     s += `<g fill="none" stroke="${SOFT}" stroke-width="1.1"><circle cx="${px}" cy="${top+9}" r="9"/><path d="M${px-13},${GY} L${px-8},${top+70} L${px-15},${top+66} L${px-11},${top+26} Q${px},${top+20} ${px+11},${top+26} L${px+15},${top+66} L${px+8},${top+70} L${px+13},${GY}"/></g>`;
     s += `<text x="${px}" y="${GY+20}" text-anchor="middle" font-family="${F}" font-size="13" font-weight="600" letter-spacing="1" fill="${SOFT}">1,75 M</text>`;
-    s += tree(190, 2, h===2) + tree(300, 3, h===3) + tree(430, 4, h===4);
+    s += tree(160, 1.5, h===1.5) + tree(245, 2, h===2) + tree(350, 3, h===3) + tree(490, 4, h===4);
     svg.innerHTML = s;
     svg.querySelectorAll('.t').forEach(g=>g.addEventListener('click',()=>setHeight(+g.dataset.h)));
   }
   function setHeight(h, fromForm){
     document.querySelectorAll('.hseg button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.h==h)));
-    document.getElementById('hbig').innerHTML = `${h},00<small>meter</small>`;
+    document.getElementById('hbig').innerHTML = `${fmt(h)}<small>meter</small>`;
+    document.getElementById('hprice').innerHTML = `Boom <b>€ ${HOOG[h].prijs}</b> + € ${LEVERING} levering en plaatsing`;
     document.getElementById('hfor').textContent = info[h].for;
     document.getElementById('htip').textContent = info[h].tip;
     draw(h);
-    if (!fromForm){ const r = document.getElementById('h'+h); if (r) r.checked = true; }
+    if (!fromForm){ const r = document.getElementById(HOOG[h].id); if (r){ r.checked = true; updateSum(); } }
   }
   document.querySelectorAll('.hseg button').forEach(b=>b.addEventListener('click',()=>setHeight(+b.dataset.h)));
-  ['h2','h3','h4'].forEach(id=>document.getElementById(id).addEventListener('change',()=>setHeight(+id[1], true)));
-  setHeight(2);
+  Object.entries(HOOG).forEach(([h,o])=>document.getElementById(o.id).addEventListener('change',()=>setHeight(+h, true)));
+  function updateSum(){
+    const v = (document.querySelector('input[name=hoogte]:checked')||{}).value, p = PRIJS_PER_WAARDE[v], el = document.getElementById('sum');
+    el.innerHTML = p ? `Boom van ${v}: € ${p} + levering en plaatsing € ${LEVERING} = <b>€ ${p+LEVERING}</b>` : 'Kies een hoogte om je prijs te zien.';
+  }
+  document.querySelectorAll('input[name=hoogte]').forEach(r=>r.addEventListener('change', updateSum));
+  setHeight(2); updateSum();
 
   /* decoration packages: cards and form radios stay in sync */
   const cards = document.querySelectorAll('.style');
@@ -679,7 +732,7 @@ footer .partner:hover{color:var(--brass-light)}
       const res = await fetch('/api/inschrijven', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(o)});
       const j = await res.json().catch(()=>({}));
       if (!res.ok) throw {message:j.fout};
-      showStatus('ok', `Dank je, ${o.voornaam}. Je staat op de interesselijst voor een boom van ${o.hoogte}${o.versierpakket && o.versierpakket!=='Geen' ? ' met versierpakket ' + o.versierpakket : ''}. Zodra prijs en leverdata vastliggen, laten we het je weten via ${o.email}.`);
+      showStatus('ok', `Dank je, ${o.voornaam}. Je staat op de interesselijst voor een boom van ${o.hoogte}${o.versierpakket && o.versierpakket!=='Geen' ? ' met versierpakket ' + o.versierpakket : ''}. We bevestigen je leverdatum en het totaalbedrag via ${o.email}, pas dan beslis je.`);
       form.querySelectorAll('input:not([type=radio]):not([type=checkbox]),textarea').forEach(el=>{ if (el.id!=='website') el.value=''; });
       submit.textContent = 'Nog iemand inschrijven';
     }catch(ex){

@@ -212,7 +212,7 @@ label{font-weight:700;font-size:14px;display:grid;gap:5px;min-width:0}
       tabs:[['alle','Alle'],['interesse','Interesse'],['bevestigd','Bevestigd'],['geleverd','Geleverd'],['opgehaald','Opgehaald'],['geannuleerd','Geannuleerd']] }
   };
   const GEMEENTEN = ['Kalmthout','Essen','Stabroek','Kapellen','Brasschaat','Andere'];
-  const HOOGTES = ['2 m','3 m','4 m','Weet ik nog niet'];
+  const HOOGTES = ['1,50 m','2 m','3 m','4 m','Weet ik nog niet'];
   const WEEKENDS = ['Begin advent · weekend 28–29 november','Voor Sinterklaas · weekend 5–6 december','Weekend 12–13 december','Weekend 19–20 december','Maakt me niet uit'];
   const STATUSSEN = ['interesse','bevestigd','geleverd','opgehaald','geannuleerd'];
   const PAKKETTEN = ['Geen','Winterzilver','Naturel','Bordeaux','Zuurstok'];
@@ -337,7 +337,9 @@ label{font-weight:700;font-size:14px;display:grid;gap:5px;min-width:0}
       const per = {}; items.forEach(r=>per[r.status]=(per[r.status]||0)+1);
       const hoog = {}; items.filter(r=>r.status!=='geannuleerd').forEach(r=>hoog[r.hoogte||'–']=(hoog[r.hoogte||'–']||0)+1);
       const pak = {}; items.filter(r=>r.status!=='geannuleerd' && r.versierpakket && r.versierpakket!=='Geen').forEach(r=>pak[r.versierpakket]=(pak[r.versierpakket]||0)+1);
-      $('stats').innerHTML = `<span class="chip big">Totaal <b>${items.length}</b></span>${STATUSSEN.filter(s=>per[s]).map(s=>`<span class="chip">${s} <b>${per[s]}</b></span>`).join('')}${chips(hoog)}${chips(pak)}`;
+      const PR = {'1,50 m':60,'2 m':80,'3 m':150,'4 m':220};
+      const waarde = items.filter(r=>['bevestigd','geleverd','opgehaald'].includes(r.status)).reduce((s,r)=>s + (PR[r.hoogte]||0) + 30, 0);
+      $('stats').innerHTML = `<span class="chip big">Totaal <b>${items.length}</b></span><span class="chip big">Bevestigd: bomen + levering <b>€ ${waarde}</b></span>${STATUSSEN.filter(s=>per[s]).map(s=>`<span class="chip">${s} <b>${per[s]}</b></span>`).join('')}${chips(hoog)}${chips(pak)}`;
     } else $('stats').innerHTML = '';
     // tools
     const count = s => s==='alle' ? items.length : items.filter(r=>r.status===s).length;
